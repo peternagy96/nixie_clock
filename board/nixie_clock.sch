@@ -19298,6 +19298,8 @@ distributor RS Components</description>
 <part name="GND9" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="J1" library="con-jack" library_urn="urn:adsk.eagle:library:154" deviceset="DCJ0303" device="" package3d_urn="urn:adsk.eagle:package:7493/1"/>
 <part name="SHNT" library="switch" library_urn="urn:adsk.eagle:library:380" deviceset="320-916" device="" package3d_urn="urn:adsk.eagle:package:27678/1"/>
+<part name="R11" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="22k"/>
+<part name="P+5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -19306,7 +19308,7 @@ distributor RS Components</description>
 <text x="45.72" y="187.96" size="3.81" layer="97">5V / 3.3V Power supply</text>
 <frame x1="172.72" y1="127" x2="254" y2="177.8" columns="0" rows="1" layer="97" border-left="no" border-top="no" border-right="no" border-bottom="no"/>
 <text x="205.74" y="170.18" size="3.81" layer="97">200V Power supply</text>
-<frame x1="259.08" y1="53.34" x2="477.52" y2="215.9" columns="0" rows="0" layer="97" border-left="no" border-top="no" border-right="no" border-bottom="no"/>
+<frame x1="259.08" y1="45.72" x2="477.52" y2="208.28" columns="0" rows="0" layer="97" border-left="no" border-top="no" border-right="no" border-bottom="no"/>
 <text x="281.94" y="200.66" size="3.81" layer="97">Main circuit</text>
 <text x="45.72" y="114.3" size="3.81" layer="97">Nixie Tubes</text>
 <frame x1="40.64" y1="58.42" x2="248.92" y2="121.92" columns="8" rows="5" layer="97" border-left="no" border-top="no" border-right="no" border-bottom="no"/>
@@ -19501,9 +19503,9 @@ distributor RS Components</description>
 <attribute name="NAME" x="309.0926" y="83.058" size="1.778" layer="95" rot="R270"/>
 <attribute name="VALUE" x="309.118" y="88.138" size="1.778" layer="96" rot="R270"/>
 </instance>
-<instance part="BUTTONS" gate="1" x="307.34" y="55.88" smashed="yes" rot="R90">
-<attribute name="VALUE" x="320.04" y="54.61" size="1.778" layer="96" rot="R90"/>
-<attribute name="NAME" x="293.37" y="57.658" size="1.778" layer="95" rot="R180"/>
+<instance part="BUTTONS" gate="1" x="307.34" y="53.34" smashed="yes" rot="R90">
+<attribute name="VALUE" x="320.04" y="52.07" size="1.778" layer="96" rot="R90"/>
+<attribute name="NAME" x="293.37" y="55.118" size="1.778" layer="95" rot="R180"/>
 </instance>
 <instance part="BUZZER" gate="G$1" x="337.82" y="66.04" smashed="yes" rot="R270">
 <attribute name="NAME" x="344.678" y="69.596" size="1.778" layer="95" rot="R270"/>
@@ -19530,6 +19532,13 @@ distributor RS Components</description>
 <instance part="SHNT" gate="1" x="243.84" y="147.32" smashed="yes">
 <attribute name="NAME" x="237.49" y="145.415" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="240.03" y="149.86" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="R11" gate="G$1" x="365.76" y="60.96" smashed="yes" rot="R180">
+<attribute name="NAME" x="362.458" y="61.7474" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="367.538" y="61.722" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="P+5" gate="1" x="378.46" y="60.96" smashed="yes" rot="R270">
+<attribute name="VALUE" x="375.412" y="63.246" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -19642,15 +19651,11 @@ distributor RS Components</description>
 <pinref part="GND2" gate="1" pin="GND"/>
 <pinref part="BUZZER" gate="G$1" pin="2"/>
 <wire x1="323.85" y1="60.706" x2="323.85" y2="60.96" width="0.1524" layer="91"/>
-<wire x1="323.85" y1="60.96" x2="325.12" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="323.85" y1="60.96" x2="317.5" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="BUTTONS" gate="1" pin="1"/>
-<wire x1="325.12" y1="60.96" x2="335.28" y2="60.96" width="0.1524" layer="91"/>
-<wire x1="314.96" y1="63.5" x2="317.5" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="317.5" y1="63.5" x2="325.12" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="325.12" y1="63.5" x2="325.12" y2="60.96" width="0.1524" layer="91"/>
-<junction x="325.12" y="60.96"/>
-<pinref part="BUTTONS" gate="1" pin="2"/>
-<wire x1="312.42" y1="63.5" x2="314.96" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="317.5" y1="60.96" x2="335.28" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="60.96" x2="317.5" y2="60.96" width="0.1524" layer="91"/>
+<junction x="317.5" y="60.96"/>
 </segment>
 <segment>
 <pinref part="GND9" gate="1" pin="GND"/>
@@ -19765,6 +19770,11 @@ distributor RS Components</description>
 <junction x="398.78" y="116.84"/>
 <pinref part="P+8" gate="1" pin="+5V"/>
 <wire x1="398.78" y1="116.84" x2="398.78" y2="121.92" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P+5" gate="1" pin="+5V"/>
+<pinref part="R11" gate="G$1" pin="1"/>
+<wire x1="375.92" y1="60.96" x2="370.84" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="200V" class="0">
@@ -20307,7 +20317,7 @@ distributor RS Components</description>
 <pinref part="BUTTONS" gate="1" pin="3"/>
 <wire x1="309.88" y1="81.28" x2="309.88" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="ARDUINO_NANO1" gate="G$1" pin="D11"/>
-<wire x1="309.88" y1="66.04" x2="309.88" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="309.88" y1="66.04" x2="309.88" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="330.2" y1="83.82" x2="325.12" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="325.12" y1="83.82" x2="325.12" y2="66.04" width="0.1524" layer="91"/>
 <wire x1="325.12" y1="66.04" x2="309.88" y2="66.04" width="0.1524" layer="91"/>
@@ -20320,7 +20330,7 @@ distributor RS Components</description>
 <pinref part="BUTTONS" gate="1" pin="4"/>
 <wire x1="307.34" y1="81.28" x2="307.34" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="ARDUINO_NANO1" gate="G$1" pin="D10"/>
-<wire x1="307.34" y1="68.58" x2="307.34" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="307.34" y1="68.58" x2="307.34" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="330.2" y1="86.36" x2="322.58" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="322.58" y1="86.36" x2="322.58" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="322.58" y1="68.58" x2="307.34" y2="68.58" width="0.1524" layer="91"/>
@@ -20333,7 +20343,7 @@ distributor RS Components</description>
 <pinref part="BUTTONS" gate="1" pin="5"/>
 <wire x1="304.8" y1="81.28" x2="304.8" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="ARDUINO_NANO1" gate="G$1" pin="D9"/>
-<wire x1="304.8" y1="71.12" x2="304.8" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="304.8" y1="71.12" x2="304.8" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="330.2" y1="88.9" x2="320.04" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="320.04" y1="88.9" x2="320.04" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="320.04" y1="71.12" x2="304.8" y2="71.12" width="0.1524" layer="91"/>
@@ -20346,7 +20356,7 @@ distributor RS Components</description>
 <pinref part="BUTTONS" gate="1" pin="6"/>
 <wire x1="302.26" y1="81.28" x2="302.26" y2="73.66" width="0.1524" layer="91"/>
 <pinref part="ARDUINO_NANO1" gate="G$1" pin="D8"/>
-<wire x1="302.26" y1="73.66" x2="302.26" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="302.26" y1="73.66" x2="302.26" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="330.2" y1="91.44" x2="317.5" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="317.5" y1="91.44" x2="317.5" y2="73.66" width="0.1524" layer="91"/>
 <wire x1="317.5" y1="73.66" x2="302.26" y2="73.66" width="0.1524" layer="91"/>
@@ -20359,7 +20369,7 @@ distributor RS Components</description>
 <pinref part="BUTTONS" gate="1" pin="7"/>
 <wire x1="299.72" y1="81.28" x2="299.72" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="ARDUINO_NANO1" gate="G$1" pin="D7"/>
-<wire x1="299.72" y1="76.2" x2="299.72" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="299.72" y1="76.2" x2="299.72" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="330.2" y1="93.98" x2="314.96" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="314.96" y1="93.98" x2="314.96" y2="76.2" width="0.1524" layer="91"/>
 <wire x1="314.96" y1="76.2" x2="299.72" y2="76.2" width="0.1524" layer="91"/>
@@ -20372,7 +20382,7 @@ distributor RS Components</description>
 <pinref part="BUTTONS" gate="1" pin="8"/>
 <wire x1="297.18" y1="81.28" x2="297.18" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="ARDUINO_NANO1" gate="G$1" pin="D6"/>
-<wire x1="297.18" y1="78.74" x2="297.18" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="297.18" y1="78.74" x2="297.18" y2="60.96" width="0.1524" layer="91"/>
 <wire x1="330.2" y1="96.52" x2="312.42" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="312.42" y1="96.52" x2="312.42" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="312.42" y1="78.74" x2="297.18" y2="78.74" width="0.1524" layer="91"/>
@@ -20410,6 +20420,23 @@ distributor RS Components</description>
 <wire x1="60.96" y1="165.1" x2="60.96" y2="167.64" width="0.1524" layer="91"/>
 <pinref part="D1" gate="G$1" pin="A"/>
 <wire x1="60.96" y1="167.64" x2="63.5" y2="167.64" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="R11" gate="G$1" pin="2"/>
+<wire x1="360.68" y1="60.96" x2="350.52" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="350.52" y1="60.96" x2="350.52" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="350.52" y1="55.88" x2="330.2" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="330.2" y1="55.88" x2="330.2" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="BUTTONS" gate="1" pin="2"/>
+<wire x1="330.2" y1="63.5" x2="312.42" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="312.42" y1="63.5" x2="312.42" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="ARDUINO_NANO1" gate="G$1" pin="D13"/>
+<wire x1="370.84" y1="81.28" x2="370.84" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="370.84" y1="71.12" x2="350.52" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="350.52" y1="71.12" x2="350.52" y2="60.96" width="0.1524" layer="91"/>
+<junction x="350.52" y="60.96"/>
 </segment>
 </net>
 </nets>

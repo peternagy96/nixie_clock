@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
+<grid distance="0.999999999" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.0999999999" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -2351,19 +2351,26 @@ design rules under a new name.</description>
 <attribute name="POPULARITY" value="4" x="25.6" y="49.7" size="1.778" layer="28" rot="MR90" display="off"/>
 <attribute name="VALUE" x="16.075" y="47.16" size="1.778" layer="28" ratio="10" rot="MR90"/>
 </element>
+<element name="R11" library="rcl" library_urn="urn:adsk.eagle:library:334" package="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="22k" x="-3" y="-10" smashed="yes">
+<attribute name="NAME" x="-5.54" y="-8.7046" size="0.9906" layer="25" ratio="10"/>
+<attribute name="POPULARITY" value="79" x="-3" y="-10" size="1.778" layer="27" display="off"/>
+<attribute name="SPICEPREFIX" value="R" x="-3" y="-10" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="-4.6256" y="-10.4826" size="0.9906" layer="27" ratio="10"/>
+</element>
 </elements>
 <signals>
 <signal name="N$2">
 <contactref element="D1" pad="C"/>
 <contactref element="L1" pad="1"/>
 <contactref element="C1" pad="1"/>
-<wire x1="45.8724" y1="38.7096" x2="45.8724" y2="24.9936" width="0.1524" layer="1"/>
+<wire x1="45.8724" y1="25" x2="45.8724" y2="38.7096" width="0.1524" layer="1"/>
 <wire x1="46.0248" y1="38.862" x2="45.8724" y2="38.7096" width="0.1524" layer="1"/>
-<wire x1="45.8724" y1="24.9936" x2="45.79" y2="24.97" width="0.1524" layer="1"/>
 <wire x1="46.0248" y1="38.862" x2="46.07" y2="38.9" width="0.1524" layer="1"/>
 <wire x1="45.72" y1="24.9936" x2="27.8892" y2="24.9936" width="0.1524" layer="1"/>
 <wire x1="27.8892" y1="24.9936" x2="27.83" y2="25" width="0.1524" layer="1"/>
 <wire x1="45.72" y1="24.9936" x2="45.79" y2="24.97" width="0.1524" layer="1"/>
+<wire x1="45.79" y1="24.97" x2="45.8424" y2="24.97" width="0.1524" layer="1"/>
+<wire x1="45.8424" y1="24.97" x2="45.8724" y2="25" width="0.1524" layer="1"/>
 </signal>
 <signal name="GND">
 <contactref element="C1" pad="2"/>
@@ -2384,7 +2391,6 @@ design rules under a new name.</description>
 <contactref element="C10" pad="2"/>
 <contactref element="BUZZER" pad="-"/>
 <contactref element="BUTTONS" pad="1"/>
-<contactref element="BUTTONS" pad="2"/>
 <contactref element="R10" pad="1"/>
 <contactref element="J1" pad="2"/>
 <contactref element="J1" pad="1"/>
@@ -2425,7 +2431,6 @@ design rules under a new name.</description>
 <wire x1="72.5424" y1="14.1732" x2="72.65" y2="14.29" width="0.1524" layer="1"/>
 <wire x1="63.0936" y1="12.954" x2="63.08" y2="12.83" width="0.1524" layer="1"/>
 <wire x1="70.5612" y1="14.1732" x2="70.5612" y2="2.7432" width="0.1524" layer="1"/>
-<wire x1="70.5612" y1="2.7432" x2="70.45" y2="2.69" width="0.1524" layer="1"/>
 <wire x1="27.7368" y1="22.5552" x2="19.6596" y2="22.5552" width="0.1524" layer="1"/>
 <wire x1="19.6596" y1="22.5552" x2="19.65" y2="22.46" width="0.1524" layer="1"/>
 <wire x1="27.7368" y1="22.5552" x2="27.83" y2="22.46" width="0.1524" layer="1"/>
@@ -2676,6 +2681,8 @@ design rules under a new name.</description>
 <wire x1="41.17" y1="18.38" x2="43.71" y2="18.38" width="0.1524" layer="1"/>
 <wire x1="43.71" y1="18.38" x2="43.9761625" y2="18.1138375" width="0.1524" layer="1"/>
 <wire x1="43.9761625" y1="18.1138375" x2="43.9761625" y2="17.4410375" width="0.1524" layer="1"/>
+<contactref element="R11" pad="1"/>
+<wire x1="-6.81" y1="-10" x2="15.82" y2="15.28" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="200V">
 <contactref element="200V" pad="3"/>
@@ -3628,6 +3635,13 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$3">
 <via x="94.7" y="24.8" extent="1-16" drill="0.35"/>
+</signal>
+<signal name="N$4">
+<contactref element="R11" pad="2"/>
+<contactref element="BUTTONS" pad="2"/>
+<contactref element="ARDUINO_NANO1" pad="1"/>
+<wire x1="13.23" y1="18.38" x2="70.45" y2="2.69" width="0" layer="19" extent="1-1"/>
+<wire x1="0.81" y1="-10" x2="13.23" y2="18.38" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 <mfgpreviewcolors>
