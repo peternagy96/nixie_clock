@@ -19011,214 +19011,69 @@ W = angled&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
-<library name="con-jack" urn="urn:adsk.eagle:library:154">
-<description>&lt;b&gt;Jacks&lt;/b&gt;&lt;p&gt;
-Power Connectors&lt;br&gt;
-Phone Connectors&lt;br&gt;
-Cinch Connectors&lt;br&gt;
+<library name="con-molex" urn="urn:adsk.eagle:library:165">
+<description>&lt;b&gt;Molex Connectors&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="DCJ0303" urn="urn:adsk.eagle:footprint:7490/1" library_version="2">
-<description>&lt;b&gt;DC POWER JACK&lt;/b&gt; Pad shape changed to LONG 2007.07.26&lt;p&gt;
-Source: DCJ0303.pdf</description>
-<wire x1="1.65" y1="2.6" x2="-1.65" y2="2.6" width="0" layer="46"/>
-<wire x1="-1.65" y1="2.6" x2="-1.65" y2="3.6" width="0" layer="46"/>
-<wire x1="-1.65" y1="3.6" x2="1.65" y2="3.6" width="0" layer="46"/>
-<wire x1="1.65" y1="3.6" x2="1.65" y2="2.6" width="0" layer="46"/>
-<wire x1="5.3" y1="1.4" x2="4.3" y2="1.4" width="0" layer="46"/>
-<wire x1="4.3" y1="1.4" x2="4.3" y2="-1.4" width="0" layer="46"/>
-<wire x1="4.3" y1="-1.4" x2="5.3" y2="-1.4" width="0" layer="46"/>
-<wire x1="5.3" y1="-1.4" x2="5.3" y2="1.4" width="0" layer="46"/>
-<wire x1="1.4" y1="-3.5" x2="-1.4" y2="-3.5" width="0" layer="46"/>
-<wire x1="-1.4" y1="-3.5" x2="-1.4" y2="-2.5" width="0" layer="46"/>
-<wire x1="-1.4" y1="-2.5" x2="1.4" y2="-2.5" width="0" layer="46"/>
-<wire x1="1.4" y1="-2.5" x2="1.4" y2="-3.5" width="0" layer="46"/>
-<wire x1="-4.3" y1="-10.4" x2="4.3" y2="-10.4" width="0.2032" layer="21"/>
-<wire x1="4.3" y1="-10.4" x2="4.3" y2="3.9" width="0.2032" layer="51"/>
-<wire x1="4.3" y1="3.9" x2="-4.3" y2="3.9" width="0.2032" layer="51"/>
-<wire x1="-4.3" y1="3.9" x2="-4.3" y2="-10.4" width="0.2032" layer="21"/>
-<wire x1="-2.7" y1="3.9" x2="-4.3" y2="3.9" width="0.2032" layer="21"/>
-<wire x1="4.3" y1="3.9" x2="2.7" y2="3.9" width="0.2032" layer="21"/>
-<wire x1="-3" y1="-10.275" x2="-3" y2="-3" width="0.2032" layer="51" style="shortdash"/>
-<wire x1="3" y1="-10.3" x2="3" y2="-3" width="0.2032" layer="51" style="shortdash"/>
-<wire x1="3" y1="-3" x2="-3" y2="-3" width="0.2032" layer="51" style="shortdash"/>
-<wire x1="-0.9" y1="-9" x2="-0.9" y2="-4.5" width="0.2032" layer="51" style="shortdash"/>
-<wire x1="0.9" y1="-9" x2="0.9" y2="-4.5" width="0.2032" layer="51" style="shortdash"/>
-<wire x1="-0.9" y1="-9" x2="0.9" y2="-9" width="0.2032" layer="51" curve="166.57811"/>
-<wire x1="4.3" y1="-10.4" x2="4.3" y2="-2.45" width="0.2032" layer="21"/>
-<wire x1="4.3" y1="2.3" x2="4.3" y2="3.9" width="0.2032" layer="21"/>
-<pad name="1" x="0" y="3.1" drill="1" diameter="2" shape="long" rot="R180"/>
-<pad name="3" x="0" y="-3" drill="1" diameter="2" shape="long" rot="R180"/>
-<pad name="2" x="4.8" y="0" drill="1" diameter="2" shape="long" rot="R90"/>
-<text x="6.35" y="-10.16" size="1.27" layer="25" rot="R90">&gt;NAME</text>
-<text x="-5.08" y="-10.16" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<package name="22-23-2021" urn="urn:adsk.eagle:footprint:8078259/1" library_version="4">
+<description>&lt;b&gt;KK® 254 Solid Header, Vertical, with Friction Lock, 2 Circuits, Tin (Sn) Plating&lt;/b&gt;&lt;p&gt;&lt;a href =http://www.molex.com/pdm_docs/sd/022232021_sd.pdf&gt;Datasheet &lt;/a&gt;</description>
+<wire x1="-2.54" y1="3.175" x2="2.54" y2="3.175" width="0.254" layer="21"/>
+<wire x1="2.54" y1="3.175" x2="2.54" y2="1.27" width="0.254" layer="21"/>
+<wire x1="2.54" y1="1.27" x2="2.54" y2="-3.175" width="0.254" layer="21"/>
+<wire x1="2.54" y1="-3.175" x2="-2.54" y2="-3.175" width="0.254" layer="21"/>
+<wire x1="-2.54" y1="-3.175" x2="-2.54" y2="1.27" width="0.254" layer="21"/>
+<wire x1="-2.54" y1="1.27" x2="-2.54" y2="3.175" width="0.254" layer="21"/>
+<wire x1="-2.54" y1="1.27" x2="2.54" y2="1.27" width="0.254" layer="21"/>
+<pad name="1" x="-1.27" y="0" drill="1" shape="long" rot="R90"/>
+<pad name="2" x="1.27" y="0" drill="1" shape="long" rot="R90"/>
+<text x="-2.54" y="3.81" size="1.016" layer="25" ratio="10">&gt;NAME</text>
+<text x="-2.54" y="-5.08" size="1.016" layer="27" ratio="10">&gt;VALUE</text>
 </package>
 </packages>
 <packages3d>
-<package3d name="DCJ0303" urn="urn:adsk.eagle:package:7493/1" type="box" library_version="2">
-<description>DC POWER JACK Pad shape changed to LONG 2007.07.26
-Source: DCJ0303.pdf</description>
+<package3d name="22-23-2021" urn="urn:adsk.eagle:package:8078633/1" type="box" library_version="4">
+<description>&lt;b&gt;KK® 254 Solid Header, Vertical, with Friction Lock, 2 Circuits, Tin (Sn) Plating&lt;/b&gt;&lt;p&gt;&lt;a href =http://www.molex.com/pdm_docs/sd/022232021_sd.pdf&gt;Datasheet &lt;/a&gt;</description>
 <packageinstances>
-<packageinstance name="DCJ0303"/>
+<packageinstance name="22-23-2021"/>
 </packageinstances>
 </package3d>
 </packages3d>
 <symbols>
-<symbol name="DC-JACK-SWITCH" urn="urn:adsk.eagle:symbol:7485/1" library_version="2">
-<wire x1="5.08" y1="2.54" x2="-2.54" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="2.54" x2="-2.54" y2="1.27" width="0.1524" layer="94"/>
-<wire x1="5.08" y1="0" x2="2.54" y2="0" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="0" x2="2.54" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="5.08" y1="-2.54" x2="2.54" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="-2.54" x2="0.762" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="0.762" y1="-2.54" x2="0" y2="-1.016" width="0.1524" layer="94"/>
-<wire x1="0" y1="-1.016" x2="-0.762" y2="-2.54" width="0.1524" layer="94"/>
-<text x="-2.54" y="3.81" size="1.778" layer="95">&gt;NAME</text>
-<text x="-2.54" y="-6.35" size="1.778" layer="96">&gt;VALUE</text>
-<rectangle x1="-3.302" y1="-2.54" x2="-1.778" y2="1.27" layer="94"/>
-<pin name="1" x="7.62" y="2.54" visible="pad" length="short" direction="pas" rot="R180"/>
-<pin name="2" x="7.62" y="0" visible="pad" length="short" direction="pas" rot="R180"/>
-<pin name="3" x="7.62" y="-2.54" visible="pad" length="short" direction="pas" rot="R180"/>
-<polygon width="0.1524" layer="94">
-<vertex x="2.54" y="-2.54"/>
-<vertex x="2.032" y="-1.27"/>
-<vertex x="3.048" y="-1.27"/>
-</polygon>
+<symbol name="MV" urn="urn:adsk.eagle:symbol:8078125/1" library_version="4">
+<wire x1="1.27" y1="0" x2="0" y2="0" width="0.6096" layer="94"/>
+<text x="2.54" y="-0.762" size="1.524" layer="95">&gt;NAME</text>
+<text x="-0.762" y="1.397" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="S" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
+</symbol>
+<symbol name="M" urn="urn:adsk.eagle:symbol:8078124/1" library_version="4">
+<wire x1="1.27" y1="0" x2="0" y2="0" width="0.6096" layer="94"/>
+<text x="2.54" y="-0.762" size="1.524" layer="95">&gt;NAME</text>
+<pin name="S" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="DCJ0303" urn="urn:adsk.eagle:component:7497/2" prefix="J" uservalue="yes" library_version="2">
-<description>&lt;b&gt;DC POWER JACK&lt;/b&gt;&lt;p&gt;
-Source: DCJ0303.pdf</description>
+<deviceset name="22-23-2021" urn="urn:adsk.eagle:component:8078938/2" prefix="X" library_version="4">
+<description>.100" (2.54mm) Center Header - 2 Pin</description>
 <gates>
-<gate name="G$1" symbol="DC-JACK-SWITCH" x="0" y="0"/>
+<gate name="-1" symbol="MV" x="0" y="0" addlevel="always" swaplevel="1"/>
+<gate name="-2" symbol="M" x="0" y="-2.54" addlevel="always" swaplevel="1"/>
 </gates>
 <devices>
-<device name="" package="DCJ0303">
+<device name="" package="22-23-2021">
 <connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
 </connects>
 <package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:7493/1"/>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:8078633/1"/>
 </package3dinstances>
 <technologies>
 <technology name="">
-<attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
-<attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
-<attribute name="POPULARITY" value="20" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
-<library name="switch" urn="urn:adsk.eagle:library:380">
-<description>&lt;b&gt;Switches&lt;/b&gt;&lt;p&gt;
-Marquardt, Siemens, C&amp;K, ITT, and others&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-<package name="320-916" urn="urn:adsk.eagle:footprint:27534/1" library_version="3">
-<description>&lt;b&gt;TOGGLE SWITCH&lt;/b&gt;&lt;p&gt;
-distributor RS Components</description>
-<wire x1="-2.8702" y1="6.6802" x2="-3.5052" y2="6.0452" width="0.1524" layer="21"/>
-<wire x1="-2.8702" y1="6.6802" x2="2.8702" y2="6.6802" width="0.1524" layer="21"/>
-<wire x1="3.5052" y1="6.0452" x2="2.8702" y2="6.6802" width="0.1524" layer="21"/>
-<wire x1="2.8702" y1="-6.6802" x2="3.5052" y2="-6.0452" width="0.1524" layer="21"/>
-<wire x1="2.8702" y1="-6.6802" x2="-2.8702" y2="-6.6802" width="0.1524" layer="21"/>
-<wire x1="-3.5052" y1="-6.0452" x2="-2.8702" y2="-6.6802" width="0.1524" layer="21"/>
-<wire x1="4.318" y1="2.286" x2="4.318" y2="-2.286" width="0.1524" layer="21"/>
-<wire x1="-4.318" y1="2.286" x2="-4.318" y2="-2.286" width="0.1524" layer="21"/>
-<wire x1="1.905" y1="-1.27" x2="2.54" y2="-1.905" width="0.1524" layer="51"/>
-<wire x1="2.54" y1="-1.905" x2="2.54" y2="-2.54" width="0.1524" layer="51"/>
-<wire x1="1.905" y1="-3.175" x2="2.54" y2="-2.54" width="0.1524" layer="51"/>
-<wire x1="1.905" y1="-3.175" x2="-1.905" y2="-3.175" width="0.1524" layer="51"/>
-<wire x1="-2.54" y1="-2.54" x2="-1.905" y2="-3.175" width="0.1524" layer="51"/>
-<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="-1.905" width="0.1524" layer="51"/>
-<wire x1="-1.905" y1="-1.27" x2="-2.54" y2="-1.905" width="0.1524" layer="51"/>
-<wire x1="-1.905" y1="-1.27" x2="1.905" y2="-1.27" width="0.1524" layer="51"/>
-<wire x1="1.6002" y1="1.27" x2="2.54" y2="-1.905" width="0.1524" layer="51"/>
-<wire x1="3.5052" y1="-6.0452" x2="3.5052" y2="-2.8702" width="0.1524" layer="21"/>
-<wire x1="3.5052" y1="6.0452" x2="3.5052" y2="2.8702" width="0.1524" layer="21"/>
-<wire x1="-3.5052" y1="2.8702" x2="-3.5052" y2="6.0452" width="0.1524" layer="21"/>
-<wire x1="-3.5052" y1="-6.0452" x2="-3.5052" y2="-2.8194" width="0.1524" layer="21"/>
-<wire x1="-1.6002" y1="1.27" x2="-2.54" y2="-1.905" width="0.1524" layer="51"/>
-<wire x1="-2.54" y1="-2.54" x2="2.54" y2="-2.54" width="0.1524" layer="51" curve="-270"/>
-<wire x1="-2.54" y1="-1.27" x2="2.54" y2="-1.27" width="0.1524" layer="51" curve="-233.130102"/>
-<wire x1="-1.6002" y1="1.27" x2="1.6002" y2="1.27" width="0.1524" layer="51"/>
-<wire x1="-4.318" y1="-2.286" x2="-3.5052" y2="-2.8194" width="0.1524" layer="21"/>
-<wire x1="-3.5052" y1="-2.8194" x2="0" y2="-5.08" width="0.1524" layer="51"/>
-<wire x1="4.318" y1="-2.286" x2="3.5052" y2="-2.8702" width="0.1524" layer="21"/>
-<wire x1="3.5052" y1="-2.8702" x2="0" y2="-5.08" width="0.1524" layer="51"/>
-<wire x1="4.318" y1="2.286" x2="3.5052" y2="2.8702" width="0.1524" layer="21"/>
-<wire x1="3.5052" y1="2.8702" x2="0" y2="5.08" width="0.1524" layer="51"/>
-<wire x1="-4.318" y1="2.286" x2="-3.5052" y2="2.8702" width="0.1524" layer="21"/>
-<wire x1="-3.5052" y1="2.8702" x2="0" y2="5.08" width="0.1524" layer="51"/>
-<pad name="3" x="0" y="-4.0132" drill="2.0066" shape="long"/>
-<pad name="2" x="0" y="0" drill="2.0066" shape="long"/>
-<pad name="1" x="0" y="4.0132" drill="2.0066" shape="long"/>
-<text x="-2.54" y="7.62" size="1.778" layer="25" ratio="10">&gt;NAME</text>
-<text x="-2.54" y="-9.525" size="1.778" layer="27" ratio="10">&gt;VALUE</text>
-</package>
-</packages>
-<packages3d>
-<package3d name="320-916" urn="urn:adsk.eagle:package:27678/1" type="box" library_version="3">
-<description>TOGGLE SWITCH
-distributor RS Components</description>
-<packageinstances>
-<packageinstance name="320-916"/>
-</packageinstances>
-</package3d>
-</packages3d>
-<symbols>
-<symbol name="KS-U" urn="urn:adsk.eagle:symbol:27532/1" library_version="3">
-<wire x1="-3.81" y1="1.905" x2="-2.54" y2="1.905" width="0.254" layer="94"/>
-<wire x1="-3.81" y1="1.905" x2="-3.81" y2="0" width="0.254" layer="94"/>
-<wire x1="-3.81" y1="0" x2="-1.905" y2="0" width="0.1524" layer="94"/>
-<wire x1="-3.81" y1="0" x2="-3.81" y2="-1.905" width="0.254" layer="94"/>
-<wire x1="-1.27" y1="0" x2="-0.762" y2="0" width="0.1524" layer="94"/>
-<wire x1="-5.08" y1="1.905" x2="-3.81" y2="1.905" width="0.254" layer="94"/>
-<wire x1="0.254" y1="0" x2="0.635" y2="0" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="0" x2="1.905" y2="0" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="-3.175" x2="2.54" y2="-1.905" width="0.254" layer="94"/>
-<wire x1="2.54" y1="-1.905" x2="0.635" y2="3.175" width="0.254" layer="94"/>
-<wire x1="3.81" y1="2.54" x2="5.08" y2="2.54" width="0.254" layer="94"/>
-<wire x1="5.08" y1="2.54" x2="5.08" y2="3.175" width="0.254" layer="94"/>
-<wire x1="0" y1="2.54" x2="1.27" y2="2.54" width="0.254" layer="94"/>
-<wire x1="0" y1="2.54" x2="0" y2="3.175" width="0.254" layer="94"/>
-<wire x1="-0.762" y1="0" x2="-0.254" y2="-0.762" width="0.1524" layer="94"/>
-<wire x1="-0.254" y1="-0.762" x2="0.254" y2="0" width="0.1524" layer="94"/>
-<text x="-6.35" y="-1.905" size="1.778" layer="95" rot="R90">&gt;NAME</text>
-<text x="-3.81" y="2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
-<pin name="P" x="2.54" y="-5.08" visible="pad" length="short" direction="pas" rot="R90"/>
-<pin name="S" x="5.08" y="5.08" visible="pad" length="short" direction="pas" rot="R270"/>
-<pin name="O" x="0" y="5.08" visible="pad" length="short" direction="pas" rot="R270"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="320-916" urn="urn:adsk.eagle:component:27763/2" prefix="S" uservalue="yes" library_version="3">
-<description>&lt;b&gt;TOGGLE SWITCH&lt;/b&gt;&lt;p&gt;
-distributor RS Components</description>
-<gates>
-<gate name="1" symbol="KS-U" x="-2.54" y="0"/>
-</gates>
-<devices>
-<device name="" package="320-916">
-<connects>
-<connect gate="1" pin="O" pad="1"/>
-<connect gate="1" pin="P" pad="2"/>
-<connect gate="1" pin="S" pad="3"/>
-</connects>
-<package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:27678/1"/>
-</package3dinstances>
-<technologies>
-<technology name="">
-<attribute name="POPULARITY" value="4" constant="no"/>
+<attribute name="MF" value="MOLEX" constant="no"/>
+<attribute name="MPN" value="22-23-2021" constant="no"/>
+<attribute name="OC_FARNELL" value="1462926" constant="no"/>
+<attribute name="OC_NEWARK" value="25C3832" constant="no"/>
+<attribute name="POPULARITY" value="40" constant="no"/>
 </technology>
 </technologies>
 </device>
@@ -19296,10 +19151,10 @@ distributor RS Components</description>
 <part name="RTC" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA03-1" device="" package3d_urn="urn:adsk.eagle:package:8339/1"/>
 <part name="R10" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="670"/>
 <part name="GND9" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="J1" library="con-jack" library_urn="urn:adsk.eagle:library:154" deviceset="DCJ0303" device="" package3d_urn="urn:adsk.eagle:package:7493/1"/>
-<part name="SHNT" library="switch" library_urn="urn:adsk.eagle:library:380" deviceset="320-916" device="" package3d_urn="urn:adsk.eagle:package:27678/1"/>
 <part name="R11" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="22k"/>
 <part name="P+5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
+<part name="SHNT" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="22-23-2021" device="" package3d_urn="urn:adsk.eagle:package:8078633/1"/>
+<part name="INPUT" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="22-23-2021" device="" package3d_urn="urn:adsk.eagle:package:8078633/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -19525,20 +19380,24 @@ distributor RS Components</description>
 <instance part="GND9" gate="1" x="271.78" y="160.02" smashed="yes">
 <attribute name="VALUE" x="269.24" y="157.48" size="1.778" layer="96"/>
 </instance>
-<instance part="J1" gate="G$1" x="45.72" y="167.64" smashed="yes">
-<attribute name="NAME" x="43.18" y="171.45" size="1.778" layer="95"/>
-<attribute name="VALUE" x="43.18" y="161.29" size="1.778" layer="96"/>
-</instance>
-<instance part="SHNT" gate="1" x="243.84" y="147.32" smashed="yes">
-<attribute name="NAME" x="237.49" y="145.415" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="240.03" y="149.86" size="1.778" layer="96" rot="R90"/>
-</instance>
 <instance part="R11" gate="G$1" x="365.76" y="60.96" smashed="yes" rot="R180">
 <attribute name="NAME" x="362.458" y="61.7474" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="367.538" y="61.722" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="P+5" gate="1" x="378.46" y="60.96" smashed="yes" rot="R270">
 <attribute name="VALUE" x="375.412" y="63.246" size="1.778" layer="96"/>
+</instance>
+<instance part="SHNT" gate="-1" x="243.84" y="142.24" smashed="yes">
+<attribute name="NAME" x="246.38" y="141.478" size="1.524" layer="95"/>
+</instance>
+<instance part="SHNT" gate="-2" x="243.84" y="144.78" smashed="yes">
+<attribute name="NAME" x="246.38" y="144.018" size="1.524" layer="95"/>
+</instance>
+<instance part="INPUT" gate="-1" x="48.26" y="167.64" smashed="yes" rot="R180">
+<attribute name="NAME" x="50.8" y="170.942" size="1.524" layer="95" rot="R180"/>
+</instance>
+<instance part="INPUT" gate="-2" x="48.26" y="165.1" smashed="yes" rot="R180">
+<attribute name="NAME" x="50.8" y="163.322" size="1.524" layer="95" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -19558,7 +19417,7 @@ distributor RS Components</description>
 <net name="GND" class="0">
 <segment>
 <pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="58.42" y1="142.24" x2="73.66" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="142.24" x2="73.66" y2="142.24" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <wire x1="73.66" y1="142.24" x2="91.44" y2="142.24" width="0.1524" layer="91"/>
 <wire x1="91.44" y1="142.24" x2="101.6" y2="142.24" width="0.1524" layer="91"/>
@@ -19583,13 +19442,9 @@ distributor RS Components</description>
 <pinref part="C6" gate="G$1" pin="-"/>
 <wire x1="101.6" y1="147.32" x2="101.6" y2="142.24" width="0.1524" layer="91"/>
 <junction x="101.6" y="142.24"/>
-<wire x1="58.42" y1="142.24" x2="58.42" y2="167.64" width="0.1524" layer="91"/>
-<pinref part="J1" gate="G$1" pin="2"/>
-<wire x1="58.42" y1="167.64" x2="53.34" y2="167.64" width="0.1524" layer="91"/>
-<pinref part="J1" gate="G$1" pin="1"/>
-<wire x1="53.34" y1="170.18" x2="58.42" y2="170.18" width="0.1524" layer="91"/>
-<wire x1="58.42" y1="170.18" x2="58.42" y2="167.64" width="0.1524" layer="91"/>
-<junction x="58.42" y="167.64"/>
+<wire x1="55.88" y1="142.24" x2="55.88" y2="165.1" width="0.1524" layer="91"/>
+<pinref part="INPUT" gate="-2" pin="S"/>
+<wire x1="55.88" y1="165.1" x2="50.8" y2="165.1" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="200V" gate="G$1" pin="1"/>
@@ -19605,11 +19460,11 @@ distributor RS Components</description>
 <wire x1="203.2" y1="137.16" x2="195.58" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="203.2" y1="139.7" x2="203.2" y2="137.16" width="0.1524" layer="91"/>
 <junction x="203.2" y="137.16"/>
-<junction x="226.06" y="137.16"/>
 <label x="187.96" y="147.32" size="1.778" layer="95"/>
-<wire x1="226.06" y1="137.16" x2="246.38" y2="137.16" width="0.1524" layer="91"/>
-<pinref part="SHNT" gate="1" pin="P"/>
-<wire x1="246.38" y1="137.16" x2="246.38" y2="142.24" width="0.1524" layer="91"/>
+<pinref part="SHNT" gate="-1" pin="S"/>
+<wire x1="241.3" y1="142.24" x2="241.3" y2="137.16" width="0.1524" layer="91"/>
+<wire x1="241.3" y1="137.16" x2="226.06" y2="137.16" width="0.1524" layer="91"/>
+<junction x="226.06" y="137.16"/>
 </segment>
 <segment>
 <pinref part="R3" gate="G$1" pin="1"/>
@@ -19689,14 +19544,10 @@ distributor RS Components</description>
 <wire x1="226.06" y1="157.48" x2="226.06" y2="160.02" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="147.32" x2="226.06" y2="152.4" width="0.1524" layer="91"/>
 <junction x="226.06" y="152.4"/>
-<wire x1="243.84" y1="157.48" x2="226.06" y2="157.48" width="0.1524" layer="91"/>
 <junction x="226.06" y="157.48"/>
-<pinref part="SHNT" gate="1" pin="O"/>
-<wire x1="243.84" y1="152.4" x2="243.84" y2="157.48" width="0.1524" layer="91"/>
-<pinref part="SHNT" gate="1" pin="S"/>
-<wire x1="248.92" y1="152.4" x2="248.92" y2="157.48" width="0.1524" layer="91"/>
-<wire x1="248.92" y1="157.48" x2="243.84" y2="157.48" width="0.1524" layer="91"/>
-<junction x="243.84" y="157.48"/>
+<pinref part="SHNT" gate="-2" pin="S"/>
+<wire x1="241.3" y1="157.48" x2="226.06" y2="157.48" width="0.1524" layer="91"/>
+<wire x1="241.3" y1="157.48" x2="241.3" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -20415,11 +20266,9 @@ distributor RS Components</description>
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="J1" gate="G$1" pin="3"/>
-<wire x1="53.34" y1="165.1" x2="60.96" y2="165.1" width="0.1524" layer="91"/>
-<wire x1="60.96" y1="165.1" x2="60.96" y2="167.64" width="0.1524" layer="91"/>
 <pinref part="D1" gate="G$1" pin="A"/>
-<wire x1="60.96" y1="167.64" x2="63.5" y2="167.64" width="0.1524" layer="91"/>
+<pinref part="INPUT" gate="-1" pin="S"/>
+<wire x1="63.5" y1="167.64" x2="50.8" y2="167.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$4" class="0">
