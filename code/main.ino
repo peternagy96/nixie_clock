@@ -93,3 +93,19 @@ void setup()
 
     digitalWrite(4, 1); //seconds
 }
+
+void loop()
+{
+
+    // read button states - with debouncing included
+
+    // go to display corresponding to the states of the buttons
+
+    // read and update time from RTC
+
+    //call anti poisoning at this time twice a day
+    if (hours == 6 && minutes == 30 && seconds == 1) // ToDo: change hour format
+    {
+        cathodeAntiPoising();
+    }
+}
