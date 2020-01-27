@@ -4,17 +4,13 @@
  * January 2020
  */
 
-#include <time.h>
-#include <avr/sleep.h>
-#include <avr/power.h>
-#include <avr/wdt.h>
-#include "Timer.h"
-#include "TimerTwo.h"
-#include "Dcf.h"
-#include "Nixie.h"
-#include "Adc.h"
+#include "Buzzer.h"
 #include "Helper.h"
-#include "Features.h"
+#include "Nixie.h"
+#include "PushButton.h"
+#include "TiltSwitch.h"
+#include "Timekeeper.h"
+#include "Timer.h"
 
 #include <Wire.h>
 #include "RTClib.h"
