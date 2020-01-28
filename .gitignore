@@ -20,3 +20,4 @@ board/nixie_clock.s#8
 board/nixie_clock.s#9
 
 /code/RTClib
+/.vscode
