@@ -18,3 +18,5 @@ board/nixie_clock.s#6
 board/nixie_clock.s#7
 board/nixie_clock.s#8
 board/nixie_clock.s#9
+
+/code/RTClib
