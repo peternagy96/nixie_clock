@@ -16,8 +16,9 @@
 #include "RTClib/DS1302.h"
 
 // Variables
-#define MULTIPLEX_DELAY 2;     //Multiplex delay time
-#define ANTIPOISING_DELAY 500; //anti poising delay time
+#define MULTIPLEX_DELAY 2;      // multiplex delay time
+#define ANTIPOISING_DELAY 500;  // anti poising delay time
+#define SERIAL_BAUD 9600;       // serial baud rate
 
 // Pin variables
 #define ANODE0_PIN 12
@@ -33,11 +34,11 @@
 #define COMMA_PIN 13
 
 // analog pins
-#define BUTTON0_APIN A2       // push button 0 - "mode"
-#define BUTTON1_UP_APIN A3    // tilt button 1 - "increase"
-#define BUTTON1__DOWN_APIN A1 // tilt button 1 - "decrease"
-#define BUTTON2_UP_APIN A3    // tilt button 2 - "increase"
-#define BUTTON2_DOWN_APIN A1  // tilt button 2 - "decrease"
+#define BUTTON0_APIN A2        // push button 0 - "mode"
+#define BUTTON1_UP_APIN A3     // tilt button 1 - "increase"
+#define BUTTON1__DOWN_APIN A1  // tilt button 1 - "decrease"
+#define BUTTON2_UP_APIN A3     // tilt button 2 - "increase"
+#define BUTTON2_DOWN_APIN A1   // tilt button 2 - "decrease"
 
 // RTC pins
 #define RTC_EnablePin 5
@@ -45,115 +46,232 @@
 #define RTC_SerialPin 7
 DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
-void setup()
+// menu states
+
+enum MenuState_e {
+    SHOW_TIME,
+    SET_HOUR,
+    SET_MIN,
+    SHOW_TIMER,
+    SET_TIMER_MIN,
+    SET_TIMER_SEC,
+    SHOW_DATE,
+    SHOW_YEAR,
+    SET_MONTH,
+    SET_DAY,
+    SET_YEAR,
+    SHOW_ALARM1,
+    SET_ALARM1_HOUR,
+    SET_ALARM1_MIN,
+    SHOW_ALARM2,
+    SET_ALARM2_HOUR,
+    SET_ALARM2_MIN
+}
+
+/*
+ * Global variables
+ */
+struct
 {
+   public:
+    bool manuallyAdjusted = true;      // prevent crystal drift compensation if clock was manually adjusted
+    time_t systemTime = 0;             // current system time
+    tm *systemTm = NULL;               // pointer to the current system time structure
+    NixieDigits_s timeDigits;          // stores the Nixie display digit values of the current time
+    NixieDigits_s dateDigits;          // stores the Nixie display digit values of the current date
+    MenuState_e menuState = SHOW_TIME  // stores the state in the menu state machine
+        bool button0State;
+    uint8_t switch0State;
+    uint8_t switch1State;
+} G;
 
-    uint8_t i;
+// create objects
+PushButtonClass PushButton;
+TiltSwitchClass TiltSwitch[2];
+AlarmClass Alarm;
+TimerClass Timer;
+ChronoClass Timekeeper;
+
+void setup() {
     time_t sysTime;
-    MCUSR = 0;     // clear MCU status register
-    wdt_disable(); // and disable watchdog
+    MCUSR = 0;      // clear MCU status register
+    wdt_disable();  // and disable watchdog
 
-    #ifndef SERIAL_DEBUG
-    Serial.begin(9600)
-    #endif
+#ifndef SERIAL_DEBUG
+    Serial.begin(SERIAL_BAUD)
+#endif
 
         PRINTLN(" ");
     PRINTLN("+ + +  N I X I E  C L O C K  + + +");
     PRINTLN(" ");
 
-    // initialize the Nixie tube display
-    Nixie.initialize(NIXIE_MAX_NUM_TUBES,
-                     ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN, ANODE4_PIN, ANODE5_PIN,
+    //delay(3000); // wait for console opening
+
+    // initialize the nixie tubes
+    Nixie.initialize(NIXIE_NUM_TUBES,
+                     ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN,
                      BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, COMMA_PIN, &G.timeDigits);
 
-    // reset system time
-    set_system_time(0);
-    sysTime = time(NULL);
-    G.systemTm = localtime(&sysTime);
-
-    // derive the seconds-per-day correction value from the current timer1Period
-    Settings.secPerDayCorrect = TIMER1_TO_SEC_PER_DAY(Settings.timer1Period);
-
-    // initialize Timer 1 to trigger timer1ISR once per second
-    Timekeeper.initialize(Settings.timekeeperPeriod);
-    Timekeeper.attachInterrupt(timekeeperISR);
-
-    // initialize Timer2, set the period to 25ms (1s / 40)
-    // Timer2 is used for Chronometer and Countdown Timer features
-    // Timer2 has a maximum period of 32768us
-    Countdown.initialize(Settings.timer1Period / 40);
-    Countdown.attachInterrupt(timer2ISR);
-    cli();
-    Countdown.stop();
-    Countdown.restart();
-    sei();
-    G.countdownSecCounter = 0;
-    G.countdownTenthCounter = 0;
-
-    #ifndef SERIAL_DEBUG
-    // initialize the Buzzer driver (requires serial communication pin)
-    Buzzer.initialize(BUZZER_PIN);
-    #endif
-
-    // initialize the alarm, countdown timer and stopwatch
-    Alarm.initialize(&Settings.alarm);
-    CdTimer.initialize(featureCallback);
-    Countdown.initialize(featureCallback);
-
-    // enable the watchdog
-    wdt_enable(WDT_TIMEOUT);
-
-    //pinMode(buttonPin, INPUT_PULLUP);
-    //pinMode(buttonPin2, INPUT_PULLUP);
-
-    if (rtc.lostPower())
-    {
-        rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); // ToDo: automatically go into set time mode
+    // initialize the timekeeper
+    Timekeeper.initialize();
+    if (rtc.lostPower()) {
+        rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));  // ToDo: automatically go into set time mode
     }
-    //delay(3000); // wait for console opening
-    if (!rtc.begin())
-    {
+
+    if (!rtc.begin()) {
         // ToDo: display message on tubes to let user know that the RTC is not responding
         Serial.println("Couldn't find RTC");
         while (1)
             ;
     }
 
-    pinMode(13, OUTPUT); //LED on Arduino
-
-    pinMode(12, OUTPUT); // 74141 A
-    pinMode(11, OUTPUT); // 74141 B
-    pinMode(10, OUTPUT); // 74141 C
-    pinMode(9, OUTPUT);  // 74141 D
-
-    pinMode(8, OUTPUT); //anode Nixie1
-    pinMode(7, OUTPUT); //anode Nixie2
-    pinMode(6, OUTPUT); //anode Nixie3
-    pinMode(5, OUTPUT); //anode Nixie4
-
-    pinMode(4, OUTPUT); //seconds
-
-    digitalWrite(13, 1); //LED on Arduino ON
-
-    digitalWrite(9, 0);
-    digitalWrite(10, 0);
-    digitalWrite(11, 0);
-    digitalWrite(12, 0);
-
-    digitalWrite(8, 0); //anode
-    digitalWrite(7, 0); //anode
-    digitalWrite(6, 0); //anode
-    digitalWrite(5, 0); //anode
-
-    digitalWrite(4, 1); //seconds
+    // enable the watchdog
+    wdt_enable(WDT_TIMEOUT);
 }
 
-void loop()
-{
+void loop() {
+    // get current time from RTC
+    DateTime now = rtc.now();  // ToDo: implement it into the chrono class
+    int hours = now.hour();
+    int minutes = now.minute();
+    int seconds = now.second();
 
-    // read button states - with debouncing included
+    getButtonStates();
 
-    // go to display corresponding to the states of the buttons
+    Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
-    // read and update time from RTC
+    setDisplay();  // navigate the settings menu
+
+    Nixie.refresh();
+}
+
+void getButtonStates(void) {
+    // push button
+
+    // tilt switch 0
+
+    // tilt switch 1
+}
+
+void setDisplay(void) {
+    // logic to go to the proper current state
+    // -> set next state depending on button states
+
+    if (PushButton.rising()) {
+        switch (G.menuState) {
+            case SHOW_TIME:
+                // middle tilt switch enables the alarms
+                if (TiltSwitch[0].up) {
+                    // ! enable alarm 1
+                } else if (TiltSwitch[0].down) {
+                    // ! enable alarm 2
+                } else {
+                    // ! disable bpth alarms
+                }
+
+                // right tilt switch sets the display mode (off/on/power_saver)
+                if (TiltSwitch[1].up) {
+                    // ! disable nixie display
+                } else if (TiltSwitch[1].down) {
+                    // ! enable nixie display
+                    // ! disable power saving mode
+                } else {
+                    // ! enable power saving mode
+                }
+
+                // TO NEXT STATE
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_DATE;
+                    // ! initialize dateshow Timer
+                } else if (PushButton.longPress() && TiltSwitch[0].middle) {
+                    G.menuState = SET_HOUR;
+                } else if (PushButton.longPress() && TiltSwitch[0].up) {
+                    G.menuState = SET_ALARM1_HOUR;
+                } else if (PushButton.longPress() && TiltSwitch[0].down) {
+                    G.menuState = SET_ALARM2_HOUR;
+                }
+
+            case SET_HOUR:
+                if (TiltSwitch[1].up) {
+                    // ! increase hours every 1/4 secs
+                } else if (TiltSwitch[1].down) {
+                    // ! decrease hours every 1/4 secs
+                }
+            case SHOW_TIMER:
+                if (TiltSwitch[1].up || TiltSwitch[1].down) {
+                    // ! enable timer
+                }
+
+                // TO NEXT STATES
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_TIME;
+                } else if (PushButton.longPress()) {
+                    G.menuState = SET_TIMER_MIN;
+                }
+
+            case SET_TIMER_MIN:
+                if (TiltSwitch[1].up) {
+                    // ! increase timer mins
+                } else if (TiltSwitch[1].down) {
+                    // ! increase timer mins
+                }
+
+                // TO NEXT STATE
+                if (PushButton.falling()) {
+                    G.menuState = SET_TIMER_SEC;
+                }
+
+            case SET_TIMER_SEC:
+                // TO NEXT STATE
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_TIMER;
+                }
+            case SHOW_DATE:
+                // TO NEXT STATE
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_TIMER;
+                } else if (PushButton.longPress()) {
+                    G.menuState = SET_MONTH;
+                }
+            case SHOW_YEAR:
+                // TO NEXT STATE
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_TIMER;
+                } else if (PushButton.longPress()) {
+                    G.menuState = SET_MONTH;
+                }
+            case SET_MONTH:
+                if (PushButton.falling()) {
+                    G.menuState = SET_DAY;
+                }
+            case SET_DAY:
+                if (PushButton.falling()) {
+                    G.menuState = SET_YEAR;
+                }
+            case SET_YEAR:
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_DATE;
+                }
+            case SHOW_ALARM1:
+            // ! show alarm time for a second when toggle switch is set, then switch to show time
+            case SET_ALARM1_HOUR:
+                if (PushButton.falling()) {
+                    G.menuState = SET_ALARM1_MIN;
+                }
+            case SET_ALARM1_MIN:
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_ALARM1;
+                }
+            case SHOW_ALARM2:
+            // ! show alarm time for a second when toggle switch is set, then switch to show time
+            case SET_ALARM2_HOUR:
+                if (PushButton.falling()) {
+                    G.menuState = SET_ALARM2_MIN;
+                }
+            case SET_ALARM2_MIN:
+                if (PushButton.falling()) {
+                    G.menuState = SHOW_ALARM2;
+                }
+        }
+    }
 }
