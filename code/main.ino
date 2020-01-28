@@ -45,13 +45,66 @@
 #define RTC_SerialPin 7
 DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
-/*void setup()
+void setup()
 {
+
+    uint8_t i;
+    time_t sysTime;
+    MCUSR = 0;     // clear MCU status register
+    wdt_disable(); // and disable watchdog
+
+    #ifndef SERIAL_DEBUG
+    Serial.begin(9600)
+    #endif
+
+        PRINTLN(" ");
+    PRINTLN("+ + +  N I X I E  C L O C K  + + +");
+    PRINTLN(" ");
+
+    // initialize the Nixie tube display
+    Nixie.initialize(NIXIE_MAX_NUM_TUBES,
+                     ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN, ANODE4_PIN, ANODE5_PIN,
+                     BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, COMMA_PIN, &G.timeDigits);
+
+    // reset system time
+    set_system_time(0);
+    sysTime = time(NULL);
+    G.systemTm = localtime(&sysTime);
+
+    // derive the seconds-per-day correction value from the current timer1Period
+    Settings.secPerDayCorrect = TIMER1_TO_SEC_PER_DAY(Settings.timer1Period);
+
+    // initialize Timer 1 to trigger timer1ISR once per second
+    Timekeeper.initialize(Settings.timekeeperPeriod);
+    Timekeeper.attachInterrupt(timekeeperISR);
+
+    // initialize Timer2, set the period to 25ms (1s / 40)
+    // Timer2 is used for Chronometer and Countdown Timer features
+    // Timer2 has a maximum period of 32768us
+    Countdown.initialize(Settings.timer1Period / 40);
+    Countdown.attachInterrupt(timer2ISR);
+    cli();
+    Countdown.stop();
+    Countdown.restart();
+    sei();
+    G.countdownSecCounter = 0;
+    G.countdownTenthCounter = 0;
+
+    #ifndef SERIAL_DEBUG
+    // initialize the Buzzer driver (requires serial communication pin)
+    Buzzer.initialize(BUZZER_PIN);
+    #endif
+
+    // initialize the alarm, countdown timer and stopwatch
+    Alarm.initialize(&Settings.alarm);
+    CdTimer.initialize(featureCallback);
+    Countdown.initialize(featureCallback);
+
+    // enable the watchdog
+    wdt_enable(WDT_TIMEOUT);
 
     //pinMode(buttonPin, INPUT_PULLUP);
     //pinMode(buttonPin2, INPUT_PULLUP);
-
-    Serial.begin(9600);
 
     if (rtc.lostPower())
     {
@@ -103,10 +156,4 @@ void loop()
     // go to display corresponding to the states of the buttons
 
     // read and update time from RTC
-
-    //call anti poisoning at this time twice a day
-    if (hours == 6 && minutes == 30 && seconds == 1) // ToDo: change hour format
-    {
-        //cathodeAntiPoising();
-    }
-} */
+}
