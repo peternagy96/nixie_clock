@@ -5,16 +5,16 @@
 #ifndef __TILTSWITCH_H
 #define __TILTSWITCH_H
 
-class TiltSwitchClass
-{
-public:
+class TiltSwitchClass {
+   public:
     void up(void);
     void down(void);
     void middle(void);
+    void changeChrono(Chrono *chrono)
 
-    bool up = false;
+        bool up = false;
     bool down = false;
     bool middle = false;
 
-private:
+   private:
 };

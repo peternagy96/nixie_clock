@@ -4,23 +4,22 @@
 
 #include "TiltSwitch.h"
 
-void TiltSwitchClass::setUp(void)
-{
+void TiltSwitchClass::setUp(void) {
     up = true;
     down = false;
     middle = false;
 }
 
-void TiltSwitchClass::setDown(void)
-{
+void TiltSwitchClass::setDown(void) {
     up = false;
     down = true;
     middle = false;
 }
 
-void TiltSwitchClass::setMiddle(void)
-{
+void TiltSwitchClass::setMiddle(void) {
     up = false;
     down = false;
     middle = true;
 }
+
+void TiltSwitchClass::changeChrono(Chrono* chrono) {}
