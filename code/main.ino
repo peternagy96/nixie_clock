@@ -13,12 +13,11 @@
 #include "Timer.h"
 
 #include <Wire.h>
-#include "RTClib.h"
+#include "RTClib/DS1302.h"
 
 // Variables
 #define MULTIPLEX_DELAY 2;     //Multiplex delay time
 #define ANTIPOISING_DELAY 500; //anti poising delay time
-RTC_DS3231 rtc;
 
 // Pin variables
 #define ANODE0_PIN 12
@@ -40,11 +39,17 @@ RTC_DS3231 rtc;
 #define BUTTON2_UP_APIN A3    // tilt button 2 - "increase"
 #define BUTTON2_DOWN_APIN A1  // tilt button 2 - "decrease"
 
-void setup()
+// RTC pins
+#define RTC_EnablePin 5
+#define RTC_IOPin 6
+#define RTC_SerialPin 7
+DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
+
+/*void setup()
 {
 
-    pinMode(buttonPin, INPUT_PULLUP);
-    pinMode(buttonPin2, INPUT_PULLUP);
+    //pinMode(buttonPin, INPUT_PULLUP);
+    //pinMode(buttonPin2, INPUT_PULLUP);
 
     Serial.begin(9600);
 
@@ -102,6 +107,6 @@ void loop()
     //call anti poisoning at this time twice a day
     if (hours == 6 && minutes == 30 && seconds == 1) // ToDo: change hour format
     {
-        cathodeAntiPoising();
+        //cathodeAntiPoising();
     }
-}
+} */
