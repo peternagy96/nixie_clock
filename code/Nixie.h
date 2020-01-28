@@ -45,7 +45,7 @@ public:
         uint8_t bcdPin2,
         uint8_t bcdPin3,
         uint8_t commaPin,
-        NixieDigits_s *digits, );
+        NixieDigits_s *digits);
 
     /* 
      * Set the pointer to the Nixie digits structure

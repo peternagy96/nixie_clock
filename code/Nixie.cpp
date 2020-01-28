@@ -14,8 +14,9 @@
 NixieClass Nixie;
 
 void NixieClass::initialize(NixieNumTubes_e numTubes,
-                            uint8_t anodePin0, uint8_t anodePin1, uint8_t anodePin2, uint8_t anodePin3, uint8_t anodePin4, uint8_t anodePin5,
-                            uint8_t bcdPin0, uint8_t bcdPin1, uint8_t bcdPin2, uint8_t bcdPin3, uint8_t commaPin, NixieDigits_s *digits)
+                            uint8_t anodePin0, uint8_t anodePin1, uint8_t anodePin2, uint8_t anodePin3,
+                            uint8_t bcdPin0, uint8_t bcdPin1, uint8_t bcdPin2, uint8_t bcdPin3, 
+                            uint8_t commaPin, NixieDigits_s *digits)
 {
 
     uint8_t i;
@@ -24,8 +25,6 @@ void NixieClass::initialize(NixieNumTubes_e numTubes,
     this->anodePin[1] = anodePin1;
     this->anodePin[2] = anodePin2;
     this->anodePin[3] = anodePin3;
-    this->anodePin[4] = anodePin4;
-    this->anodePin[5] = anodePin5;
     this->bcdPin[0] = bcdPin0;
     this->bcdPin[1] = bcdPin1;
     this->bcdPin[2] = bcdPin2;
@@ -54,11 +53,11 @@ void NixieClass::setDigits(NixieDigits_s *digits)
     this->digits = digits;
 }
 
-void NixieClass::refresh(void)
+void NixieClass::refresh(void) // ToDo: rewrite and test this function 
 {
 
-    uint8_t bcdVal;
-    bool commaVal, anodeVal; // ToDo: extend commaVal to expect double blinking as well
+    uint8_t bcdVal, commaVal;
+    bool anodeVal;
     uint32_t ts = micros();
 
     // display disabled
