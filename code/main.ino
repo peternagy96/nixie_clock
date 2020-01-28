@@ -160,24 +160,7 @@ void setDisplay(void) {
     if (PushButton.rising()) {
         switch (G.menuState) {
             case SHOW_TIME:
-                // middle tilt switch enables the alarms
-                if (TiltSwitch[0].up) {
-                    // ! enable alarm 1
-                } else if (TiltSwitch[0].down) {
-                    // ! enable alarm 2
-                } else {
-                    // ! disable bpth alarms
-                }
-
-                // right tilt switch sets the display mode (off/on/power_saver)
-                if (TiltSwitch[1].up) {
-                    // ! disable nixie display
-                } else if (TiltSwitch[1].down) {
-                    // ! enable nixie display
-                    // ! disable power saving mode
-                } else {
-                    // ! enable power saving mode
-                }
+                basicTiltMode();
 
                 // TO NEXT STATE
                 if (PushButton.falling()) {
@@ -213,7 +196,7 @@ void setDisplay(void) {
                 if (TiltSwitch[1].up) {
                     // ! increase timer mins
                 } else if (TiltSwitch[1].down) {
-                    // ! increase timer mins
+                    // ! decrease timer mins
                 }
 
                 // TO NEXT STATE
@@ -222,11 +205,18 @@ void setDisplay(void) {
                 }
 
             case SET_TIMER_SEC:
+                // ! blink seconds tubes
+                if (TiltSwitch[1].up) {
+                    // ! increase timer secs
+                } else if (TiltSwitch[1].down) {
+                    // ! decrease timer secs
+                }
                 // TO NEXT STATE
                 if (PushButton.falling()) {
                     G.menuState = SHOW_TIMER;
                 }
             case SHOW_DATE:
+                basicTiltMode();
                 // TO NEXT STATE
                 if (PushButton.falling()) {
                     G.menuState = SHOW_TIMER;
@@ -234,6 +224,7 @@ void setDisplay(void) {
                     G.menuState = SET_MONTH;
                 }
             case SHOW_YEAR:
+                basicTiltMode();
                 // TO NEXT STATE
                 if (PushButton.falling()) {
                     G.menuState = SHOW_TIMER;
@@ -241,6 +232,7 @@ void setDisplay(void) {
                     G.menuState = SET_MONTH;
                 }
             case SET_MONTH:
+                // ! blink the month tubes
                 if (PushButton.falling()) {
                     G.menuState = SET_DAY;
                 }
@@ -273,5 +265,46 @@ void setDisplay(void) {
                     G.menuState = SHOW_ALARM2;
                 }
         }
+    }
+}
+
+void tiltMode(void) {
+    switch (G.menuState) {
+        SHOW_TIME,
+            SET_HOUR,
+            SET_MIN,
+            SHOW_TIMER,
+            SET_TIMER_MIN,
+            SET_TIMER_SEC,
+            SHOW_DATE,
+            SHOW_YEAR,
+            SET_MONTH,
+            SET_DAY,
+            SET_YEAR,
+            SHOW_ALARM1,
+            SET_ALARM1_HOUR,
+            SET_ALARM1_MIN,
+            SHOW_ALARM2,
+            SET_ALARM2_HOUR,
+            SET_ALARM2_MIN
+    }
+}
+
+void basicTiltMode(void) {
+    if (TiltSwitch[0].up) {
+        // ! enable alarm 1
+    } else if (TiltSwitch[0].down) {
+        // ! enable alarm 2
+    } else {
+        // ! disable bpth alarms
+    }
+
+    if (TiltSwitch[1].up) {
+        // ! disable nixie display
+    } else if (TiltSwitch[1].down) {
+        // ! enable nixie display
+        // ! disable power saving mode
+    } else {
+        // ! enable power saving mode
     }
 }
