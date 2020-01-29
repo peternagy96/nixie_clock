@@ -47,16 +47,15 @@ void isShortMonth(void) volatile {
 }
 
 void DatekeeperClass::reset(void) volatile {
-    minute = 0;
-    hour = 0;
+    day = 1;
+    month = 1;
+    year = 2020;
 }
 
 void DatekeeperClass::copy(volatile ChronoClass *tm) volatile {
-    minute = tm->minute;
-    hour = tm->hour;
+    day = tm->minute;
+    month = tm->hour;
 }
 
 void DatekeeperClass::roundup(void) volatile {
-    if (minute > 59) minute = 0, hour++;
-    if (hour > 23) hour = 0;
 }
