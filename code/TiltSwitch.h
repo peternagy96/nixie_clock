@@ -10,9 +10,12 @@ class TiltSwitchClass {
     void up(void);
     void down(void);
     void middle(void);
-    void changeChrono(Chrono &chrono)
+    void incrementRight(ChronoClass &chrono);
+    void decrementRight(ChronoClass &chrono);
+    void incrementLeft(ChronoClass &chrono);
+    void decrementLeft(ChronoClass &chrono);
 
-        bool up = false;
+    bool up = false;
     bool down = false;
     bool middle = false;
 
