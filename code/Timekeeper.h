@@ -5,7 +5,7 @@
 #ifndef __TIMEKEEPER_H
 #define __TIMEKEEPER_H
 
-class TimekeeperClass : public Chrono {
+class TimekeeperClass : public ChronoClass {
    public:
     void incrementRight(void) volatile;
     void decrementRight(void) volatile;
