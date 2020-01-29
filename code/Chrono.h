@@ -7,8 +7,10 @@
 
 class ChronoClass {
    public:
-    void setRight(void) volatile = 0;
-    void setLeft(void) volatile = 0;
+    void incrementRight(void) volatile = 0;
+    void decrementRight(void) volatile = 0;
+    void incrementLeft(void) volatile = 0;
+    void decrementLeft(void) volatile = 0;
 
     void reset(void) volatile = 0;
     void copy(volatile ChronoClass *) volatile = 0;
