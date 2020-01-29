@@ -34,4 +34,5 @@ void TimekeeperClass::copy(volatile ChronoClass *tm) volatile {
 
 void TimekeeperClass::roundup(void) volatile {
     if (minute > 59) minute = 0, hour++;
+    if (hour > 23) hour = 0;
 }
