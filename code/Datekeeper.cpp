@@ -1,5 +1,6 @@
 
 #include "Datekeeper.h"
+#include "Chrono.h"
 
 void DatekeeperClass::incrementRight(void) volatile {
     day++;
@@ -31,7 +32,7 @@ void DatekeeperClass::decrementLeft(void) volatile {
     if (hour < 0) hour = 23, hour--;
 }
 
-void isLeapYear(void) volatile {
+bool DatekeeperClass::isLeapYear(void) volatile {
     if ((year - 2020) % 4 == 0) {
         return true;
     } else {
@@ -39,15 +40,13 @@ void isLeapYear(void) volatile {
     }
 }
 
-bool isShortMonth(void) volatile {
+bool DatekeeperClass::isShortMonth(void) volatile {
     for (int8_t i = 0; i < 4; i++) {
         if (month == short_months[i]) {
             return true;
         }
     }
     return false;
-
-    return std::find(std::begin(short_months), std::end(short_months), month) != std::end(short_months)
 }
 
 void DatekeeperClass::reset(void) volatile {

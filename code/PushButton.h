@@ -5,6 +5,9 @@
 #ifndef __PUSHBUTTON_H
 #define __PUSHBUTTON_H
 
+#include <Time.h>
+#include <stdint.h>
+
 class PushButtonClass {
    public:
     void press(void);

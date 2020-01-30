@@ -5,9 +5,10 @@
 #ifndef __TIMEKEEPER_H
 #define __TIMEKEEPER_H
 
+#include <stdint.h>
 #include "Chrono.h"
 
-class Timekeeper : public Chrono {
+class TimekeeperClass : public ChronoClass {
    public:
     void incrementRight(void) volatile;
     void decrementRight(void) volatile;
@@ -18,6 +19,7 @@ class Timekeeper : public Chrono {
     void copy(volatile ChronoClass *) volatile;
     void roundup(void) volatile;
 
+    volatile int8_t second = 0;
     volatile int8_t minute = 0;
     volatile int8_t hour = 0;
 };

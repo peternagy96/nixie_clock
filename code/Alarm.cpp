@@ -4,13 +4,13 @@
 
 #include "Alarm.h"
 
-void AlarmClass::initialize(AlarmEeprom_s *settings) {
+void AlarmClass::initialize(void) {
     alarm = false;
     tm.hour = 8;
     tm.minute = 0;
 }
 
-void AlarmClass::alarmGoesOff(int8_t hour, int8_t minute) {
+void AlarmClass::alarmGoesOff(void) volatile {
     if (hour == tm.hour && minute == tm.minute && !active) {
         active = true;
     }
@@ -20,18 +20,18 @@ void AlarmClass::resetAlarm(void) {
     alarm = false;
 }
 
-void AlarmClass::incrementRight(void) {
+void AlarmClass::incrementRight(void) volatile {
     tm.incrementRight();
 }
 
-void AlarmClass::decrementRight(void) {
+void AlarmClass::decrementRight(void) volatile {
     tm.decrementRight();
 }
 
-void AlarmClass::incrementLeft(void) {
+void AlarmClass::incrementLeft(void) volatile {
     tm.incrementLeft();
 }
 
-void AlarmClass::decrementLeft(void) {
+void AlarmClass::decrementLeft(void) volatile {
     tm.decrementLeft();
 }

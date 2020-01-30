@@ -4,40 +4,41 @@
 
 #include "Timer.h"
 
-void TimerClass::initialize(void (*callback)(bool)) {
+void TimerClass::initialize() {
     defaultTm.second = 0;
     defaultTm.minute = 4;
     reset();
 }
 
-void TimerClass::incrementRight(void) {
+void TimerClass::incrementRight(void) volatile {  // ? does this increment mins ir secs
     tm.incrementRight();
 }
 
-void TimerClass::decrementRight(void) {
+void TimerClass::decrementRight(void) volatile {
     tm.decrementRight();
     if (running && alarmGoesOff()) {
-        alarm = true
+        alarm = true;
     }
 }
 
-void alarmGoesOff(void) {
+bool TimerClass::alarmGoesOff(void) volatile {
     if (tm.minute == 0 && tm.hour == 0) {
-        alarm = true
+        return true;
     }
+    return false;
 }
 
-void TimerClass::incrementLeft(void) {
+void TimerClass::incrementLeft(void) volatile {
     tm.incrementLeft();
 }
 
-void TimerClass::decrementLeft(void) {
+void TimerClass::decrementLeft(void) volatile {
     tm.decrementLeft();
 }
 
 void TimerClass::start(void) {
     defaultTm.copy(&tm);
-    active = true;
+    running = true;
 }
 
 void TimerClass::stop(void) {

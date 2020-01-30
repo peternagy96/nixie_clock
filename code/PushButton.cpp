@@ -3,6 +3,8 @@
 */
 
 #include "PushButton.h"
+#include <Arduino.h>
+#include <Time.h>
 
 void PushButtonClass::press(void) {
     wasPressed = pressed;

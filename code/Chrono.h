@@ -7,14 +7,13 @@
 
 class ChronoClass {
    public:
-    void incrementRight(void) volatile = 0;
-    void decrementRight(void) volatile = 0;
-    void incrementLeft(void) volatile = 0;
-    void decrementLeft(void) volatile = 0;
+    virtual void incrementRight(void) volatile = 0;
+    virtual void decrementRight(void) volatile = 0;
+    virtual void incrementLeft(void) volatile = 0;
+    virtual void decrementLeft(void) volatile = 0;
 
-    void reset(void) volatile = 0;
-    void copy(volatile ChronoClass *) volatile = 0;
-    void roundup(void) volatile = 0;
+    volatile int8_t minute;
+    volatile int8_t hour;
 };
 
 #endif

@@ -5,20 +5,23 @@
  */
 
 #include "Buzzer.h"
-#include "Helper.h"
+//#include "Helper.h"
 #include "Nixie.h"
 #include "PushButton.h"
 #include "TiltSwitch.h"
 #include "Timekeeper.h"
 #include "Timer.h"
 
+#include <Arduino.h>
 #include <Wire.h>
 #include "RTClib/DS1302.h"
+#include "avr/wdt.h"
 
 // Variables
-#define MULTIPLEX_DELAY 2;      // multiplex delay time
-#define ANTIPOISING_DELAY 500;  // anti poising delay time
-#define SERIAL_BAUD 9600;       // serial baud rate
+#define MULTIPLEX_DELAY 2      // multiplex delay time
+#define ANTIPOISING_DELAY 500  // anti poising delay time
+#define SERIAL_BAUD 9600       // serial baud rate
+#define WDT_TIMEOUT            // timeout length of the watchdog timer
 
 // Pin variables
 #define ANODE0_PIN 12
@@ -66,31 +69,27 @@ enum MenuState_e {
     SHOW_ALARM2,
     SET_ALARM2_HOUR,
     SET_ALARM2_MIN
-}
+};
 
 /*
  * Global variables
  */
-struct
-{
-   public:
-    bool manuallyAdjusted = true;      // prevent crystal drift compensation if clock was manually adjusted
-    time_t systemTime = 0;             // current system time
-    tm *systemTm = NULL;               // pointer to the current system time structure
-    NixieDigits_s timeDigits;          // stores the Nixie display digit values of the current time
-    NixieDigits_s dateDigits;          // stores the Nixie display digit values of the current date
-    MenuState_e menuState = SHOW_TIME  // stores the state in the menu state machine
-        bool button0State;
+typedef struct {
+    bool manuallyAdjusted = true;       // prevent crystal drift compensation if clock was manually adjusted
+    MenuState_e menuState = SHOW_TIME;  // stores the state in the menu state machine
+    bool button0State;
     uint8_t switch0State;
-    uint8_t switch1State;
-} G;
+    uint8_t switch1State;  // ToDo: store nixie tube display numbers
+} G_t;
+
+G_t G;
 
 // create objects
 PushButtonClass PushButton;
 TiltSwitchClass TiltSwitch[2];
 AlarmClass Alarm;
 TimerClass Timer;
-ChronoClass Timekeeper;
+TimekeeperClass Timekeeper;
 
 void setup() {
     time_t sysTime;
@@ -98,12 +97,12 @@ void setup() {
     wdt_disable();  // and disable watchdog
 
 #ifndef SERIAL_DEBUG
-    Serial.begin(SERIAL_BAUD)
+    Serial.begin(SERIAL_BAUD);
 #endif
 
-        PRINTLN(" ");
-    PRINTLN("+ + +  N I X I E  C L O C K  + + +");
-    PRINTLN(" ");
+    Serial.println(" ");
+    Serial.println("+ + +  N I X I E  C L O C K  + + +");
+    Serial.println(" ");
 
     //delay(3000); // wait for console opening
 
@@ -113,17 +112,18 @@ void setup() {
                      BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, COMMA_PIN, &G.timeDigits);
 
     // initialize the timekeeper
-    Timekeeper.initialize();
-    if (rtc.lostPower()) {
-        rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));  // ToDo: automatically go into set time mode
-    }
+    //Timekeeper.initialize();
+    Time t = rtc.time();
+    //if (rtc.lostPower()) {
+    //   rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));  // ToDo: automatically go into set time mode
+    //}
 
-    if (!rtc.begin()) {
-        // ToDo: display message on tubes to let user know that the RTC is not responding
-        Serial.println("Couldn't find RTC");
-        while (1)
-            ;
-    }
+    //if (!rtc.begin()) {
+    //    // ToDo: display message on tubes to let user know that the RTC is not responding
+    //    Serial.println("Couldn't find RTC");
+    //    while (1)
+    //        ;
+    //}
 
     // enable the watchdog
     wdt_enable(WDT_TIMEOUT);
@@ -131,10 +131,10 @@ void setup() {
 
 void loop() {
     // get current time from RTC
-    DateTime now = rtc.now();  // ToDo: implement it into the chrono class
-    int hours = now.hour();
-    int minutes = now.minute();
-    int seconds = now.second();
+    Time now = rtc.time();  // ToDo: implement it into the chrono class
+    int hours = now.hr;
+    int minutes = now.min;
+    int seconds = now.sec;
 
     getButtonStates();
 
@@ -307,4 +307,32 @@ void basicTiltMode(void) {
     } else {
         // ! enable power saving mode
     }
+}
+
+void updateDigits() {
+    static int8_t lastMin = 0;
+
+    // check whether current state requires time or date display
+    G.timeDigits.value[0] = dec2bcdLow(G.systemTm->tm_min);
+    G.timeDigits.value[1] = dec2bcdHigh(G.systemTm->tm_min);
+    G.timeDigits.value[2] = dec2bcdLow(G.systemTm->tm_hour);
+    G.timeDigits.value[3] = dec2bcdHigh(G.systemTm->tm_hour);
+    /*G.dateDigits.value[0] = dec2bcdLow  (G.systemTm->tm_year);
+  G.dateDigits.value[1] = dec2bcdHigh (G.systemTm->tm_year);
+  G.dateDigits.value[2] = dec2bcdLow  (G.systemTm->tm_mon + 1);
+  G.dateDigits.value[3] = dec2bcdHigh (G.systemTm->tm_mon + 1);
+  G.dateDigits.value[4] = dec2bcdLow  (G.systemTm->tm_mday);
+  G.dateDigits.value[5] = dec2bcdHigh (G.systemTm->tm_mday); */
+
+    if (G.menuState == SHOW_TIME) {
+        // trigger Nixie digit "Slot Machine" effect
+        if (G.systemTm->tm_min != lastMin && (G.timeDigits.value[2] == 0)) {
+            Nixie.slotMachine();
+        }
+        // trigger the cathode poisoning prevention routine
+        if (G.cppEffectEnabled && G.timeDigits.value[0] == 0) {
+            Nixie.cathodePoisonPrevent();
+        }
+    }
+    lastMin = G.systemTm->tm_min;
 }

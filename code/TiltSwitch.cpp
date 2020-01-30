@@ -4,36 +4,36 @@
 
 #include "TiltSwitch.h"
 
-void TiltSwitchClass::setUp(void) {
+void TiltSwitchClass::setToUp(void) {
     up = true;
     down = false;
     middle = false;
 }
 
-void TiltSwitchClass::setDown(void) {
+void TiltSwitchClass::setToDown(void) {
     up = false;
     down = true;
     middle = false;
 }
 
-void TiltSwitchClass::setMiddle(void) {
+void TiltSwitchClass::setToMiddle(void) {
     up = false;
     down = false;
     middle = true;
 }
 
 void TiltSwitchClass::incrementRight(ChronoClass* chrono) {
-    chrono->incrementRight()
+    chrono->incrementRight();
 }
 
 void TiltSwitchClass::decrementRight(ChronoClass* chrono) {
-    chrono->decrementRight()
+    chrono->decrementRight();
 }
 
 void TiltSwitchClass::incrementLeft(ChronoClass* chrono) {
-    chrono->incrementLeft()
+    chrono->incrementLeft();
 }
 
 void TiltSwitchClass::decrementLeft(ChronoClass* chrono) {
-    chrono->decrementLeft()
+    chrono->decrementLeft();
 }

@@ -5,6 +5,8 @@
 #ifndef __NIXIE_H
 #define __NIXIE_H
 
+#include <stdint.h>
+
 #define NIXIE_NUM_TUBES 4
 
 /*
@@ -124,9 +126,9 @@ class NixieClass {
     bool cppEnabled = false;
 
    private:
-    uint8_t numTubes;
-    uint8_t anodePin[numTubes];
-    uint8_t bcdPin[numTubes];
+    static int numTubes;
+    uint8_t anodePin[4];
+    uint8_t bcdPin[4];
     uint8_t commaPin;
     uint32_t digitOnDuration;
     uint32_t lastTs = 0;
@@ -134,12 +136,12 @@ class NixieClass {
     bool blinkAllEnabled = false;
     uint32_t blinkTs = 0;
     bool blinkFlag = false;
-    bool slotMachineEnabled[NIXIE_MAX_NUM_TUBES] = {false};
-    uint32_t slotMachineTs[NIXIE_MAX_NUM_TUBES] = {0};
-    uint8_t slotMachineCnt[NIXIE_MAX_NUM_TUBES] = {0};
-    uint32_t slotMachineDelay[NIXIE_MAX_NUM_TUBES] = {0};
-    uint8_t slotMachineCntStart[NIXIE_MAX_NUM_TUBES] = {0, 11, 5, 13, 9, 15};
-    uint8_t slotMachineCntMax[NIXIE_MAX_NUM_TUBES] = {20, 50, 30, 60, 40, 70};
+    bool slotMachineEnabled[NIXIE_NUM_TUBES] = {false};
+    uint32_t slotMachineTs[NIXIE_NUM_TUBES] = {0};
+    uint8_t slotMachineCnt[NIXIE_NUM_TUBES] = {0};
+    uint32_t slotMachineDelay[NIXIE_NUM_TUBES] = {0};
+    uint8_t slotMachineCntStart[NIXIE_NUM_TUBES] = {0, 11, 5, 13};
+    uint8_t slotMachineCntMax[NIXIE_NUM_TUBES] = {20, 50, 30, 60};
     uint32_t cppTs = 0;
     uint8_t cppCnt = 0;
 };
