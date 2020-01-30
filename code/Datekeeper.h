@@ -15,7 +15,7 @@ class DatekeeperClass : public ChronoClass {
     void reset(void) volatile;
     void copy(volatile ChronoClass *) volatile;
     void roundup(void) volatile;
-    void isShortMonth(void) volatile;
+    bool isShortMonth(void) volatile;
 
     volatile int8_t day = 0;
     volatile int8_t month = 0;

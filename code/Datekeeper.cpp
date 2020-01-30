@@ -1,11 +1,8 @@
 
 #include "Datekeeper.h"
-#include <algorithm>  // for std::find
-#include <iterator>   // for std::begin, std::end
 
 void DatekeeperClass::incrementRight(void) volatile {
     day++;
-    bool exists = std::find(std::begin(a), std::end(a), x) != std::end(a);
     if (month == 2 && !isLeapYear() && day > 28) {
         month++, day = 1;
     } else if (month == 2 && isLeapYear() && day > 29) {
@@ -42,7 +39,14 @@ void isLeapYear(void) volatile {
     }
 }
 
-void isShortMonth(void) volatile {
+bool isShortMonth(void) volatile {
+    for (int8_t i = 0; i < 4; i++) {
+        if (month == short_months[i]) {
+            return true;
+        }
+    }
+    return false;
+
     return std::find(std::begin(short_months), std::end(short_months), month) != std::end(short_months)
 }
 
