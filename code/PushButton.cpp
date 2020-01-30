@@ -4,67 +4,67 @@
 
 #include "PushButton.h"
 
-void ButtonClass::press (void) {
-  wasPressed = pressed;
-  pressed = true;
-}
-
-void ButtonClass::release (void) {
-  wasPressed = pressed;
-  pressed = false;
-}
-
-bool ButtonClass::rising (void) {
-  bool rv = false;
-  if (pressed && !wasPressed) {
+void PushButtonClass::press(void) {
     wasPressed = pressed;
-    longPressTs = millis ();
-    longPressed = true;
-    wasLongPressed = false;
-    rv = true;
-  }
-  return rv;
+    pressed = true;
 }
 
-bool ButtonClass::falling (void) {
-  bool rv = false;
-  if (!pressed && wasPressed && !wasLongPressed) {
+void PushButtonClass::release(void) {
     wasPressed = pressed;
-    rv = true;
-  }
-  return rv;  
+    pressed = false;
 }
 
-bool ButtonClass::fallingLongPress (void) {
-  bool rv = false;
-  if (!pressed && wasPressed && wasLongPressed) {
-    wasPressed = pressed;
-    wasLongPressed = false;
-    rv = true;
-  }
-  return rv;  
+bool PushButtonClass::rising(void) {
+    bool rv = false;
+    if (pressed && !wasPressed) {
+        wasPressed = pressed;
+        longPressTs = millis();
+        longPressed = true;
+        wasLongPressed = false;
+        rv = true;
+    }
+    return rv;
 }
 
-bool ButtonClass::fallingContinuous (void) {
-  return !pressed && wasPressed; 
+bool PushButtonClass::falling(void) {
+    bool rv = false;
+    if (!pressed && wasPressed && !wasLongPressed) {
+        wasPressed = pressed;
+        rv = true;
+    }
+    return rv;
 }
 
-bool ButtonClass::longPress (void) {
-  bool rv = false;
-  if (pressed && longPressed && millis () - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
-    longPressed = false;
-    wasLongPressed = true;
-    rv = true;
-  }
-  return rv;
+bool PushButtonClass::fallingLongPress(void) {
+    bool rv = false;
+    if (!pressed && wasPressed && wasLongPressed) {
+        wasPressed = pressed;
+        wasLongPressed = false;
+        rv = true;
+    }
+    return rv;
 }
 
-bool ButtonClass::longPressContinuous (void) {
-  bool rv = false;
-  if (pressed && millis () - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
-    longPressed = false;
-    wasLongPressed = true;
-    rv = true;
-  }
-  return rv;
+bool PushButtonClass::fallingContinuous(void) {
+    return !pressed && wasPressed;
+}
+
+bool PushButtonClass::longPress(void) {
+    bool rv = false;
+    if (pressed && longPressed && millis() - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
+        longPressed = false;
+        wasLongPressed = true;
+        rv = true;
+    }
+    return rv;
+}
+
+bool PushButtonClass::longPressContinuous(void) {
+    bool rv = false;
+    if (pressed && millis() - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
+        longPressed = false;
+        wasLongPressed = true;
+        rv = true;
+    }
+    return rv;
 }
