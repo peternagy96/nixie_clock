@@ -22,3 +22,5 @@ class DatekeeperClass : public ChronoClass {
     volatile int8_t year = 0;
     volatile int8_t short_months[] = {4, 6, 9, 11};
 };
+
+#endif

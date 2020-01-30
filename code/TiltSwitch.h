@@ -21,3 +21,5 @@ class TiltSwitchClass {
 
    private:
 };
+
+#endif

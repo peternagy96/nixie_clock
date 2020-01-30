@@ -29,3 +29,5 @@ class BuzzerClass {
  * Buzzer object as a singleton
  */
 extern BuzzerClass Buzzer;
+
+#endif

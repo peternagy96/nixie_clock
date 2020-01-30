@@ -26,3 +26,5 @@ class TimerClass : public ChronoClass {
     Timekeeper defaultTm;
     volatile Timekeeper tm;
 };
+
+#endif

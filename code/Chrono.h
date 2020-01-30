@@ -16,3 +16,5 @@ class ChronoClass {
     void copy(volatile ChronoClass *) volatile = 0;
     void roundup(void) volatile = 0;
 };
+
+#endif

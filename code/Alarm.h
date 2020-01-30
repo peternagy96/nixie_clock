@@ -20,3 +20,5 @@ class AlarmClass : public ChronoClass {
    private:
     volatile Timekeeper tm;
 };
+
+#endif

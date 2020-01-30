@@ -4,3 +4,5 @@
 #define __HELPER_H
 
 void updateDigits();
+
+#endif

@@ -19,3 +19,5 @@ class TimekeeperClass : public ChronoClass {
     volatile int8_t minute = 0;
     volatile int8_t hour = 0;
 };
+
+#endif
