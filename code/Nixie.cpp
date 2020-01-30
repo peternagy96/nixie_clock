@@ -13,14 +13,13 @@
 
 NixieClass Nixie;
 
-void NixieClass::initialize(NixieNumTubes_e numTubes,
-                            uint8_t anodePin0, uint8_t anodePin1, uint8_t anodePin2, uint8_t anodePin3,
+void NixieClass::initialize(uint8_t anodePin0, uint8_t anodePin1, uint8_t anodePin2, uint8_t anodePin3,
                             uint8_t bcdPin0, uint8_t bcdPin1, uint8_t bcdPin2, uint8_t bcdPin3, 
                             uint8_t commaPin, NixieDigits_s *digits)
 {
 
     uint8_t i;
-    this->numTubes = numTubes;
+    this->numTubes = 4;
     this->anodePin[0] = anodePin0;
     this->anodePin[1] = anodePin1;
     this->anodePin[2] = anodePin2;
