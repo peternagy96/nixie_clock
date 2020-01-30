@@ -1,5 +1,6 @@
 
 #include "Timekeeper.h"
+#include "Chrono.h"
 
 void TimekeeperClass::incrementRight(void) volatile {
     minute++;
