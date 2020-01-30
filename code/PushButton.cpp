@@ -6,6 +6,8 @@
 #include <Arduino.h>
 #include <Time.h>
 
+#define BUTTON_LONG_PRESS_TIMEOUT (1000)
+
 void PushButtonClass::press(void) {
     wasPressed = pressed;
     pressed = true;
@@ -54,16 +56,6 @@ bool PushButtonClass::fallingContinuous(void) {
 bool PushButtonClass::longPress(void) {
     bool rv = false;
     if (pressed && longPressed && millis() - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
-        longPressed = false;
-        wasLongPressed = true;
-        rv = true;
-    }
-    return rv;
-}
-
-bool PushButtonClass::longPressContinuous(void) {
-    bool rv = false;
-    if (pressed && millis() - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
         longPressed = false;
         wasLongPressed = true;
         rv = true;

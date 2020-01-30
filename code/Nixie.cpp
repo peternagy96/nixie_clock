@@ -203,8 +203,9 @@ void NixieClass::resetDigits(NixieDigits_s *output) {
     for (i = 0; i < NIXIE_NUM_TUBES; i++) {
         output->value[i] = 0;
         output->blank[i] = false;
-        output->comma[i] = false;
         output->blnk[i] = false;
     }
+    output->comma = false;
+    output->comma_blnk = 0;
     output->numDigits = NIXIE_NUM_TUBES;
 }

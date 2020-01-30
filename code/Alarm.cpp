@@ -3,6 +3,7 @@
 */
 
 #include "Alarm.h"
+#include <stdint.h>
 
 void AlarmClass::initialize(void) {
     alarm = false;

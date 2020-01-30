@@ -5,6 +5,8 @@
 #ifndef __CHRONO_H
 #define __CHRONO_H
 
+#include <stdint.h>
+
 class ChronoClass {
    public:
     virtual void incrementRight(void) volatile = 0;

@@ -8,6 +8,8 @@
 #include "Chrono.h"
 #include "Timekeeper.h"
 
+#include <stdint.h>
+
 class AlarmClass : public ChronoClass {
    public:
     void initialize(void);
@@ -20,6 +22,9 @@ class AlarmClass : public ChronoClass {
 
     bool alarm = false;
     bool active = false;
+
+    uint8_t hour = 0;
+    uint8_t minute = 0;
 
    private:
     volatile TimekeeperClass tm;
