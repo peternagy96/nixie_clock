@@ -4,20 +4,28 @@
  * January 2020
  */
 
-//#include "Alarm.h"
-#include "Buzzer.h"
-#include "Nixie.h"
-#include "PushButton.h"
-#include "TiltSwitch.h"
-#include "Timekeeper.h"
-#include "Timer.h"
+#include "C:\Users\peter\Documents\Code\Nixie clock\code\Alarm.h"
+#include "C:\Users\peter\Documents\Code\Nixie clock\code\Buzzer.h"
+#include "C:\Users\peter\Documents\Code\Nixie clock\code\Nixie.h"
+#include "C:\Users\peter\Documents\Code\Nixie clock\code\PushButton.h"
+#include "C:\Users\peter\Documents\Code\Nixie clock\code\TiltSwitch.h"
+#include "C:\Users\peter\Documents\Code\Nixie clock\code\Timekeeper.h"
+#include "C:\Users\peter\Documents\Code\Nixie clock\code\Timer.h"
 
 #include <Arduino.h>
 #include <Wire.h>
 #include "DS1302.h"
 #include "avr/wdt.h"
 
-#define TEST_TYPE TUBES  //tubes, rtc (correct time), multiplexing, blinking, buttons, buzzer
+#define TEST_TYPE 0
+
+/*  tubes:              0
+    rtc (correct time): 1
+    multiplexing:       2
+    blinking:           3
+    buttons:            4
+    buzzer:             5
+*/
 
 // Variables
 #define MULTIPLEX_DELAY 2      // multiplex delay time
@@ -56,10 +64,9 @@
  * Global variables
  */
 typedef struct {
-    bool manuallyAdjusted = true;       // prevent crystal drift compensation if clock was manually adjusted
-    MenuState_e menuState = SHOW_TIME;  // stores the state in the menu state machine
-    NixieDigits_s timeDigits;           // stores the Nixie display digit values of the current time
-    NixieDigits_s dateDigits;           // stores the Nixie display digit values of the current date
+    bool manuallyAdjusted = true;  // prevent crystal drift compensation if clock was manually adjusted
+    NixieDigits_s timeDigits;      // stores the Nixie display digit values of the current time
+    NixieDigits_s dateDigits;      // stores the Nixie display digit values of the current date
     bool button0State;
     uint8_t switch0State;
     uint8_t switch1State;  // ToDo: store nixie tube display numbers
@@ -69,11 +76,14 @@ G_t G;
 //Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
 
 // create objects
-PushButtonClass PushButton;
-TiltSwitchClass TiltSwitch[2];
+//PushButtonClass PushButton;
+//TiltSwitchClass TiltSwitch[2];
 //AlarmClass Alarm;
-TimerClass Timer;
-TimekeeperClass Timekeeper;
+//TimerClass Timer;
+//TimekeeperClass Timekeeper;
+
+uint8_t anodePin[4] = {ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN};
+uint8_t bcdPin[4] = {BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN};
 
 void setup() {
 #ifndef SERIAL_DEBUG
@@ -85,15 +95,12 @@ void setup() {
     Serial.println(" ");
 
     switch (TEST_TYPE) {
-        case (TUBES):
-            int j;
-            uint8_t anodePin[4] = {ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN};
-            uint8_t bcdPin[4] = {BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN};
-            for (i = 0; i < 4; i++) {
+        case (0):
+            for (int i = 0; i < 4; i++) {
                 pinMode(anodePin[i], OUTPUT);
                 digitalWrite(anodePin[i], LOW);
             }
-            for (i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; i++) {
                 pinMode(bcdPin[i], OUTPUT);
                 digitalWrite(bcdPin[i], LOW);
             }
@@ -104,23 +111,17 @@ void setup() {
 
 void loop() {
     switch (TEST_TYPE) {
-        case (TUBES):
-            j = 0;
+        case (0):
+        for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 10; i++) {
-                if (j > 3) {
-                    j = 0;
-                }
-                digitalWrite(COMMA_PIN, HIGH);
                 digitalWrite(anodePin[j], HIGH);
-                digitalWrite(bcdPin[0], i & 1);
-                digitalWrite(bcdPin[1], (i >> 1) & 1);
-                digitalWrite(bcdPin[2], (i >> 2) & 1);
-                digitalWrite(bcdPin[3], (i >> 3) & 1);
-                delay(500);
-                digitalWrite(COMMA_PIN, LOW);
+                digitalWrite(bcdPin[3], i & 1);
+                digitalWrite(bcdPin[2], (i >> 1) & 1);
+                digitalWrite(bcdPin[1], (i >> 2) & 1);
+                digitalWrite(bcdPin[0], (i >> 3) & 1);
                 delay(500);
                 digitalWrite(anodePin[j], LOW);
-                j++;
             }
+        }
     }
 }

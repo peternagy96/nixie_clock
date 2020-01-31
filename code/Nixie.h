@@ -127,8 +127,6 @@ class NixieClass {
 
    private:
     int numTubes = 4;
-    uint8_t anodePin[4];
-    uint8_t bcdPin[4];
     uint8_t commaPin;
     uint32_t digitOnDuration;
     uint32_t lastTs = 0;
