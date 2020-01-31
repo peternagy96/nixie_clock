@@ -35,13 +35,14 @@
 #define BCD3_PIN 2
 
 #define COMMA_PIN 16
+#define BUZZER_PIN 12
 
 // analog pins
-#define BUTTON0_APIN A2        // push button 0 - "mode"
-#define BUTTON1_UP_APIN A3     // tilt button 1 - "increase"
-#define BUTTON1__DOWN_APIN A1  // tilt button 1 - "decrease"
-#define BUTTON2_UP_APIN A3     // tilt button 2 - "increase"
-#define BUTTON2_DOWN_APIN A1   // tilt button 2 - "decrease"
+#define BUTTON0_APIN 13        // push button 0 - "mode"
+#define BUTTON1_UP_APIN 11     // tilt button 1 - "increase"
+#define BUTTON1__DOWN_APIN 10  // tilt button 1 - "decrease"
+#define BUTTON2_UP_APIN 9     // tilt button 2 - "increase"
+#define BUTTON2_DOWN_APIN 8   // tilt button 2 - "decrease"
 
 // RTC pins
 #define RTC_EnablePin 21 //A7 - A5
