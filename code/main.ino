@@ -4,7 +4,7 @@
  * January 2020
  */
 
-//#include "Alarm.h"
+#include "Alarm.h"
 #include "Buzzer.h"
 #include "Nixie.h"
 #include "PushButton.h"
@@ -24,10 +24,10 @@
 #define WDT_TIMEOUT WDTO_4S    // timeout length of the watchdog timer
 
 // Pin variables
-#define ANODE0_PIN 18 //A4 1MIN
-#define ANODE1_PIN 17 //A3 10MIN
-#define ANODE2_PIN 15 //A1 1HR
-#define ANODE3_PIN 14 //A0 10HR
+#define ANODE0_PIN 18  //A4 1MIN
+#define ANODE1_PIN 17  //A3 10MIN
+#define ANODE2_PIN 15  //A1 1HR
+#define ANODE3_PIN 14  //A0 10HR
 
 #define BCD0_PIN 5
 #define BCD1_PIN 4
@@ -41,11 +41,11 @@
 #define BUTTON0_APIN 13        // push button 0 - "mode"
 #define BUTTON1_UP_APIN 11     // tilt button 1 - "increase"
 #define BUTTON1__DOWN_APIN 10  // tilt button 1 - "decrease"
-#define BUTTON2_UP_APIN 9     // tilt button 2 - "increase"
-#define BUTTON2_DOWN_APIN 8   // tilt button 2 - "decrease"
+#define BUTTON2_UP_APIN 9      // tilt button 2 - "increase"
+#define BUTTON2_DOWN_APIN 8    // tilt button 2 - "decrease"
 
 // RTC pins
-#define RTC_EnablePin 21 //A7 - A5
+#define RTC_EnablePin 21  //A7 - A5
 #define RTC_IOPin 20
 #define RTC_SerialPin 19
 DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
@@ -91,7 +91,7 @@ Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
 // create objects
 PushButtonClass PushButton;
 TiltSwitchClass TiltSwitch[2];
-//AlarmClass Alarm;
+AlarmClass Alarm;
 TimerClass Timer;
 TimekeeperClass Timekeeper;
 
