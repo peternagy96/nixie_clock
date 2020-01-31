@@ -24,17 +24,17 @@
 #define WDT_TIMEOUT WDTO_4S    // timeout length of the watchdog timer
 
 // Pin variables
-#define ANODE0_PIN 12
-#define ANODE1_PIN 11
-#define ANODE2_PIN 10
-#define ANODE3_PIN 7
+#define ANODE0_PIN 18 //A4 1MIN
+#define ANODE1_PIN 17 //A3 10MIN
+#define ANODE2_PIN 15 //A1 1HR
+#define ANODE3_PIN 14 //A0 10HR
 
-#define BCD0_PIN 9
-#define BCD1_PIN 6
-#define BCD2_PIN 5
-#define BCD3_PIN 8
+#define BCD0_PIN 5
+#define BCD1_PIN 4
+#define BCD2_PIN 3
+#define BCD3_PIN 2
 
-#define COMMA_PIN 13
+#define COMMA_PIN 16
 
 // analog pins
 #define BUTTON0_APIN A2        // push button 0 - "mode"
@@ -44,12 +44,9 @@
 #define BUTTON2_DOWN_APIN A1   // tilt button 2 - "decrease"
 
 // RTC pins
-//#define RTC_EnablePin 5
-//#define RTC_IOPin 6
-//#define RTC_SerialPin 7
-const int RTC_EnablePin = 5;  // Chip Enable
-const int RTC_IOPin = 6;      // Input/Output
-const int RTC_SerialPin = 7;  // Serial Clock
+#define RTC_EnablePin 21 //A7 - A5
+#define RTC_IOPin 20
+#define RTC_SerialPin 19
 DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
 // menu states
