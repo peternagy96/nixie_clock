@@ -25,15 +25,15 @@
 // Pin variables
 #define ANODE0_PIN 14  //A4 1MIN
 #define ANODE1_PIN 15  //A3 10MIN
-#define ANODE2_PIN 17  //A1 1HR
-#define ANODE3_PIN 18  //A0 10HR
+#define ANODE2_PIN 16  //   COMMA
+#define ANODE3_PIN 17  //A1 1HR
+#define ANODE4_PIN 18  //A0 10HR
 
 #define BCD0_PIN 5
 #define BCD1_PIN 4
 #define BCD2_PIN 3
 #define BCD3_PIN 2
 
-#define COMMA_PIN 16
 #define BUZZER_PIN 30
 #define RTC_VCC_PIN 25
 
@@ -112,12 +112,12 @@ void setup() {
     //delay(3000); // wait for console opening
     G.timeDigits.value[0] = (systemTm.min / 1U) % 10;
     G.timeDigits.value[1] = (systemTm.min / 10U) % 10;
-    G.timeDigits.value[2] = (systemTm.hr / 1U) % 10;
-    G.timeDigits.value[3] = (systemTm.hr / 10U) % 10;
+    G.timeDigits.value[3] = (systemTm.hr / 1U) % 10;
+    G.timeDigits.value[4] = (systemTm.hr / 10U) % 10;
 
     // initialize the nixie tubes
-    Nixie.initialize(ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN,
-                     BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, COMMA_PIN, &G.timeDigits);
+    Nixie.initialize(ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN, ANODE4_PIN,
+                     BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, &G.timeDigits);
 
     // initialize the timekeeper
     //Timekeeper.initialize();

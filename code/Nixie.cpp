@@ -16,19 +16,19 @@
 NixieClass Nixie;
 
 void NixieClass::initialize(uint8_t anodePin0, uint8_t anodePin1, uint8_t anodePin2, uint8_t anodePin3,
-                            uint8_t bcdPin0, uint8_t bcdPin1, uint8_t bcdPin2, uint8_t bcdPin3,
-                            uint8_t commaPin, NixieDigits_s *digits) {
+                            uint8_t anodePin4, uint8_t bcdPin0, uint8_t bcdPin1, uint8_t bcdPin2,
+                            uint8_t bcdPin3, NixieDigits_s *digits) {
     uint8_t i;
-    this->numTubes = 4;
+    this->numTubes = 5;
     this->anodePin[0] = anodePin0;
     this->anodePin[1] = anodePin1;
     this->anodePin[2] = anodePin2;
     this->anodePin[3] = anodePin3;
+    this->anodePin[4] = anodePin4;
     this->bcdPin[0] = bcdPin0;
     this->bcdPin[1] = bcdPin1;
     this->bcdPin[2] = bcdPin2;
     this->bcdPin[3] = bcdPin3;
-    this->commaPin = commaPin;
     this->digits = digits;
     this->digitOnDuration = MAX_ON_DURATION;  // * map(brightness, 0, 255, 0, MAX_ON_DURATION) -> possibility to set brightness
 
@@ -41,8 +41,6 @@ void NixieClass::initialize(uint8_t anodePin0, uint8_t anodePin1, uint8_t anodeP
         pinMode(bcdPin[i], OUTPUT);
         digitalWrite(bcdPin[i], LOW);
     }
-    pinMode(commaPin, OUTPUT);
-    digitalWrite(commaPin, LOW);
 }
 
 void NixieClass::setDigits(NixieDigits_s *digits) {
@@ -74,24 +72,24 @@ void NixieClass::refresh(void)  // ToDo: rewrite and test this function
         if (digit >= numTubes)
             digit = 0;
 
-        bcdVal = digits->value[digit];
-
-        if (slotMachineEnabled[digit] || cppEnabled) {
-            // produce "Slot Machine" or CPP effect
-            bcdVal += slotMachineCnt[digit] + cppCnt;
-            while (bcdVal > 9)
-                bcdVal -= 10;
+        if (digit != 2) {
+            bcdVal = digits->value[digit];
+            if (slotMachineEnabled[digit] || cppEnabled) {
+                // produce "Slot Machine" or CPP effect
+                bcdVal += slotMachineCnt[digit] + cppCnt;
+                while (bcdVal > 9)
+                    bcdVal -= 10;
+            }
+            anodeVal = !(blinkFlag && (digits->blnk[digit] || blinkAllEnabled)) && !digits->blank[digit];
+            digitalWrite(bcdPin[0], bcdVal & 1);
+            digitalWrite(bcdPin[1], (bcdVal >> 1) & 1);
+            digitalWrite(bcdPin[2], (bcdVal >> 2) & 1);
+            digitalWrite(bcdPin[3], (bcdVal >> 3) & 1);
+            digitalWrite(anodePin[digit], anodeVal);
+        } else {
+            commaVal = !(blinkFlag && digits->blnk[digit]) && !digits->blank[digit];
+            digitalWrite(anodePin[digit], commaVal);
         }
-
-        anodeVal = !(blinkFlag && (digits->blnk[digit] || blinkAllEnabled)) && !digits->blank[digit];
-
-        digitalWrite(bcdPin[0], bcdVal & 1);
-        digitalWrite(bcdPin[1], (bcdVal >> 1) & 1);
-        digitalWrite(bcdPin[2], (bcdVal >> 2) & 1);
-        digitalWrite(bcdPin[3], (bcdVal >> 3) & 1);
-        digitalWrite(commaPin, commaVal);
-        //delay(MULTIPLEX_DELAY);
-        digitalWrite(anodePin[digit], anodeVal);
 
         lastTs = ts;
     }
@@ -163,7 +161,6 @@ void NixieClass::blank(void) {
         digitalWrite(anodePin[i], LOW);
     for (i = 0; i < 4; i++)
         digitalWrite(bcdPin[i], LOW);
-    digitalWrite(commaPin, LOW);
 }
 
 void NixieClass::enable(bool enable) {
@@ -207,7 +204,6 @@ void NixieClass::resetDigits(NixieDigits_s *output) {
         output->blank[i] = false;
         output->blnk[i] = false;
     }
-    output->comma = false;
     output->comma_blnk = 0;
-    output->numDigits = NIXIE_NUM_TUBES;
+    output->numDigits = NIXIE_NUM_TUBES - 1;
 }
