@@ -18,16 +18,15 @@
 #include "avr/wdt.h"
 
 // Variables
-#define MULTIPLEX_DELAY 2      // multiplex delay time
 #define ANTIPOISING_DELAY 500  // anti poising delay time
 #define SERIAL_BAUD 9600       // serial baud rate
 #define WDT_TIMEOUT WDTO_4S    // timeout length of the watchdog timer
 
 // Pin variables
-#define ANODE0_PIN 18  //A4 1MIN
-#define ANODE1_PIN 17  //A3 10MIN
-#define ANODE2_PIN 15  //A1 1HR
-#define ANODE3_PIN 14  //A0 10HR
+#define ANODE0_PIN 14  //A4 1MIN
+#define ANODE1_PIN 15  //A3 10MIN
+#define ANODE2_PIN 17  //A1 1HR
+#define ANODE3_PIN 18  //A0 10HR
 
 #define BCD0_PIN 5
 #define BCD1_PIN 4
@@ -87,7 +86,7 @@ typedef struct {
 } G_t;
 
 G_t G;
-Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
+Time systemTm(2020, 1, 1, 12, 34, 0, Time::kMonday);
 
 // create objects
 PushButtonClass PushButton;
@@ -111,6 +110,10 @@ void setup() {
     Serial.println(" ");
 
     //delay(3000); // wait for console opening
+    G.timeDigits.value[0] = (systemTm.min / 1U) % 10;
+    G.timeDigits.value[1] = (systemTm.min / 10U) % 10;
+    G.timeDigits.value[2] = (systemTm.hr / 1U) % 10;
+    G.timeDigits.value[3] = (systemTm.hr / 10U) % 10;
 
     // initialize the nixie tubes
     Nixie.initialize(ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN,
@@ -142,7 +145,7 @@ void loop() {
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
-    setDisplay();  // navigate the settings menu
+    //setDisplay();  // navigate the settings menu
 
     Nixie.refresh();
 }

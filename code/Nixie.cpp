@@ -7,10 +7,11 @@
 #include "Arduino.h"
 
 #define DIGIT_PERIOD 3000
-#define MAX_ON_DURATION 2680
+#define MAX_ON_DURATION 2200  //2680
 #define BLINK_PERIOD 500000
 #define SLOT_MACHINE_PERIOD 40000
 #define CPP_PERIOD 200000
+#define MULTIPLEX_DELAY 2  // multiplex delay time
 
 NixieClass Nixie;
 
@@ -89,6 +90,7 @@ void NixieClass::refresh(void)  // ToDo: rewrite and test this function
         digitalWrite(bcdPin[2], (bcdVal >> 2) & 1);
         digitalWrite(bcdPin[3], (bcdVal >> 3) & 1);
         digitalWrite(commaPin, commaVal);
+        //delay(MULTIPLEX_DELAY);
         digitalWrite(anodePin[digit], anodeVal);
 
         lastTs = ts;
