@@ -59,7 +59,7 @@
 #define RTC_EnablePin 9  //A7 - A5
 #define RTC_IOPin 10
 #define RTC_SerialPin 11
-//DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
+DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
 /*
  * Global variables
@@ -74,7 +74,7 @@ typedef struct {
 } G_t;
 
 G_t G;
-//Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
+Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
 
 // create objects
 //PushButtonClass PushButton;
