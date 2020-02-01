@@ -112,16 +112,16 @@ void setup() {
 void loop() {
     switch (TEST_TYPE) {
         case (0):
-        for (int j = 0; j < 4; j++) {
-            for (int i = 0; i < 10; i++) {
-                digitalWrite(anodePin[j], HIGH);
-                digitalWrite(bcdPin[3], i & 1);
-                digitalWrite(bcdPin[2], (i >> 1) & 1);
-                digitalWrite(bcdPin[1], (i >> 2) & 1);
-                digitalWrite(bcdPin[0], (i >> 3) & 1);
-                delay(500);
-                digitalWrite(anodePin[j], LOW);
+            for (int j = 0; j < 4; j++) {
+                for (int i = 0; i < 10; i++) {
+                    digitalWrite(anodePin[j], HIGH);
+                    digitalWrite(bcdPin[0], i & 1);
+                    digitalWrite(bcdPin[1], (i >> 1) & 1);
+                    digitalWrite(bcdPin[2], (i >> 2) & 1);
+                    digitalWrite(bcdPin[3], (i >> 3) & 1);
+                    delay(100);
+                    digitalWrite(anodePin[j], LOW);
+                }
             }
-        }
     }
 }
