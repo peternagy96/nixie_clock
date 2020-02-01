@@ -46,9 +46,9 @@
 #define BUTTON2_DOWN_APIN 26   // tilt button 2 - "decrease"
 
 // RTC pins
-#define RTC_EnablePin 21  //A7 - A5
-#define RTC_IOPin 20
-#define RTC_SerialPin 19
+#define RTC_EnablePin 9  //A7 - A5
+#define RTC_IOPin 10
+#define RTC_SerialPin 11
 DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
 // menu states

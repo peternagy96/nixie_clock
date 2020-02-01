@@ -56,9 +56,9 @@
 #define BUTTON2_DOWN_APIN 26   // tilt button 2 - "decrease"
 
 // RTC pins
-#define RTC_EnablePin 21  //A7 - A5
-#define RTC_IOPin 20
-#define RTC_SerialPin 19
+#define RTC_EnablePin 9  //A7 - A5
+#define RTC_IOPin 10
+#define RTC_SerialPin 11
 //DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
 /*
@@ -95,18 +95,22 @@ void setup() {
     Serial.println("+ + +  N I X I E  C L O C K  TESTS  + + +");
     Serial.println(" ");
 
+    for (int i = 0; i < 4; i++) {
+        pinMode(anodePin[i], OUTPUT);
+        digitalWrite(anodePin[i], LOW);
+    }
+    for (int i = 0; i < 4; i++) {
+        pinMode(bcdPin[i], OUTPUT);
+        digitalWrite(bcdPin[i], LOW);
+    }
+    pinMode(COMMA_PIN, OUTPUT);
+    digitalWrite(COMMA_PIN, LOW);
+
     switch (TEST_TYPE) {
-        case (0):
-            for (int i = 0; i < 4; i++) {
-                pinMode(anodePin[i], OUTPUT);
-                digitalWrite(anodePin[i], LOW);
-            }
-            for (int i = 0; i < 4; i++) {
-                pinMode(bcdPin[i], OUTPUT);
-                digitalWrite(bcdPin[i], LOW);
-            }
-            pinMode(COMMA_PIN, OUTPUT);
-            digitalWrite(COMMA_PIN, LOW);
+        case (1):
+            // initialize the nixie tubes
+            Nixie.initialize(ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN,
+                             BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, COMMA_PIN, &G.timeDigits);
     }
 }
 
