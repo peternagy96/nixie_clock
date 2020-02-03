@@ -17,7 +17,6 @@ class PushButtonClass {
     bool rising(void);
     bool falling(void);
     bool fallingLongPress(void);
-    bool fallingContinuous(void);
     bool longPress(void);
 
     bool pressed = false;

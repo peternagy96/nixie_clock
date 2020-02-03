@@ -62,10 +62,6 @@ bool PushButtonClass::fallingLongPress(void) {
     return rv;
 }
 
-bool PushButtonClass::fallingContinuous(void) {
-    return !pressed && wasPressed;
-}
-
 bool PushButtonClass::longPress(void) {
     bool rv = false;
     if (pressed && longPressed && millis() - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
