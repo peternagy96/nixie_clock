@@ -7,7 +7,7 @@
 #include "Arduino.h"
 
 #define DIGIT_PERIOD 3000
-#define MAX_ON_DURATION 2200  //2680
+#define MAX_ON_DURATION 2500  //2680
 #define BLINK_PERIOD 500000
 #define SLOT_MACHINE_PERIOD 40000
 #define CPP_PERIOD 200000
@@ -31,6 +31,7 @@ void NixieClass::initialize(uint8_t anodePin0, uint8_t anodePin1, uint8_t anodeP
     this->bcdPin[3] = bcdPin3;
     this->digits = digits;
     this->digitOnDuration = MAX_ON_DURATION;  // * map(brightness, 0, 255, 0, MAX_ON_DURATION) -> possibility to set brightness
+    this->digitPeriod = DIGIT_PERIOD;
 
     // initialize output pins
     for (i = 0; i < numTubes; i++) {

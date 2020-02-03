@@ -121,17 +121,10 @@ void setup() {
 
     // initialize the timekeeper
     //Timekeeper.initialize();
-    rtc.time(systemTm);
-    //if (rtc.lostPower()) {
-    //   rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));  // ToDo: automatically go into set time mode
-    //}
 
-    //if (!rtc.begin()) {
-    //    // ToDo: display message on tubes to let user know that the RTC is not responding
-    //    Serial.println("Couldn't find RTC");
-    //    while (1)
-    //        ;
-    //}
+    //if time on RTC is not the initial time, then do nothing,
+    // otherwise load default systemTm go into SET_TIME mode
+    rtc.time(systemTm);
 
     // enable the watchdog
     wdt_enable(WDT_TIMEOUT);

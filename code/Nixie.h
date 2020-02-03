@@ -129,6 +129,7 @@ class NixieClass {
     uint8_t anodePin[NIXIE_NUM_TUBES];
     uint8_t bcdPin[NIXIE_NUM_TUBES - 1];
     uint32_t digitOnDuration;
+    uint32_t digitPeriod;
     uint32_t lastTs = 0;
     uint8_t digit = 0;
     bool blinkAllEnabled = false;
