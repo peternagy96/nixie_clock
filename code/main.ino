@@ -135,15 +135,17 @@ void loop() {
     // get current time from RTC
     systemTm = rtc.time();  // ToDo: implement it into the chrono class
 
-    //PushButton.readState();
+    PushButton.readState();
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
     //setDisplay();  // navigate the settings menu
     if (PushButton.rising()) {
-        Nixie.enable(false);
-    } else {
-        Nixie.enable(true);
+        if (Nixie.enabled) {
+            Nixie.enable(false);
+        } else {
+            Nixie.enable(true);
+        }
     }
 
     Nixie.refresh();

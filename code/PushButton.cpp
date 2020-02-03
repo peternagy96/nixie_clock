@@ -16,7 +16,7 @@ void PushButtonClass::setPin(uint8_t pin) {
 void PushButtonClass::readState(void) {
     if (digitalRead(pin) == LOW) {
         press();
-    } else {
+    } else if (digitalRead(pin) == HIGH && wasPressed) {
         release();
     }
 }
