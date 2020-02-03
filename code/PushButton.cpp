@@ -8,6 +8,19 @@
 
 #define BUTTON_LONG_PRESS_TIMEOUT (1000)
 
+void PushButtonClass::setPin(uint8_t pin) {
+    pinMode(pin, INPUT);
+    this->pin = pin;
+}
+
+void PushButtonClass::readState(void) {
+    if (digitalRead(pin) == LOW) {
+        press();
+    } else {
+        release();
+    }
+}
+
 void PushButtonClass::press(void) {
     wasPressed = pressed;
     pressed = true;

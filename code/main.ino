@@ -38,7 +38,7 @@
 #define RTC_VCC_PIN 25
 
 // analog pins
-#define BUTTON0_APIN 1         // push button 0 - "mode"
+#define BUTTON0_APIN 6         // push button 0 - "mode"
 #define BUTTON1_UP_APIN 29     // tilt button 1 - "increase"
 #define BUTTON1__DOWN_APIN 28  // tilt button 1 - "decrease"
 #define BUTTON2_UP_APIN 27     // tilt button 2 - "increase"
@@ -121,6 +121,7 @@ void setup() {
 
     // initialize the timekeeper
     //Timekeeper.initialize();
+    PushButton.setPin(BUTTON0_APIN);
 
     //if time on RTC is not the initial time, then do nothing,
     // otherwise load default systemTm go into SET_TIME mode
@@ -134,11 +135,16 @@ void loop() {
     // get current time from RTC
     systemTm = rtc.time();  // ToDo: implement it into the chrono class
 
-    getButtonStates();
+    //PushButton.readState();
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
     //setDisplay();  // navigate the settings menu
+    if (PushButton.rising()) {
+        Nixie.enable(false);
+    } else {
+        Nixie.enable(true);
+    }
 
     Nixie.refresh();
 }
