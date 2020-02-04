@@ -38,7 +38,7 @@
 #define RTC_VCC_PIN 7
 
 // analog pins
-#define BUTTON0_APIN 6;       // push button 0 - "mode"
+#define BUTTON0_APIN 6        // push button 0 - "mode"
 #define BUTTON1_DOWN_APIN 11  // tilt button 1 - "increase"
 #define BUTTON1_UP_APIN 10    // tilt button 1 - "decrease"
 #define BUTTON2_DOWN_APIN 9   // tilt button 2 - "increase"
@@ -48,7 +48,7 @@
 const byte RTC_EnablePin = A5;  //A5
 const byte RTC_IOPin = A6;      //A6 //! cannot be a digital input pin
 const byte RTC_SerialPin = A7;  //A7 //! cannot be a digital input pin
-DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
+//DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
 // menu states
 
@@ -85,7 +85,8 @@ typedef struct {
 } G_t;
 
 G_t G;
-Time systemTm = rtc.time();
+//Time systemTm = rtc.time();
+Time systemTm(2020, 1, 1, 11, 59, 0, Time::kMonday);
 
 // create objects
 PushButtonClass PushButton;
@@ -112,20 +113,19 @@ void setup() {
 
     //if time on RTC is not the initial time, then do nothing,
     // otherwise load default systemTm go into SET_TIME mode
-    pinMode(RTC_VCC_PIN, OUTPUT);
-    digitalWrite(RTC_VCC_PIN, HIGH);
-    rtc.writeProtect(false);
-    rtc.halt(false);
+    //pinMode(RTC_VCC_PIN, OUTPUT);
+    //digitalWrite(RTC_VCC_PIN, HIGH);
+    //rtc.writeProtect(false);
+    //rtc.halt(false);
 
-    Time defaultTm(2020, 1, 1, 11, 59, 0, Time::kMonday);
-    rtc.time(defaultTm);
+    //rtc.time(defaultTm);
 
     // enable the watchdog
     wdt_enable(WDT_TIMEOUT);
 }
 
 void loop() {
-    systemTm = rtc.time();  // ToDo: implement it into the chrono class
+    //systemTm = defaultTm;  //rtc.time();  // ToDo: implement it into the chrono class
 
     Timekeeper.displayTime(G.timeDigits);
 
