@@ -10,6 +10,8 @@
 
 class TiltSwitchClass {
    public:
+    void setPin(uint8_t upPin, uint8_t downPin);
+    void readState(void);
     void setToUp(void);
     void setToDown(void);
     void setToMiddle(void);
@@ -18,6 +20,8 @@ class TiltSwitchClass {
     void incrementLeft(ChronoClass* chrono);
     void decrementLeft(ChronoClass* chrono);
 
+    uint8_t upPin;
+    uint8_t downPin;
     bool up = false;
     bool down = false;
     bool middle = false;

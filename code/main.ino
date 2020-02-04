@@ -38,16 +38,16 @@
 #define RTC_VCC_PIN 25
 
 // analog pins
-#define BUTTON0_APIN 6         // push button 0 - "mode"
-#define BUTTON1_UP_APIN 29     // tilt button 1 - "increase"
-#define BUTTON1__DOWN_APIN 28  // tilt button 1 - "decrease"
-#define BUTTON2_UP_APIN 27     // tilt button 2 - "increase"
-#define BUTTON2_DOWN_APIN 26   // tilt button 2 - "decrease"
+#define BUTTON0_APIN 6        // push button 0 - "mode"
+#define BUTTON1_DOWN_APIN 11  // tilt button 1 - "increase"
+#define BUTTON1_UP_APIN 10    // tilt button 1 - "decrease"
+#define BUTTON2_DOWN_APIN 9   // tilt button 2 - "increase"
+#define BUTTON2_UP_APIN 8     // tilt button 2 - "decrease"
 
 // RTC pins
-#define RTC_EnablePin 9  //A7 - A5
-#define RTC_IOPin 10
-#define RTC_SerialPin 11
+const byte RTC_EnablePin = A5;  //A5
+const byte RTC_IOPin = A6;      //A6
+const byte RTC_SerialPin = A7;  //A7
 DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
 
 // menu states
@@ -122,6 +122,8 @@ void setup() {
     // initialize the timekeeper
     //Timekeeper.initialize();
     PushButton.setPin(BUTTON0_APIN);
+    TiltSwitch[0].setPin(BUTTON1_UP_APIN, BUTTON1_DOWN_APIN);
+    TiltSwitch[1].setPin(BUTTON2_UP_APIN, BUTTON2_DOWN_APIN);
 
     //if time on RTC is not the initial time, then do nothing,
     // otherwise load default systemTm go into SET_TIME mode
@@ -135,11 +137,17 @@ void loop() {
     // get current time from RTC
     systemTm = rtc.time();  // ToDo: implement it into the chrono class
 
-    PushButton.readState();
+    getButtonStates();
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
     //setDisplay();  // navigate the settings menu
+    if (TiltSwitch[0].up || TiltSwitch[1].down) {
+        Nixie.enable(false);
+    } else if (!PushButton.rising()) {
+        Nixie.enable(true);
+    }
+
     if (PushButton.rising()) {
         if (Nixie.enabled) {
             Nixie.enable(false);
@@ -152,11 +160,9 @@ void loop() {
 }
 
 void getButtonStates(void) {
-    // push button
-
-    // tilt switch 0
-
-    // tilt switch 1
+    PushButton.readState();
+    TiltSwitch[0].readState();
+    TiltSwitch[1].readState();
 }
 
 void setDisplay(void) {

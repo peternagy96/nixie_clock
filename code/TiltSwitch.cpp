@@ -3,6 +3,24 @@
 */
 
 #include "TiltSwitch.h"
+#include <Arduino.h>
+
+void TiltSwitchClass::setPin(uint8_t upPin, uint8_t downPin) {
+    pinMode(upPin, INPUT);
+    this->upPin = upPin;
+    pinMode(downPin, INPUT);
+    this->downPin = downPin;
+}
+
+void TiltSwitchClass::readState(void) {
+    if (digitalRead(upPin) == LOW) {
+        setToUp();
+    } else if (digitalRead(downPin) == LOW) {
+        setToDown();
+    } else {
+        setToMiddle();
+    }
+}
 
 void TiltSwitchClass::setToUp(void) {
     up = true;
