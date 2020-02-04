@@ -14,7 +14,7 @@ void PushButtonClass::setPin(uint8_t pin) {
 }
 
 void PushButtonClass::readState(void) {
-    if (digitalRead(pin) == LOW) {
+    if (digitalRead(pin) == LOW && !wasPressed) {
         press();
     } else if (digitalRead(pin) == HIGH && wasPressed) {
         release();
@@ -47,16 +47,6 @@ bool PushButtonClass::falling(void) {
     bool rv = false;
     if (!pressed && wasPressed && !wasLongPressed) {
         wasPressed = pressed;
-        rv = true;
-    }
-    return rv;
-}
-
-bool PushButtonClass::fallingLongPress(void) {
-    bool rv = false;
-    if (!pressed && wasPressed && wasLongPressed) {
-        wasPressed = pressed;
-        wasLongPressed = false;
         rv = true;
     }
     return rv;
