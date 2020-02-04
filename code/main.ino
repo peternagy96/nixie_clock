@@ -35,7 +35,7 @@
 #define BCD3_PIN 2
 
 #define BUZZER_PIN 12
-#define RTC_VCC_PIN 25
+#define RTC_VCC_PIN 7
 
 // analog pins
 #define BUTTON0_APIN 6        // push button 0 - "mode"
@@ -79,7 +79,6 @@ typedef struct {
     bool manuallyAdjusted = true;       // prevent crystal drift compensation if clock was manually adjusted
     MenuState_e menuState = SHOW_TIME;  // stores the state in the menu state machine
     NixieDigits_s timeDigits;           // stores the Nixie display digit values of the current time
-    NixieDigits_s dateDigits;           // stores the Nixie display digit values of the current date
     bool button0State;
     uint8_t switch0State;
     uint8_t switch1State;  // ToDo: store nixie tube display numbers
@@ -93,11 +92,12 @@ PushButtonClass PushButton;
 TiltSwitchClass TiltSwitch[2];
 AlarmClass Alarm;
 TimerClass Timer;
-TimekeeperClass Timekeeper;
 
 void setup() {
     wdt_disable();  // and disable watchdog
 
+    pinMode(RTC_VCC_PIN, OUTPUT);
+    digitalWrite(RTC_VCC_PIN, HIGH);
     rtc.writeProtect(false);
     rtc.halt(false);
 
@@ -105,26 +105,15 @@ void setup() {
     Serial.begin(SERIAL_BAUD);
 #endif
 
-    Serial.println(" ");
-    Serial.println("+ + +  N I X I E  C L O C K  + + +");
-    Serial.println(" ");
-
-    //delay(3000); // wait for console opening
-    G.timeDigits.value[0] = (systemTm.min / 1U) % 10;
-    G.timeDigits.value[1] = (systemTm.min / 10U) % 10;
-    G.timeDigits.value[3] = (systemTm.hr / 1U) % 10;
-    G.timeDigits.value[4] = (systemTm.hr / 10U) % 10;
-
-    // initialize the nixie tubes
     Nixie.initialize(ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN, ANODE4_PIN,
                      BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, &G.timeDigits);
 
-    // initialize the timekeeper
-    //Timekeeper.initialize();
+    Timekeeper.initialize(&systemTm);
+    Buzzer.initialize(BUZZER_PIN);
+
     PushButton.setPin(BUTTON0_APIN);
     TiltSwitch[0].setPin(BUTTON1_UP_APIN, BUTTON1_DOWN_APIN);
     TiltSwitch[1].setPin(BUTTON2_UP_APIN, BUTTON2_DOWN_APIN);
-    Buzzer.initialize(BUZZER_PIN);
 
     //if time on RTC is not the initial time, then do nothing,
     // otherwise load default systemTm go into SET_TIME mode
@@ -135,24 +124,21 @@ void setup() {
 }
 
 void loop() {
-    // get current time from RTC
-    systemTm = rtc.time();  // ToDo: implement it into the chrono class
+    //systemTm = rtc.time();  // ToDo: implement it into the chrono class
 
-    getButtonStates();
-    Buzzer.readState();
+    Timekeeper.displayDate(G.timeDigits);
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
-    //setDisplay();  // navigate the settings menu
+    getButtonStates();
 
-    if (PushButton.rising()) {
-    } else if (PushButton.longPress()) {
-        if (!Buzzer.active) {
-            Buzzer.playMelody2();
-        } else {
-            Buzzer.stop();
-        }
-    }
+    Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
+
+    Buzzer.readState();
+
+    Nixie.refresh();
+
+    //setDisplay();  // navigate the settings menu
 
     Nixie.refresh();
 }

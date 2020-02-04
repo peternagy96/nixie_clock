@@ -6,6 +6,7 @@
 #define __NIXIE_H
 
 #include <stdint.h>
+#include "DS1302.h"
 
 #define NIXIE_NUM_TUBES 5
 

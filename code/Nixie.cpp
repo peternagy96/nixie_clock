@@ -5,6 +5,7 @@
 #include "Nixie.h"
 #include <avr/wdt.h>
 #include "Arduino.h"
+#include "DS1302.h"
 
 #define DIGIT_PERIOD 3000
 #define MAX_ON_DURATION 2500  //2680
