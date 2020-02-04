@@ -34,7 +34,7 @@
 #define BCD2_PIN 3
 #define BCD3_PIN 2
 
-#define BUZZER_PIN 30
+#define BUZZER_PIN 12
 #define RTC_VCC_PIN 25
 
 // analog pins
