@@ -124,6 +124,7 @@ void setup() {
     PushButton.setPin(BUTTON0_APIN);
     TiltSwitch[0].setPin(BUTTON1_UP_APIN, BUTTON1_DOWN_APIN);
     TiltSwitch[1].setPin(BUTTON2_UP_APIN, BUTTON2_DOWN_APIN);
+    Buzzer.initialize(BUZZER_PIN);
 
     //if time on RTC is not the initial time, then do nothing,
     // otherwise load default systemTm go into SET_TIME mode
@@ -138,21 +139,18 @@ void loop() {
     systemTm = rtc.time();  // ToDo: implement it into the chrono class
 
     getButtonStates();
+    Buzzer.readState();
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
     //setDisplay();  // navigate the settings menu
-    if (TiltSwitch[0].up || TiltSwitch[1].down) {
-        Nixie.enable(false);
-    } else if (!PushButton.rising()) {
-        Nixie.enable(true);
-    }
 
     if (PushButton.rising()) {
-        if (Nixie.enabled) {
-            Nixie.enable(false);
+    } else if (PushButton.longPress()) {
+        if (!Buzzer.active) {
+            Buzzer.playMelody2();
         } else {
-            Nixie.enable(true);
+            Buzzer.stop();
         }
     }
 

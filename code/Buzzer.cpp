@@ -16,7 +16,7 @@ void BuzzerClass::initialize(uint8_t buzzerPin) {
     initialized = true;
 }
 
-void BuzzerClass::loopHandler(void) {
+void BuzzerClass::readState(void) {
     uint32_t ts;
 
     if (!initialized || !active) return;

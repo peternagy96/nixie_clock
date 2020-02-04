@@ -9,7 +9,8 @@
 class BuzzerClass {
    public:
     void initialize(uint8_t buzzerPin);
-    void loopHandler(void);
+    void readState(void);
+    void playAlarm(void);
     void playMelody1(void);
     void playMelody2(void);
     void stop(void);
