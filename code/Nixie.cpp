@@ -148,17 +148,17 @@ void NixieClass::blinkAll(void) {
 }
 
 void NixieClass::blinkLeft(void) {
-    digits->blnk[0] = true;
-    digits->blnk[1] = true;
-    digits->blnk[3] = false;
-    digits->blnk[4] = false;
-}
-
-void NixieClass::blinkRight(void) {
     digits->blnk[0] = false;
     digits->blnk[1] = false;
     digits->blnk[3] = true;
     digits->blnk[4] = true;
+}
+
+void NixieClass::blinkRight(void) {
+    digits->blnk[0] = true;
+    digits->blnk[1] = true;
+    digits->blnk[3] = false;
+    digits->blnk[4] = false;
 }
 
 void NixieClass::resetBlinking(void) {
