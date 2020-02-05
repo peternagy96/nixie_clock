@@ -21,7 +21,7 @@
 #define ANTIPOISING_DELAY 500  // anti poising delay time
 #define SERIAL_BAUD 9600       // serial baud rate
 #define WDT_TIMEOUT WDTO_4S    // timeout length of the watchdog timer
-#define SECOND 1000
+#define SECOND (1000)
 
 // Pin variables
 #define ANODE0_PIN 14  //A4 1MIN
@@ -38,7 +38,7 @@
 #define BUZZER_PIN 12
 #define RTC_VCC_PIN 7
 
-// analog pins
+// button pins
 #define BUTTON0_APIN 6        // push button 0 - "mode"
 #define BUTTON1_DOWN_APIN 11  // tilt button 1 - "increase"
 #define BUTTON1_UP_APIN 10    // tilt button 1 - "decrease"
@@ -81,7 +81,8 @@ typedef struct {
     bool button0State;
     uint8_t switch0State;
     uint8_t switch1State;  // ToDo: store nixie tube display numbers
-    uint32_t secTs = -1;
+    uint32_t secTs = 0;
+    bool secFlag = true;
 } G_t;
 
 G_t G;
@@ -119,7 +120,7 @@ void setup() {
     //rtc.time(defaultTm);
 
     if (systemTm.hr == 0 && systemTm.mon == 1) {
-        G.menuState = SET_HOUR;
+        G.menuState = SHOW_TIME;
     }
 
     // enable the watchdog
@@ -129,15 +130,15 @@ void setup() {
 void loop() {
     //systemTm = defaultTm;  //rtc.time();  // ToDo: implement it into the chrono class
 
-    /*
-    if ((G.secTs >= SECOND) || (G.secTs == -1)) {
+    if (G.secFlag) {
+        G.secFlag = false;
         G.secTs = millis();
         Timekeeper.incrementMin();
-    }*/
+    }
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
-    //getButtonStates();
+    getButtonStates();
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
@@ -152,6 +153,10 @@ void loop() {
     displayMenu();
 
     Nixie.refresh();
+
+    if (millis() - G.secTs > SECOND) {
+        G.secFlag = true;
+    }
 }
 
 void getButtonStates(void) {
@@ -224,109 +229,112 @@ void displayMenu(void) {
 
 void navigateMenu(void) {
     // -> set next state depending on button states
-    if (PushButton.rising()) {
-        switch (G.menuState) {
-            case SHOW_TIME:
-                Nixie.blinkNone();
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_DATE;
-                    // ! initialize dateshow Timer
-                } else if (PushButton.longPress() && TiltSwitch[0].middle) {
-                    G.menuState = SET_HOUR;
-                } else if (PushButton.longPress() && TiltSwitch[0].up) {
-                    G.menuState = SET_ALARM1_HOUR;
-                } else if (PushButton.longPress() && TiltSwitch[0].down) {
-                    G.menuState = SET_ALARM2_HOUR;
-                }
-                break;
-            case SET_HOUR:
-                if (PushButton.falling()) {
-                    G.menuState = SET_MIN;
-                }
-                break;
-            case SET_MIN:
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_TIME;
-                }
-                break;
-            case SHOW_TIMER:
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_TIME;
-                } else if (PushButton.longPress()) {
-                    G.menuState = SET_TIMER_MIN;
-                }
-                break;
-            case SET_TIMER_MIN:
-                if (PushButton.falling()) {
-                    G.menuState = SET_TIMER_SEC;
-                }
-                break;
-            case SET_TIMER_SEC:
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_TIMER;
-                }
-                break;
-            case SHOW_DATE:
-                Nixie.blinkNone();
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_TIME;
-                } else if (PushButton.longPress()) {
-                    G.menuState = SET_MONTH;
-                }
-                break;
-            case SHOW_YEAR:
-                Nixie.blinkNone();
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_TIME;
-                } else if (PushButton.longPress()) {
-                    G.menuState = SET_MONTH;
-                }
-                break;
-            case SET_MONTH:
-                Nixie.blinkLeft();
-                // ! blink the month tubes
-                if (PushButton.falling()) {
-                    G.menuState = SET_DAY;
-                }
-                break;
-            case SET_DAY:
-                Nixie.blinkRight();
-                if (PushButton.falling()) {
-                    G.menuState = SET_YEAR;
-                }
-                break;
-            case SET_YEAR:
-                Nixie.blinkAll();
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_DATE;
-                }
-                break;
-            case SHOW_ALARM1:
-                // ! show alarm time for a second when toggle switch is set, then switch to show time
-                break;
-            case SET_ALARM1_HOUR:
-                if (PushButton.falling()) {
-                    G.menuState = SET_ALARM1_MIN;
-                }
-                break;
-            case SET_ALARM1_MIN:
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_ALARM1;
-                }
-                break;
-            case SHOW_ALARM2:
+
+    switch (G.menuState) {
+        case SHOW_TIME:
+            Nixie.blinkNone();
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SHOW_DATE;
+                // ! initialize dateshow Timer
+            } else if (PushButton.longPress() && TiltSwitch[0].middle) {
+                G.menuState = SET_HOUR;
+            } else if (PushButton.longPress() && TiltSwitch[0].up) {
+                G.menuState = SET_ALARM1_HOUR;
+            } else if (PushButton.longPress() && TiltSwitch[0].down) {
+                G.menuState = SET_ALARM2_HOUR;
+            }
+            break;
+        case SET_HOUR:
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SET_MIN;
+            }
+            break;
+        case SET_MIN:
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SHOW_TIME;
+            }
+            break;
+        case SHOW_TIMER:
+            if (PushButton.falling()) {
+                G.menuState = SHOW_TIME;
+            } else if (PushButton.longPress()) {
+                G.menuState = SET_TIMER_MIN;
+            }
+            break;
+        case SET_TIMER_MIN:
+            if (PushButton.falling()) {
+                G.menuState = SET_TIMER_SEC;
+            }
+            break;
+        case SET_TIMER_SEC:
+            if (PushButton.falling()) {
+                G.menuState = SHOW_TIMER;
+            }
+            break;
+        case SHOW_DATE:
+            Nixie.blinkNone();
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SHOW_TIME;
+            } else if (PushButton.longPress()) {
+                G.menuState = SET_MONTH;
+            }
+            break;
+        case SHOW_YEAR:
+            Nixie.blinkNone();
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SHOW_TIME;
+            } else if (PushButton.longPress()) {
+                G.menuState = SET_MONTH;
+            }
+            break;
+        case SET_MONTH:
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SET_DAY;
+            }
+            break;
+        case SET_DAY:
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SET_YEAR;
+            }
+            break;
+        case SET_YEAR:
+            if (PushButton.rising()) {
+            } else if (PushButton.falling()) {
+                G.menuState = SHOW_DATE;
+            }
+            break;
+        case SHOW_ALARM1:
             // ! show alarm time for a second when toggle switch is set, then switch to show time
-            case SET_ALARM2_HOUR:
-                if (PushButton.falling()) {
-                    G.menuState = SET_ALARM2_MIN;
-                }
-                break;
-            case SET_ALARM2_MIN:
-                if (PushButton.falling()) {
-                    G.menuState = SHOW_ALARM2;
-                }
-                break;
-        }
+            break;
+        case SET_ALARM1_HOUR:
+            if (PushButton.falling()) {
+                G.menuState = SET_ALARM1_MIN;
+            }
+            break;
+        case SET_ALARM1_MIN:
+            if (PushButton.falling()) {
+                G.menuState = SHOW_ALARM1;
+            }
+            break;
+        case SHOW_ALARM2:
+        // ! show alarm time for a second when toggle switch is set, then switch to show time
+        case SET_ALARM2_HOUR:
+            if (PushButton.falling()) {
+                G.menuState = SET_ALARM2_MIN;
+            }
+            break;
+        case SET_ALARM2_MIN:
+            if (PushButton.falling()) {
+                G.menuState = SHOW_ALARM2;
+            }
+            break;
     }
 }
 

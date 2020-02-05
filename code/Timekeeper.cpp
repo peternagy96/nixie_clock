@@ -9,7 +9,17 @@ void TimekeeperClass::initialize(Time *time) {
     this->time = time;
 }
 
+void TimekeeperClass::update(void) {
+    time->sec = second;
+    time->min = minute;
+    time->hr = hour;
+    time->day = day;
+    time->mon = month;
+    time->yr = year;
+}
+
 void TimekeeperClass::displayTime(NixieDigits_s &timeDigits) {
+    update();
     timeDigits.value[0] = (time->min / 1U) % 10;
     timeDigits.value[1] = (time->min / 10U) % 10;
     timeDigits.value[3] = (time->hr / 1U) % 10;
@@ -17,6 +27,7 @@ void TimekeeperClass::displayTime(NixieDigits_s &timeDigits) {
 }
 
 void TimekeeperClass::displayDate(NixieDigits_s &timeDigits) {
+    update();
     timeDigits.value[0] = (time->date / 1U) % 10;
     timeDigits.value[1] = (time->date / 10U) % 10;
     timeDigits.value[3] = (time->mon / 1U) % 10;
@@ -24,6 +35,7 @@ void TimekeeperClass::displayDate(NixieDigits_s &timeDigits) {
 }
 
 void TimekeeperClass::displayYear(NixieDigits_s &timeDigits) {
+    update();
     timeDigits.value[0] = (time->yr / 1U) % 10;
     timeDigits.value[1] = (time->yr / 10U) % 10;
     timeDigits.value[3] = (time->yr / 100U) % 10;

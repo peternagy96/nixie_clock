@@ -40,6 +40,7 @@ class TimekeeperClass : public ChronoClass {
 
     void reset(void) volatile;
     void copy(volatile ChronoClass *) volatile;
+    void update(void);
 
     Time *time;
     volatile int8_t second = 0;
