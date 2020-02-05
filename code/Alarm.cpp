@@ -4,6 +4,7 @@
 
 #include "Alarm.h"
 #include <stdint.h>
+#include "Timekeeper.h"
 
 void AlarmClass::initialize(void) {
     alarm = false;
@@ -21,18 +22,26 @@ void AlarmClass::resetAlarm(void) {
     alarm = false;
 }
 
-void AlarmClass::incrementRight(void) volatile {
-    tm.incrementRight();
+void AlarmClass::incrementSec(void) volatile {
+    tm.incrementSec();
 }
 
-void AlarmClass::decrementRight(void) volatile {
-    tm.decrementRight();
+void AlarmClass::decrementSec(void) volatile {
+    tm.decrementSec();
 }
 
-void AlarmClass::incrementLeft(void) volatile {
-    tm.incrementLeft();
+void AlarmClass::incrementMin(void) volatile {
+    tm.incrementMin();
 }
 
-void AlarmClass::decrementLeft(void) volatile {
-    tm.decrementLeft();
+void AlarmClass::decrementMin(void) volatile {
+    tm.decrementMin();
+}
+
+void AlarmClass::incrementHour(void) volatile {
+    tm.incrementHour();
+}
+
+void AlarmClass::decrementHour(void) volatile {
+    tm.decrementHour();
 }

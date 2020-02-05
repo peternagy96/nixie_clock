@@ -82,7 +82,7 @@ void NixieClass::refresh(void)  // ToDo: rewrite and test this function
                 while (bcdVal > 9)
                     bcdVal -= 10;
             }
-            anodeVal = !(blinkFlag && (digits->blnk[digit] || blinkAllEnabled)) && !digits->blank[digit];
+            anodeVal = !(blinkFlag && digits->blnk[digit]) && !digits->blank[digit];
             digitalWrite(bcdPin[0], bcdVal & 1);
             digitalWrite(bcdPin[1], (bcdVal >> 1) & 1);
             digitalWrite(bcdPin[2], (bcdVal >> 2) & 1);
@@ -133,8 +133,32 @@ void NixieClass::refresh(void)  // ToDo: rewrite and test this function
     }
 }
 
-void NixieClass::blinkAll(bool enable) {
-    blinkAllEnabled = enable;
+void NixieClass::blinkNone(void) {
+    digits->blnk[0] = false;
+    digits->blnk[1] = false;
+    digits->blnk[3] = false;
+    digits->blnk[4] = false;
+}
+
+void NixieClass::blinkAll(void) {
+    digits->blnk[0] = true;
+    digits->blnk[1] = true;
+    digits->blnk[3] = true;
+    digits->blnk[4] = true;
+}
+
+void NixieClass::blinkLeft(void) {
+    digits->blnk[0] = true;
+    digits->blnk[1] = true;
+    digits->blnk[3] = false;
+    digits->blnk[4] = false;
+}
+
+void NixieClass::blinkRight(void) {
+    digits->blnk[0] = false;
+    digits->blnk[1] = false;
+    digits->blnk[3] = true;
+    digits->blnk[4] = true;
 }
 
 void NixieClass::resetBlinking(void) {

@@ -10,12 +10,12 @@ void TimerClass::initialize() {
     reset();
 }
 
-void TimerClass::incrementRight(void) volatile {  // ? does this increment mins ir secs
-    tm.incrementRight();
+void TimerClass::incrementSec(void) volatile {  // ? does this increment mins ir secs
+    tm.incrementSec();
 }
 
-void TimerClass::decrementRight(void) volatile {
-    tm.decrementRight();
+void TimerClass::decrementSec(void) volatile {
+    tm.decrementSec();
     if (running && alarmGoesOff()) {
         alarm = true;
     }
@@ -28,12 +28,20 @@ bool TimerClass::alarmGoesOff(void) volatile {
     return false;
 }
 
-void TimerClass::incrementLeft(void) volatile {
-    tm.incrementLeft();
+void TimerClass::incrementMin(void) volatile {
+    tm.incrementMin();
 }
 
-void TimerClass::decrementLeft(void) volatile {
-    tm.decrementLeft();
+void TimerClass::decrementMin(void) volatile {
+    tm.decrementMin();
+}
+
+void TimerClass::incrementHour(void) volatile {
+    tm.incrementHour();
+}
+
+void TimerClass::decrementHour(void) volatile {
+    tm.decrementHour();
 }
 
 void TimerClass::start(void) {
@@ -55,6 +63,5 @@ void TimerClass::resetAlarm(void) {
 void TimerClass::reset(void) {
     resetAlarm();
     running = false;
-    defaultTm.roundup();
     tm.copy(&defaultTm);
 }

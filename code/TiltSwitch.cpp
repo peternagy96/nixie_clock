@@ -40,18 +40,18 @@ void TiltSwitchClass::setToMiddle(void) {
     middle = true;
 }
 
-void TiltSwitchClass::incrementRight(ChronoClass* chrono) {
-    chrono->incrementRight();
+void TiltSwitchClass::incrementHour(ChronoClass* chrono) {
+    chrono->incrementHour();
 }
 
-void TiltSwitchClass::decrementRight(ChronoClass* chrono) {
-    chrono->decrementRight();
+void TiltSwitchClass::decrementHour(ChronoClass* chrono) {
+    chrono->decrementHour();
 }
 
-void TiltSwitchClass::incrementLeft(ChronoClass* chrono) {
-    chrono->incrementLeft();
+void TiltSwitchClass::incrementMin(ChronoClass* chrono) {
+    chrono->incrementMin();
 }
 
-void TiltSwitchClass::decrementLeft(ChronoClass* chrono) {
-    chrono->decrementLeft();
+void TiltSwitchClass::decrementMin(ChronoClass* chrono) {
+    chrono->decrementMin();
 }

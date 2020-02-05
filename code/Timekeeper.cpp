@@ -30,38 +30,96 @@ void TimekeeperClass::displayYear(NixieDigits_s &timeDigits) {
     timeDigits.value[4] = (time->yr / 1000U) % 10;
 }
 
-void TimekeeperClass::incrementRight(void) volatile {
-    minute++;
-    if (minute > 59) minute = 0, hour++;
+void TimekeeperClass::incrementSec(void) volatile {
+    second++;
+    if (second > 59) second = 0, incrementMin();
 }
 
-void TimekeeperClass::decrementRight(void) volatile {
+void TimekeeperClass::decrementSec(void) volatile {
+    second++;
+    if (second < 0) second = 59, decrementMin();
+}
+
+void TimekeeperClass::incrementMin(void) volatile {
+    minute++;
+    if (minute > 59) minute = 0, incrementHour();
+}
+
+void TimekeeperClass::decrementMin(void) volatile {
     minute--;
-    if (minute < 0) minute = 59, hour--;
+    if (minute < 0) minute = 59;
+}
+
+void TimekeeperClass::incrementHour(void) volatile {
+    hour++;
+    if (hour > 23) hour = 0, incrementDay();
+}
+
+void TimekeeperClass::decrementHour(void) volatile {
+    hour--;
     if (hour < 0) hour = 23;
 }
 
-void TimekeeperClass::incrementLeft(void) volatile {
-    hour++;
-    if (hour > 23) hour = 0;
+void TimekeeperClass::incrementDay(void) volatile {
+    day++;
+    if (month == 2 && !isLeapYear() && day > 28) {
+        month++, day = 1;
+    } else if (month == 2 && isLeapYear() && day > 29) {
+        month++, day = 1;
+    } else if (day > 30 && isShortMonth()) {
+        month++, day = 1;
+    } else if (day > 31) {
+        month++, day = 1;
+    }
+    if (month > 12) month = 1, year++;
 }
 
-void TimekeeperClass::decrementLeft(void) volatile {
-    hour--;
-    if (hour < 0) hour = 23, hour--;
+void TimekeeperClass::decrementDay(void) volatile {
+    day--;
+    if (day < 0) {
+        if (month == 2 && !isLeapYear()) {
+            day = 28;
+        } else if (month == 2 && isLeapYear()) {
+            day = 29;
+        } else if (day > 30 && isShortMonth()) {
+            day = 30;
+        } else if (day > 31) {
+            day = 31;
+        }
+    }
+}
+
+bool TimekeeperClass::isLeapYear(void) volatile {
+    if ((year - 2020) % 4 == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool TimekeeperClass::isShortMonth(void) volatile {
+    for (int8_t i = 0; i < 4; i++) {
+        if (month == short_months[i]) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void TimekeeperClass::reset(void) volatile {
+    second = 0;
     minute = 0;
     hour = 0;
+    day = 1;
+    month = 1;
+    year = 2020;
 }
 
 void TimekeeperClass::copy(volatile ChronoClass *tm) volatile {
+    second = tm->second;
     minute = tm->minute;
     hour = tm->hour;
-}
-
-void TimekeeperClass::roundup(void) volatile {
-    if (minute > 59) minute = 0, hour++;
-    if (hour > 23) hour = 0;
+    day = tm->day;
+    month = tm->month;
+    year = tm->year;
 }

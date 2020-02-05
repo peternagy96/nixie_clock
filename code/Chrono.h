@@ -9,13 +9,19 @@
 
 class ChronoClass {
    public:
-    virtual void incrementRight(void) volatile = 0;
-    virtual void decrementRight(void) volatile = 0;
-    virtual void incrementLeft(void) volatile = 0;
-    virtual void decrementLeft(void) volatile = 0;
+    virtual void incrementHour(void) volatile = 0;
+    virtual void decrementHour(void) volatile = 0;
+    virtual void incrementMin(void) volatile = 0;
+    virtual void decrementMin(void) volatile = 0;
+    virtual void incrementSec(void) volatile = 0;
+    virtual void decrementSec(void) volatile = 0;
 
-    volatile int8_t minute;
     volatile int8_t hour;
+    volatile int8_t minute;
+    volatile int8_t second;
+    volatile int8_t day;
+    volatile int8_t month;
+    volatile int8_t year;
 };
 
 #endif

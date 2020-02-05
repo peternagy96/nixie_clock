@@ -12,10 +12,12 @@
 class TimerClass : public ChronoClass {
    public:
     void initialize();
-    void incrementRight(void) volatile;
-    void decrementRight(void) volatile;
-    void incrementLeft(void) volatile;
-    void decrementLeft(void) volatile;
+    void incrementSec(void) volatile;
+    void decrementSec(void) volatile;
+    void incrementMin(void) volatile;
+    void decrementMin(void) volatile;
+    void incrementHour(void) volatile;
+    void decrementHour(void) volatile;
     bool alarmGoesOff(void) volatile;
 
     void start(void);

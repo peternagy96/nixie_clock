@@ -17,7 +17,7 @@ struct NixieDigits_s {
     uint8_t value[NIXIE_NUM_TUBES] = {0};                             /* BCD value */
     bool blank[NIXIE_NUM_TUBES] = {false, false, true, false, false}; /* blank digit */
     uint8_t comma_blnk = 1;                                           /* comma blinking pattern, 0 - no blinking, 1 - single, 2 - double */
-    bool blnk[NIXIE_NUM_TUBES] = {true, true, true, true, true};      /* enable blinking */
+    bool blnk[NIXIE_NUM_TUBES] = {false, false, true, false, false};  /* enable blinking */
     uint8_t numDigits = NIXIE_NUM_TUBES - 1;
 };
 
@@ -64,7 +64,10 @@ class NixieClass {
      * Parameters:
      *   enable : enable/disable blinking
      */
-    void blinkAll(bool enable);
+    void blinkAll(void);
+    void blinkNone(void);
+    void blinkLeft(void);
+    void blinkRight(void);
 
     /*
      * Resets the phase of digit blinking
@@ -133,7 +136,6 @@ class NixieClass {
     uint32_t digitPeriod;
     uint32_t lastTs = 0;
     uint8_t digit = 0;
-    bool blinkAllEnabled = false;
     uint32_t blinkTs = 0;
     bool blinkFlag = false;
     bool slotMachineEnabled[NIXIE_NUM_TUBES - 1] = {false};
