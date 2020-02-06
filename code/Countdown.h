@@ -2,17 +2,19 @@
  * Countdown timer implementation class
  */
 
-#ifndef __TIMER_H
-#define __TIMER_H
+#ifndef __COUNTDOWN_H
+#define __COUNTDOWN_H
 
 #include <stdint.h>
-#include "Timekeeper.h"
+#include "Nixie.h"
 
-class TimerClass {
+class CountdownClass {
    public:
     void initialize();
     void incrementSec(void) volatile;
     void decrementSec(void) volatile;
+    void incrementMin(void) volatile;
+    void decrementMin(void) volatile;
     void setTimeSlow(const char *var, const char *dir);
     void autoTurnoff(void) volatile;
     void displayTime(NixieDigits_s &timeDigits);
@@ -31,8 +33,10 @@ class TimerClass {
 
    private:
     uint32_t alarmTs = 0;
-    TimekeeperClass defaultTm;
-    volatile TimekeeperClass tm;
+    int defaultSec;
+    int defaultMin;
+    int sec;
+    int min;
 };
 
 #endif

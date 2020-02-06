@@ -4,9 +4,8 @@
 #include <Time.h>
 #include "Chrono.h"
 #include "DS1302.h"
-#include "Nixie.h"
 
-#define INCREMENT_TIME (500)
+#define INCREMENT_TIME 500
 
 TimekeeperClass Timekeeper;
 
@@ -228,7 +227,7 @@ bool TimekeeperClass::isLeapYear(void) volatile {
 }
 
 bool TimekeeperClass::isShortMonth(void) volatile {
-    for (uint8_t i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         if (month == short_months[i]) {
             return true;
         }

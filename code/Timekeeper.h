@@ -46,14 +46,14 @@ class TimekeeperClass : public ChronoClass {
     void update(void);
 
     Time *time;
-    volatile uint8_t second = 0;
-    volatile uint8_t minute = 0;
-    volatile uint8_t hour = 0;
-    volatile uint8_t date = 0;
-    volatile uint8_t month = 0;
-    volatile uint16_t year = 0;
-    volatile uint8_t short_months[4] = {4, 6, 9, 11};
-    volatile uint32_t setTs = 0;
+    volatile int second = 0;
+    volatile int minute = 0;
+    volatile int hour = 0;
+    volatile int date = 0;
+    volatile int month = 0;
+    volatile int year = 0;
+    volatile int short_months[4] = {4, 6, 9, 11};
+    volatile int setTs = 0;
     bool isBeingSet = false;
     bool wasSet = false;
 };

@@ -3,12 +3,9 @@
 */
 
 #include "Alarm.h"
-#include "Arduino.h"
-#include "Nixie.h"
-#include "Timekeeper.h"
 
-#define ALARM_TIMEOUT (120000)
-#define INCREMENT_TIME (500)
+#define ALARM_TIMEOUT 120000
+#define INCREMENT_TIME 500
 
 void AlarmClass::initialize(void) {
     alarm = false;

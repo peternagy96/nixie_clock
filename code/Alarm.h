@@ -7,8 +7,6 @@
 
 #include "Timekeeper.h"
 
-#include <stdint.h>
-
 class AlarmClass {
    public:
     void initialize(void);

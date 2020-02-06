@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include <Time.h>
 
-#define BUTTON_LONG_PRESS_TIMEOUT (1000)
+#define BUTTON_LONG_PRESS_TIMEOUT 1000
 
 void PushButtonClass::setPin(uint8_t pin) {
     pinMode(pin, INPUT);

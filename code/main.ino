@@ -6,15 +6,14 @@
 
 #include "Alarm.h"
 #include "Buzzer.h"
+#include "Countdown.h"
 #include "Nixie.h"
 #include "PushButton.h"
 #include "TiltSwitch.h"
 #include "Timekeeper.h"
-#include "Timer.h"
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <stdint.h>
 #include "DS1302.h"
 #include "avr/wdt.h"
 
@@ -22,7 +21,7 @@
 #define ANTIPOISING_DELAY 500  // anti poising delay time
 #define SERIAL_BAUD 9600       // serial baud rate
 #define WDT_TIMEOUT WDTO_4S    // timeout length of the watchdog timer
-#define SECOND (1000)          // 1000
+#define SECOND 1000            // 1000
 
 // Pin variables
 #define ANODE0_PIN 14  //A4 1MIN
@@ -95,7 +94,7 @@ Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
 PushButtonClass PushButton;
 TiltSwitchClass TiltSwitch[2];
 AlarmClass Alarm[2];
-TimerClass Timer;
+CountdownClass Countdown;
 
 void setup() {
     wdt_disable();  // and disable watchdog
@@ -108,7 +107,7 @@ void setup() {
     Timekeeper.initialize(&systemTm);
     Alarm[0].initialize();
     Alarm[1].initialize();
-    Timer.initialize();
+    Countdown.initialize();
     Buzzer.initialize(BUZZER_PIN);
 
     PushButton.setPin(BUTTON0_APIN);
@@ -140,7 +139,7 @@ void loop() {
         G.secFlag = false;
         G.secTs = millis();
         Timekeeper.incrementSec();
-        Timer.loopHandler();
+        Countdown.loopHandler();
     }
 
     // ToDo: implement function to run once a day
@@ -186,7 +185,7 @@ void alarmLoophandler(void) {
     }
     Alarm[0].autoTurnoff();
     Alarm[1].autoTurnoff();
-    Timer.autoTurnoff();
+    Countdown.autoTurnoff();
 }
 
 void displayMenu(void) {
@@ -232,34 +231,37 @@ void displayMenu(void) {
             }
             break;
         case SHOW_TIMER:
+            Countdown.displayTime(G.timeDigits);
             Nixie.blinkNone();
             if (TiltSwitch[1].up) {
-                Timer.runningUp = true;
+                Countdown.stopwatch();
             } else if (TiltSwitch[1].down) {
-                Timer.runningDown = true;
+                Countdown.start();
             } else {
-                Timer.reset();
+                Countdown.reset();
             }
 
             break;
         case SET_TIMER_MIN:
+            Countdown.displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
-                Timer.setTimeSlow("min", "+");
+                Countdown.setTimeSlow("min", "+");
             } else if (TiltSwitch[1].down) {
                 Nixie.blinkNone();
-                Timer.setTimeSlow("min", "-");
+                Countdown.setTimeSlow("min", "-");
             } else {
                 Nixie.blinkLeft();
             }
             break;
         case SET_TIMER_SEC:
+            Countdown.displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
-                Timer.setTimeSlow("sec", "+");
+                Countdown.setTimeSlow("sec", "+");
             } else if (TiltSwitch[1].down) {
                 Nixie.blinkNone();
-                Timer.setTimeSlow("sec", "-");
+                Countdown.setTimeSlow("sec", "-");
             } else {
                 Nixie.blinkRight();
             }
