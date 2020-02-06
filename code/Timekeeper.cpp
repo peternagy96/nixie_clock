@@ -5,7 +5,7 @@
 #include "Chrono.h"
 #include "DS1302.h"
 
-#define INCREMENT_TIME (250)
+#define INCREMENT_TIME (500)
 
 TimekeeperClass Timekeeper;
 
@@ -70,14 +70,12 @@ void TimekeeperClass::decrementSec(void) volatile {
 }
 
 void TimekeeperClass::setSecToNull(void) volatile {
-    minute = 0;  // ! CHANGE TO SECOND
+    second = 0;
     wasSet = false;
 }
 
 void TimekeeperClass::incrementMin(void) volatile {
-    if (!isBeingSet) {  // ! REMOVE
-        minute++;
-    }
+    minute++;
     if (minute > 59) {
         minute = 0;
         if (!isBeingSet) {
@@ -169,7 +167,7 @@ void TimekeeperClass::decrementMonth(void) volatile {
 
 void TimekeeperClass::incrementYear(void) volatile {
     year++;
-    if (year > 12) year = 1;
+    if (year > 9999) year = 2020;
 }
 
 void TimekeeperClass::decrementYear(void) volatile {
@@ -209,7 +207,7 @@ void TimekeeperClass::setTimeSlow(const char *var, const char *dir) volatile {
             } else if (dir == "-") {
                 decrementMonth();
             }
-        } else if (var == "hour") {
+        } else if (var == "year") {
             if (dir == "+") {
                 incrementYear();
             } else if (dir == "-") {

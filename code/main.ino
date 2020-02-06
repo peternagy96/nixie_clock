@@ -21,7 +21,7 @@
 #define ANTIPOISING_DELAY 500  // anti poising delay time
 #define SERIAL_BAUD 9600       // serial baud rate
 #define WDT_TIMEOUT WDTO_4S    // timeout length of the watchdog timer
-#define SECOND (1000)
+#define SECOND (1000)          // 1000
 
 // Pin variables
 #define ANODE0_PIN 14  //A4 1MIN
@@ -133,7 +133,7 @@ void loop() {
     if (G.secFlag) {
         G.secFlag = false;
         G.secTs = millis();
-        Timekeeper.incrementMin();
+        Timekeeper.incrementSec();
     }
 
     // ToDo: implement function to run once a day
@@ -152,13 +152,13 @@ void loop() {
 
     Nixie.refresh();
 
-    displayMenu();
-
-    Nixie.refresh();
-
     if (millis() - G.secTs > SECOND) {
         G.secFlag = true;
     }
+
+    displayMenu();
+
+    Nixie.refresh();
 }
 
 void getButtonStates(void) {
@@ -200,11 +200,11 @@ void displayMenu(void) {
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
                 Timekeeper.wasSet = true;
-                Timekeeper.setTimeSlow("minute", "+");
+                Timekeeper.setTimeSlow("min", "+");
             } else if (TiltSwitch[1].down) {
                 Nixie.blinkNone();
                 Timekeeper.wasSet = true;
-                Timekeeper.setTimeSlow("minute", "-");
+                Timekeeper.setTimeSlow("min", "-");
             } else {
                 Nixie.blinkRight();
             }
@@ -218,24 +218,52 @@ void displayMenu(void) {
         case SHOW_DATE:
             Timekeeper.displayDate(G.timeDigits);
             Nixie.blinkNone();
+            if (G.secFlag) {
+                G.menuState = SHOW_YEAR;
+            }
             break;
         case SHOW_YEAR:
             Timekeeper.displayYear(G.timeDigits);
             Nixie.blinkNone();
-            //basicTiltMode();
-            // ! switch to show_year and back every second
+            if (G.secFlag) {
+                G.menuState = SHOW_DATE;
+            }
             break;
         case SET_MONTH:
             Timekeeper.displayDate(G.timeDigits);
-            Nixie.blinkLeft();
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Timekeeper.setTimeSlow("month", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Timekeeper.setTimeSlow("month", "-");
+            } else {
+                Nixie.blinkLeft();
+            }
             break;
         case SET_DAY:
             Timekeeper.displayDate(G.timeDigits);
-            Nixie.blinkRight();
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Timekeeper.setTimeSlow("date", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Timekeeper.setTimeSlow("date", "-");
+            } else {
+                Nixie.blinkRight();
+            }
             break;
         case SET_YEAR:
             Timekeeper.displayYear(G.timeDigits);
-            Nixie.blinkAll();
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Timekeeper.setTimeSlow("year", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Timekeeper.setTimeSlow("year", "-");
+            } else {
+                Nixie.blinkAll();
+            }
             break;
         case SHOW_ALARM1:
             // ! show alarm time for a second when toggle switch is set, then switch to show time
@@ -260,8 +288,7 @@ void navigateMenu(void) {
     switch (G.menuState) {
         case SHOW_TIME:
             Nixie.blinkNone();
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SHOW_DATE;
                 // ! initialize dateshow Timer
             } else if (PushButton.longPress() && TiltSwitch[0].middle) {
@@ -273,14 +300,12 @@ void navigateMenu(void) {
             }
             break;
         case SET_HOUR:
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SET_MIN;
             }
             break;
         case SET_MIN:
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SHOW_TIME;
             }
             break;
@@ -303,8 +328,7 @@ void navigateMenu(void) {
             break;
         case SHOW_DATE:
             Nixie.blinkNone();
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SHOW_TIME;
             } else if (PushButton.longPress()) {
                 G.menuState = SET_MONTH;
@@ -312,28 +336,24 @@ void navigateMenu(void) {
             break;
         case SHOW_YEAR:
             Nixie.blinkNone();
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SHOW_TIME;
             } else if (PushButton.longPress()) {
                 G.menuState = SET_MONTH;
             }
             break;
         case SET_MONTH:
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SET_DAY;
             }
             break;
         case SET_DAY:
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SET_YEAR;
             }
             break;
         case SET_YEAR:
-            if (PushButton.rising()) {
-            } else if (PushButton.falling()) {
+            if (PushButton.falling()) {
                 G.menuState = SHOW_DATE;
             }
             break;
