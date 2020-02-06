@@ -3,6 +3,7 @@
 */
 
 #include "Buzzer.h"
+#include <stdint.h>
 #include "Arduino.h"
 
 BuzzerClass Buzzer;

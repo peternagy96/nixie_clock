@@ -58,7 +58,7 @@ bool PushButtonClass::falling(void) {
 
 bool PushButtonClass::longPress(void) {
     bool rv = false;
-    if (pressed && longPressed && millis() - longPressTs > BUTTON_LONG_PRESS_TIMEOUT) {
+    if (pressed && longPressed && millis() - longPressTs >= BUTTON_LONG_PRESS_TIMEOUT) {
         longPressed = false;
         wasLongPressed = true;
         rv = true;

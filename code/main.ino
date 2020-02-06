@@ -14,6 +14,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include <stdint.h>
 #include "DS1302.h"
 #include "avr/wdt.h"
 
@@ -83,6 +84,7 @@ typedef struct {
     uint8_t switch1State;  // ToDo: store nixie tube display numbers
     uint32_t secTs = 0;
     bool secFlag = true;
+    bool twoSecFlag = true;
 } G_t;
 
 G_t G;
@@ -92,7 +94,7 @@ Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
 // create objects
 PushButtonClass PushButton;
 TiltSwitchClass TiltSwitch[2];
-AlarmClass Alarm;
+AlarmClass Alarm[2];
 TimerClass Timer;
 
 void setup() {
@@ -104,6 +106,9 @@ void setup() {
                      BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, &G.timeDigits);
 
     Timekeeper.initialize(&systemTm);
+    Alarm[0].initialize();
+    Alarm[1].initialize();
+    Timer.initialize();
     Buzzer.initialize(BUZZER_PIN);
 
     PushButton.setPin(BUTTON0_APIN);
@@ -131,9 +136,11 @@ void loop() {
     //systemTm = defaultTm;  //rtc.time();  // ToDo: implement it into the chrono class
 
     if (G.secFlag) {
+        G.twoSecFlag = !G.twoSecFlag;
         G.secFlag = false;
         G.secTs = millis();
         Timekeeper.incrementSec();
+        Timer.loopHandler();
     }
 
     // ToDo: implement function to run once a day
@@ -148,11 +155,15 @@ void loop() {
 
     Nixie.refresh();
 
+    alarmLoophandler();
+
+    Nixie.refresh();
+
     navigateMenu();
 
     Nixie.refresh();
 
-    if (millis() - G.secTs > SECOND) {
+    if (millis() - G.secTs >= SECOND) {
         G.secFlag = true;
     }
 
@@ -167,18 +178,29 @@ void getButtonStates(void) {
     TiltSwitch[1].readState();
 }
 
+void alarmLoophandler(void) {
+    if (TiltSwitch[0].up) {
+        Alarm[0].alarmGoesOff();
+    } else if (TiltSwitch[0].down) {
+        Alarm[1].alarmGoesOff();
+    }
+    Alarm[0].autoTurnoff();
+    Alarm[1].autoTurnoff();
+    Timer.autoTurnoff();
+}
+
 void displayMenu(void) {
     // show the proper digits and setup proper blinking
     // depending on the tilt switch states increment/decrement variables
     switch (G.menuState) {
         case SHOW_TIME:
+            Nixie.blinkNone();
             Timekeeper.displayTime(G.timeDigits);
             Timekeeper.isBeingSet = false;
             if (Timekeeper.wasSet) {
                 Timekeeper.setSecToNull();
             }
-            Nixie.blinkNone();
-            //basicTiltMode();
+
             break;
         case SET_HOUR:
             Timekeeper.displayTime(G.timeDigits);
@@ -210,10 +232,37 @@ void displayMenu(void) {
             }
             break;
         case SHOW_TIMER:
+            Nixie.blinkNone();
+            if (TiltSwitch[1].up) {
+                Timer.runningUp = true;
+            } else if (TiltSwitch[1].down) {
+                Timer.runningDown = true;
+            } else {
+                Timer.reset();
+            }
+
             break;
         case SET_TIMER_MIN:
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Timer.setTimeSlow("min", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Timer.setTimeSlow("min", "-");
+            } else {
+                Nixie.blinkLeft();
+            }
             break;
         case SET_TIMER_SEC:
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Timer.setTimeSlow("sec", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Timer.setTimeSlow("sec", "-");
+            } else {
+                Nixie.blinkRight();
+            }
             break;
         case SHOW_DATE:
             Timekeeper.displayDate(G.timeDigits);
@@ -225,7 +274,7 @@ void displayMenu(void) {
         case SHOW_YEAR:
             Timekeeper.displayYear(G.timeDigits);
             Nixie.blinkNone();
-            if (G.secFlag) {
+            if (G.twoSecFlag) {
                 G.menuState = SHOW_DATE;
             }
             break;
@@ -266,18 +315,64 @@ void displayMenu(void) {
             }
             break;
         case SHOW_ALARM1:
-            // ! show alarm time for a second when toggle switch is set, then switch to show time
+            Alarm[0].displayTime(G.timeDigits);
+            if (G.twoSecFlag) {
+                G.menuState = SHOW_TIME;
+            }
             break;
         case SET_ALARM1_HOUR:
+            Alarm[0].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Alarm[0].setTimeSlow("hour", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Alarm[0].setTimeSlow("hour", "-");
+            } else {
+                Nixie.blinkLeft();
+            }
             break;
         case SET_ALARM1_MIN:
+            Alarm[0].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Alarm[0].setTimeSlow("min", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Alarm[0].setTimeSlow("min", "-");
+            } else {
+                Nixie.blinkRight();
+            }
             break;
         case SHOW_ALARM2:
+            Alarm[1].displayTime(G.timeDigits);
+            if (G.twoSecFlag) {
+                G.menuState = SHOW_TIME;
+            }
             break;
-        // ! show alarm time for a second when toggle switch is set, then switch to show time
         case SET_ALARM2_HOUR:
+            Alarm[1].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Alarm[1].setTimeSlow("hour", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Alarm[1].setTimeSlow("hour", "-");
+            } else {
+                Nixie.blinkLeft();
+            }
             break;
         case SET_ALARM2_MIN:
+            Alarm[1].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Alarm[1].setTimeSlow("min", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Alarm[1].setTimeSlow("min", "-");
+            } else {
+                Nixie.blinkRight();
+            }
             break;
     }
 }
@@ -287,7 +382,6 @@ void navigateMenu(void) {
 
     switch (G.menuState) {
         case SHOW_TIME:
-            Nixie.blinkNone();
             if (PushButton.falling()) {
                 G.menuState = SHOW_DATE;
                 // ! initialize dateshow Timer
@@ -329,7 +423,7 @@ void navigateMenu(void) {
         case SHOW_DATE:
             Nixie.blinkNone();
             if (PushButton.falling()) {
-                G.menuState = SHOW_TIME;
+                G.menuState = SHOW_TIMER;
             } else if (PushButton.longPress()) {
                 G.menuState = SET_MONTH;
             }
@@ -337,7 +431,7 @@ void navigateMenu(void) {
         case SHOW_YEAR:
             Nixie.blinkNone();
             if (PushButton.falling()) {
-                G.menuState = SHOW_TIME;
+                G.menuState = SHOW_TIMER;
             } else if (PushButton.longPress()) {
                 G.menuState = SET_MONTH;
             }
@@ -358,7 +452,6 @@ void navigateMenu(void) {
             }
             break;
         case SHOW_ALARM1:
-            // ! show alarm time for a second when toggle switch is set, then switch to show time
             break;
         case SET_ALARM1_HOUR:
             if (PushButton.falling()) {
@@ -371,7 +464,7 @@ void navigateMenu(void) {
             }
             break;
         case SHOW_ALARM2:
-        // ! show alarm time for a second when toggle switch is set, then switch to show time
+            break;
         case SET_ALARM2_HOUR:
             if (PushButton.falling()) {
                 G.menuState = SET_ALARM2_MIN;
@@ -383,88 +476,4 @@ void navigateMenu(void) {
             }
             break;
     }
-}
-
-void tiltMode(void) {
-    /* switch (G.menuState) {
-        SHOW_TIME,
-            SET_HOUR,
-            SET_MIN,
-            SHOW_TIMER,
-            SET_TIMER_MIN,
-            SET_TIMER_SEC,
-            SHOW_DATE,
-            SHOW_YEAR,
-            SET_MONTH,
-            SET_DAY,
-            SET_YEAR,
-            SHOW_ALARM1,
-            SET_ALARM1_HOUR,
-            SET_ALARM1_MIN,
-            SHOW_ALARM2,
-            SET_ALARM2_HOUR,
-            SET_ALARM2_MIN
-    }*/
-}
-
-void basicTiltMode(void) {
-    if (TiltSwitch[0].up) {
-        // ! enable alarm 1
-    } else if (TiltSwitch[0].down) {
-        // ! enable alarm 2
-    } else {
-        // ! disable bpth alarms
-    }
-
-    if (TiltSwitch[1].up) {
-        // ! disable nixie display
-    } else if (TiltSwitch[1].down) {
-        // ! enable nixie display
-        // ! disable power saving mode
-    } else {
-        // ! enable power saving mode
-    }
-}
-
-void updateDigits() {
-    static int8_t lastMin = 0;
-
-    // check whether current state requires time or date display
-    G.timeDigits.value[0] = dec2bcdLow(systemTm.min);
-    G.timeDigits.value[1] = dec2bcdHigh(systemTm.min);
-    G.timeDigits.value[2] = dec2bcdLow(systemTm.hr);
-    G.timeDigits.value[3] = dec2bcdHigh(systemTm.hr);
-    /*G.dateDigits.value[0] = dec2bcdLow  (G.systemTm->tm_year);
-  G.dateDigits.value[1] = dec2bcdHigh (G.systemTm->tm_year);
-  G.dateDigits.value[2] = dec2bcdLow  (G.systemTm->tm_mon + 1);
-  G.dateDigits.value[3] = dec2bcdHigh (G.systemTm->tm_mon + 1);
-  G.dateDigits.value[4] = dec2bcdLow  (G.systemTm->tm_mday);
-  G.dateDigits.value[5] = dec2bcdHigh (G.systemTm->tm_mday); */
-
-    if (G.menuState == SHOW_TIME) {
-        // trigger Nixie digit "Slot Machine" effect
-        if (systemTm.min != lastMin && (G.timeDigits.value[2] == 0)) {
-            Nixie.slotMachine();
-        }
-        // trigger the cathode poisoning prevention routine
-        if (G.timeDigits.value[0] == 0) {
-            Nixie.cathodePoisonPrevent();
-        }
-    }
-    lastMin = systemTm.min;
-}
-
-uint8_t dec2bcdLow(uint8_t value) {
-    while (value >= 10) value -= 10;
-    return value;
-}
-
-uint8_t dec2bcdHigh(uint8_t value) {
-    uint8_t rv = 0;
-    while (value >= 100) value -= 100;
-    while (value >= 10) {
-        value -= 10;
-        rv++;
-    }
-    return rv;
 }

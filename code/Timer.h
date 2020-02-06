@@ -6,30 +6,31 @@
 #define __TIMER_H
 
 #include <stdint.h>
-#include "Chrono.h"
 #include "Timekeeper.h"
 
-class TimerClass : public ChronoClass {
+class TimerClass {
    public:
     void initialize();
     void incrementSec(void) volatile;
     void decrementSec(void) volatile;
-    void incrementMin(void) volatile;
-    void decrementMin(void) volatile;
-    void incrementHour(void) volatile;
-    void decrementHour(void) volatile;
-    bool alarmGoesOff(void) volatile;
+    void setTimeSlow(const char *var, const char *dir);
+    void autoTurnoff(void) volatile;
+    void displayTime(NixieDigits_s &timeDigits);
+    void loopHandler(void);
+    void stopwatch(void);
 
     void start(void);
     void stop(void);
     void resetAlarm(void);
     void reset(void);
 
-    volatile bool running = false;
-    volatile bool alarm = false;
+    bool runningDown = false;
+    bool runningUp = false;
+    bool alarm = false;
+    uint32_t setTs = 0;
 
    private:
-    uint32_t alarmTs = 0;  // ToDo: implement timeout for the alarm
+    uint32_t alarmTs = 0;
     TimekeeperClass defaultTm;
     volatile TimekeeperClass tm;
 };

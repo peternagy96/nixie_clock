@@ -3,6 +3,11 @@
 */
 
 #include "Timer.h"
+#include "Arduino.h"
+#include "Nixie.h"
+
+#define ALARM_TIMEOUT (120000)
+#define INCREMENT_TIME (500)
 
 void TimerClass::initialize() {
     defaultTm.second = 0;
@@ -10,47 +15,51 @@ void TimerClass::initialize() {
     reset();
 }
 
-void TimerClass::incrementSec(void) volatile {  // ? does this increment mins ir secs
+void TimerClass::displayTime(NixieDigits_s &timeDigits) {
+    timeDigits.value[0] = (tm.minute / 1U) % 10;
+    timeDigits.value[1] = (tm.minute / 10U) % 10;
+    timeDigits.value[3] = (tm.hour / 1U) % 10;
+    timeDigits.value[4] = (tm.hour / 10U) % 10;
+}
+
+void TimerClass::incrementSec(void) volatile {
     tm.incrementSec();
 }
 
 void TimerClass::decrementSec(void) volatile {
     tm.decrementSec();
-    if (running && alarmGoesOff()) {
+    if (runningDown && tm.minute == 0 && tm.second == 0 && !alarm) {
         alarm = true;
+        alarmTs = millis();
     }
 }
 
-bool TimerClass::alarmGoesOff(void) volatile {
-    if (tm.minute == 0 && tm.hour == 0) {
-        return true;
+void TimerClass::autoTurnoff(void) volatile {
+    if ((millis() - alarmTs >= ALARM_TIMEOUT) && alarm) {
+        alarm = false;
     }
-    return false;
 }
 
-void TimerClass::incrementMin(void) volatile {
-    tm.incrementMin();
+void TimerClass::stopwatch(void) {
+    defaultTm.copy(&tm);
+    runningUp = true;
 }
 
-void TimerClass::decrementMin(void) volatile {
-    tm.decrementMin();
-}
-
-void TimerClass::incrementHour(void) volatile {
-    tm.incrementHour();
-}
-
-void TimerClass::decrementHour(void) volatile {
-    tm.decrementHour();
+void TimerClass::loopHandler(void) {
+    if (runningUp) {
+        incrementSec();
+    } else if (runningDown) {
+        decrementSec();
+    }
 }
 
 void TimerClass::start(void) {
     defaultTm.copy(&tm);
-    running = true;
+    runningDown = true;
 }
 
 void TimerClass::stop(void) {
-    running = false;
+    runningDown = false;
 }
 
 void TimerClass::resetAlarm(void) {
@@ -62,6 +71,26 @@ void TimerClass::resetAlarm(void) {
 
 void TimerClass::reset(void) {
     resetAlarm();
-    running = false;
+    runningDown = false;
+    runningUp = false;
     tm.copy(&defaultTm);
+}
+
+void TimerClass::setTimeSlow(const char *var, const char *dir) {
+    if (millis() - setTs > INCREMENT_TIME) {
+        if (var == "min") {
+            if (dir == "+") {
+                tm.incrementMin();
+            } else if (dir == "-") {
+                tm.decrementMin();
+            }
+        } else if (var == "hour") {
+            if (dir == "+") {
+                tm.incrementHour();
+            } else if (dir == "-") {
+                tm.decrementHour();
+            }
+        }
+        setTs = millis();
+    }
 }
