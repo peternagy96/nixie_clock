@@ -25,18 +25,21 @@ class TimekeeperClass : public ChronoClass {
     */
     void incrementSec(void) volatile;
     void decrementSec(void) volatile;
+    void setSecToNull(void) volatile;
     void incrementMin(void) volatile;
     void decrementMin(void) volatile;
     void incrementHour(void) volatile;
     void decrementHour(void) volatile;
-    void incrementDay(void) volatile;
-    void decrementDay(void) volatile;
+    void incrementDate(void) volatile;
+    void decrementDate(void) volatile;
     void incrementMonth(void) volatile;
     void decrementMonth(void) volatile;
     void incrementYear(void) volatile;
     void decrementYear(void) volatile;
     bool isShortMonth(void) volatile;
     bool isLeapYear(void) volatile;
+
+    void setTimeSlow(const char *var, const char *dir) volatile;
 
     void reset(void) volatile;
     void copy(volatile ChronoClass *) volatile;
@@ -46,10 +49,13 @@ class TimekeeperClass : public ChronoClass {
     volatile int8_t second = 0;
     volatile int8_t minute = 0;
     volatile int8_t hour = 0;
-    volatile int8_t day = 0;
+    volatile int8_t date = 0;
     volatile int8_t month = 0;
     volatile int16_t year = 0;
     volatile int8_t short_months[4] = {4, 6, 9, 11};
+    volatile int32_t setTs = 0;
+    bool isBeingSet = false;
+    bool wasSet = false;
 };
 
 extern TimekeeperClass Timekeeper;

@@ -136,11 +136,13 @@ void loop() {
         Timekeeper.incrementMin();
     }
 
+    // ToDo: implement function to run once a day
+
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
 
     getButtonStates();
 
-    Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
+    Nixie.refresh();
 
     Buzzer.readState();
 
@@ -171,16 +173,41 @@ void displayMenu(void) {
     switch (G.menuState) {
         case SHOW_TIME:
             Timekeeper.displayTime(G.timeDigits);
+            Timekeeper.isBeingSet = false;
+            if (Timekeeper.wasSet) {
+                Timekeeper.setSecToNull();
+            }
             Nixie.blinkNone();
             //basicTiltMode();
             break;
         case SET_HOUR:
             Timekeeper.displayTime(G.timeDigits);
-            Nixie.blinkLeft();
+            Timekeeper.isBeingSet = true;
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Timekeeper.wasSet = true;
+                Timekeeper.setTimeSlow("hour", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Timekeeper.wasSet = true;
+                Timekeeper.setTimeSlow("hour", "-");
+            } else {
+                Nixie.blinkLeft();
+            }
             break;
         case SET_MIN:
             Timekeeper.displayTime(G.timeDigits);
-            Nixie.blinkRight();
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Timekeeper.wasSet = true;
+                Timekeeper.setTimeSlow("minute", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Timekeeper.wasSet = true;
+                Timekeeper.setTimeSlow("minute", "-");
+            } else {
+                Nixie.blinkRight();
+            }
             break;
         case SHOW_TIMER:
             break;

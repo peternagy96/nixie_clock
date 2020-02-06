@@ -19,7 +19,7 @@ class ChronoClass {
     volatile int8_t hour;
     volatile int8_t minute;
     volatile int8_t second;
-    volatile int8_t day;
+    volatile int8_t date;
     volatile int8_t month;
     volatile int8_t year;
 };

@@ -1,19 +1,29 @@
 
 #include "Timekeeper.h"
+#include <Arduino.h>
+#include <Time.h>
 #include "Chrono.h"
 #include "DS1302.h"
+
+#define INCREMENT_TIME (250)
 
 TimekeeperClass Timekeeper;
 
 void TimekeeperClass::initialize(Time *time) {
     this->time = time;
+    second = time->sec;
+    minute = time->min;
+    hour = time->hr;
+    date = time->date;
+    month = time->mon;
+    year = time->yr;
 }
 
 void TimekeeperClass::update(void) {
     time->sec = second;
     time->min = minute;
     time->hr = hour;
-    time->day = day;
+    time->date = date;
     time->mon = month;
     time->yr = year;
 }
@@ -43,61 +53,170 @@ void TimekeeperClass::displayYear(NixieDigits_s &timeDigits) {
 }
 
 void TimekeeperClass::incrementSec(void) volatile {
-    second++;
-    if (second > 59) second = 0, incrementMin();
+    if (!isBeingSet) {
+        second++;
+        if (second > 59) second = 0, incrementMin();
+    }
 }
 
 void TimekeeperClass::decrementSec(void) volatile {
-    second++;
-    if (second < 0) second = 59, decrementMin();
+    second--;
+    if (second < 0) {
+        second = 59;
+        if (!isBeingSet) {
+            decrementMin();
+        }
+    }
+}
+
+void TimekeeperClass::setSecToNull(void) volatile {
+    minute = 0;  // ! CHANGE TO SECOND
+    wasSet = false;
 }
 
 void TimekeeperClass::incrementMin(void) volatile {
-    minute++;
-    if (minute > 59) minute = 0, incrementHour();
+    if (!isBeingSet) {  // ! REMOVE
+        minute++;
+    }
+    if (minute > 59) {
+        minute = 0;
+        if (!isBeingSet) {
+            incrementHour();
+        }
+    }
 }
 
 void TimekeeperClass::decrementMin(void) volatile {
     minute--;
-    if (minute < 0) minute = 59;
+    if (minute < 0) {
+        minute = 59;
+        if (!isBeingSet) {
+            decrementHour();
+        }
+    }
 }
 
 void TimekeeperClass::incrementHour(void) volatile {
     hour++;
-    if (hour > 23) hour = 0, incrementDay();
+    if (hour > 23) {
+        hour = 0;
+        if (!isBeingSet) {
+            incrementDate();
+        }
+    }
 }
 
 void TimekeeperClass::decrementHour(void) volatile {
     hour--;
-    if (hour < 0) hour = 23;
-}
-
-void TimekeeperClass::incrementDay(void) volatile {
-    day++;
-    if (month == 2 && !isLeapYear() && day > 28) {
-        month++, day = 1;
-    } else if (month == 2 && isLeapYear() && day > 29) {
-        month++, day = 1;
-    } else if (day > 30 && isShortMonth()) {
-        month++, day = 1;
-    } else if (day > 31) {
-        month++, day = 1;
-    }
-    if (month > 12) month = 1, year++;
-}
-
-void TimekeeperClass::decrementDay(void) volatile {
-    day--;
-    if (day < 0) {
-        if (month == 2 && !isLeapYear()) {
-            day = 28;
-        } else if (month == 2 && isLeapYear()) {
-            day = 29;
-        } else if (day > 30 && isShortMonth()) {
-            day = 30;
-        } else if (day > 31) {
-            day = 31;
+    if (hour < 0) {
+        hour = 23;
+        if (!isBeingSet) {
+            decrementDate();
         }
+    }
+}
+
+void TimekeeperClass::incrementDate(void) volatile {
+    date++;
+    if (month == 2 && !isLeapYear() && date > 28) {
+        if (!isBeingSet) {
+            month++;
+        }
+        date = 1;
+    } else if (month == 2 && isLeapYear() && date > 29) {
+        if (!isBeingSet) {
+            month++;
+        }
+        date = 1;
+    } else if (date > 30 && isShortMonth()) {
+        if (!isBeingSet) {
+            month++;
+        }
+        date = 1;
+    } else if (date > 31) {
+        if (!isBeingSet) {
+            month++;
+        }
+        date = 1;
+    }
+    if (month > 12 && !isBeingSet) month = 1, year++;
+}
+
+void TimekeeperClass::decrementDate(void) volatile {
+    date--;
+    if (date < 0) {
+        if (month == 2 && !isLeapYear()) {
+            date = 28;
+        } else if (month == 2 && isLeapYear()) {
+            date = 29;
+        } else if (date > 30 && isShortMonth()) {
+            date = 30;
+        } else if (date > 31) {
+            date = 31;
+        }
+    }
+}
+
+void TimekeeperClass::incrementMonth(void) volatile {
+    month++;
+    if (month > 12) month = 1;
+}
+
+void TimekeeperClass::decrementMonth(void) volatile {
+    month--;
+    if (month < 0) month = 12;
+}
+
+void TimekeeperClass::incrementYear(void) volatile {
+    year++;
+    if (year > 12) year = 1;
+}
+
+void TimekeeperClass::decrementYear(void) volatile {
+    year--;
+    if (year < 0) year = 9999;
+}
+
+void TimekeeperClass::setTimeSlow(const char *var, const char *dir) volatile {
+    if (millis() - setTs > INCREMENT_TIME) {
+        if (var == "sec") {
+            if (dir == "+") {
+                incrementSec();
+            } else if (dir == "-") {
+                decrementSec();
+            }
+        } else if (var == "min") {
+            if (dir == "+") {
+                incrementMin();
+            } else if (dir == "-") {
+                decrementMin();
+            }
+        } else if (var == "hour") {
+            if (dir == "+") {
+                incrementHour();
+            } else if (dir == "-") {
+                decrementHour();
+            }
+        } else if (var == "date") {
+            if (dir == "+") {
+                incrementDate();
+            } else if (dir == "-") {
+                decrementDate();
+            }
+        } else if (var == "month") {
+            if (dir == "+") {
+                incrementMonth();
+            } else if (dir == "-") {
+                decrementMonth();
+            }
+        } else if (var == "hour") {
+            if (dir == "+") {
+                incrementYear();
+            } else if (dir == "-") {
+                decrementYear();
+            }
+        }
+        setTs = millis();
     }
 }
 
@@ -122,7 +241,7 @@ void TimekeeperClass::reset(void) volatile {
     second = 0;
     minute = 0;
     hour = 0;
-    day = 1;
+    date = 1;
     month = 1;
     year = 2020;
 }
@@ -131,7 +250,7 @@ void TimekeeperClass::copy(volatile ChronoClass *tm) volatile {
     second = tm->second;
     minute = tm->minute;
     hour = tm->hour;
-    day = tm->day;
+    date = tm->date;
     month = tm->month;
     year = tm->year;
 }
