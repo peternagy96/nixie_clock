@@ -5,7 +5,7 @@
 #ifndef __CHRONO_H
 #define __CHRONO_H
 
-#include <stdint.h>
+#include <Arduino.h>
 
 class ChronoClass {
    public:
@@ -16,12 +16,12 @@ class ChronoClass {
     virtual void incrementSec(void) volatile = 0;
     virtual void decrementSec(void) volatile = 0;
 
-    volatile uint8_t hour;
-    volatile uint8_t minute;
-    volatile uint8_t second;
-    volatile uint8_t date;
-    volatile uint8_t month;
-    volatile uint8_t year;
+    volatile int8_t hour;
+    volatile int8_t minute;
+    volatile int8_t second;
+    volatile int8_t date;
+    volatile int8_t month;
+    volatile int8_t year;
 };
 
 #endif

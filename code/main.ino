@@ -14,6 +14,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include <time.h>
 #include "DS1302.h"
 #include "avr/wdt.h"
 
@@ -78,12 +79,11 @@ typedef struct {
     bool manuallyAdjusted = true;       // prevent crystal drift compensation if clock was manually adjusted
     MenuState_e menuState = SHOW_TIME;  // stores the state in the menu state machine
     NixieDigits_s timeDigits;           // stores the Nixie display digit values of the current time
-    bool button0State;
-    uint8_t switch0State;
-    uint8_t switch1State;  // ToDo: store nixie tube display numbers
     uint32_t secTs = 0;
     bool secFlag = true;
     bool twoSecFlag = true;
+    bool showAlarmFlag = false;
+    uint8_t secCnt = 0;
 } G_t;
 
 G_t G;
@@ -138,6 +138,13 @@ void loop() {
         G.twoSecFlag = !G.twoSecFlag;
         G.secFlag = false;
         G.secTs = millis();
+        if (G.secCnt < 3 && G.showAlarmFlag) {
+            G.secCnt++;
+        } else if (G.showAlarmFlag) {
+            G.secCnt = 0;
+            G.showAlarmFlag = false;
+        }
+
         Timekeeper.incrementSec();
         Countdown.loopHandler();
     }
@@ -178,14 +185,26 @@ void getButtonStates(void) {
 }
 
 void alarmLoophandler(void) {
-    if (TiltSwitch[0].up) {
-        Alarm[0].alarmGoesOff();
-    } else if (TiltSwitch[0].down) {
-        Alarm[1].alarmGoesOff();
+    if (TiltSwitch[0].up && !Alarm[0].isBeingSet) {
+        Alarm[0].alarmGoesOff(systemTm);
+    } else if (TiltSwitch[0].down && !Alarm[1].isBeingSet) {
+        Alarm[1].alarmGoesOff(systemTm);
     }
     Alarm[0].autoTurnoff();
     Alarm[1].autoTurnoff();
     Countdown.autoTurnoff();
+    if (Alarm[0].alarm || Alarm[1].alarm || Countdown.alarm) {
+        Buzzer.playMelody1();
+    } else {
+        Buzzer.stop();
+    }
+
+    if (TiltSwitch[0].middle) {
+        Alarm[0].alarm = false;
+        Alarm[1].alarm = false;
+        Alarm[0].active = true;
+        Alarm[1].active = true;
+    }
 }
 
 void displayMenu(void) {
@@ -199,7 +218,6 @@ void displayMenu(void) {
             if (Timekeeper.wasSet) {
                 Timekeeper.setSecToNull();
             }
-
             break;
         case SET_HOUR:
             Timekeeper.displayTime(G.timeDigits);
@@ -236,9 +254,12 @@ void displayMenu(void) {
             if (TiltSwitch[1].up) {
                 Countdown.stopwatch();
             } else if (TiltSwitch[1].down) {
-                Countdown.start();
+                if (Countdown.enabled) {
+                    Countdown.start();
+                }
             } else {
                 Countdown.reset();
+                Buzzer.stop();
             }
 
             break;
@@ -268,6 +289,7 @@ void displayMenu(void) {
             break;
         case SHOW_DATE:
             Timekeeper.displayDate(G.timeDigits);
+            Timekeeper.isBeingSet = false;
             Nixie.blinkNone();
             if (G.secFlag) {
                 G.menuState = SHOW_YEAR;
@@ -275,6 +297,7 @@ void displayMenu(void) {
             break;
         case SHOW_YEAR:
             Timekeeper.displayYear(G.timeDigits);
+            Timekeeper.isBeingSet = false;
             Nixie.blinkNone();
             if (G.twoSecFlag) {
                 G.menuState = SHOW_DATE;
@@ -282,6 +305,7 @@ void displayMenu(void) {
             break;
         case SET_MONTH:
             Timekeeper.displayDate(G.timeDigits);
+            Timekeeper.isBeingSet = true;
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
                 Timekeeper.setTimeSlow("month", "+");
@@ -294,6 +318,7 @@ void displayMenu(void) {
             break;
         case SET_DAY:
             Timekeeper.displayDate(G.timeDigits);
+            Timekeeper.isBeingSet = true;
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
                 Timekeeper.setTimeSlow("date", "+");
@@ -306,6 +331,7 @@ void displayMenu(void) {
             break;
         case SET_YEAR:
             Timekeeper.displayYear(G.timeDigits);
+            Timekeeper.isBeingSet = true;
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
                 Timekeeper.setTimeSlow("year", "+");
@@ -317,12 +343,19 @@ void displayMenu(void) {
             }
             break;
         case SHOW_ALARM1:
+            Nixie.blinkNone();
+            Alarm[0].active = true;
+            if (Alarm[0].isBeingSet) {
+                G.showAlarmFlag = true;
+                Alarm[0].isBeingSet = false;
+            }
             Alarm[0].displayTime(G.timeDigits);
-            if (G.twoSecFlag) {
+            if (!G.showAlarmFlag) {
                 G.menuState = SHOW_TIME;
             }
             break;
         case SET_ALARM1_HOUR:
+            Alarm[0].isBeingSet = true;
             Alarm[0].displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
@@ -335,6 +368,7 @@ void displayMenu(void) {
             }
             break;
         case SET_ALARM1_MIN:
+            Alarm[0].isBeingSet = true;
             Alarm[0].displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
@@ -347,12 +381,19 @@ void displayMenu(void) {
             }
             break;
         case SHOW_ALARM2:
+            Nixie.blinkNone();
+            Alarm[1].active = true;
+            if (Alarm[1].isBeingSet) {
+                G.showAlarmFlag = true;
+                Alarm[1].isBeingSet = false;
+            }
             Alarm[1].displayTime(G.timeDigits);
-            if (G.twoSecFlag) {
+            if (!G.showAlarmFlag) {
                 G.menuState = SHOW_TIME;
             }
             break;
         case SET_ALARM2_HOUR:
+            Alarm[1].isBeingSet = true;
             Alarm[1].displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
@@ -365,6 +406,7 @@ void displayMenu(void) {
             }
             break;
         case SET_ALARM2_MIN:
+            Alarm[1].isBeingSet = true;
             Alarm[1].displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
@@ -386,13 +428,14 @@ void navigateMenu(void) {
         case SHOW_TIME:
             if (PushButton.falling()) {
                 G.menuState = SHOW_DATE;
-                // ! initialize dateshow Timer
-            } else if (PushButton.longPress() && TiltSwitch[0].middle) {
-                G.menuState = SET_HOUR;
-            } else if (PushButton.longPress() && TiltSwitch[0].up) {
-                G.menuState = SET_ALARM1_HOUR;
-            } else if (PushButton.longPress() && TiltSwitch[0].down) {
-                G.menuState = SET_ALARM2_HOUR;
+            } else if (PushButton.longPress()) {
+                if (TiltSwitch[0].middle) {
+                    G.menuState = SET_HOUR;
+                } else if (TiltSwitch[0].up) {
+                    G.menuState = SET_ALARM1_HOUR;
+                } else if (TiltSwitch[0].down) {
+                    G.menuState = SET_ALARM2_HOUR;
+                }
             }
             break;
         case SET_HOUR:

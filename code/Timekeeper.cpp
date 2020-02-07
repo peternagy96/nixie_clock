@@ -1,9 +1,5 @@
 
 #include "Timekeeper.h"
-#include <Arduino.h>
-#include <Time.h>
-#include "Chrono.h"
-#include "DS1302.h"
 
 #define INCREMENT_TIME 500
 
@@ -142,14 +138,14 @@ void TimekeeperClass::incrementDate(void) volatile {
 
 void TimekeeperClass::decrementDate(void) volatile {
     date--;
-    if (date < 0) {
+    if (date < 1) {
         if (month == 2 && !isLeapYear()) {
             date = 28;
         } else if (month == 2 && isLeapYear()) {
             date = 29;
-        } else if (date > 30 && isShortMonth()) {
+        } else if (isShortMonth()) {
             date = 30;
-        } else if (date > 31) {
+        } else {
             date = 31;
         }
     }
@@ -157,12 +153,30 @@ void TimekeeperClass::decrementDate(void) volatile {
 
 void TimekeeperClass::incrementMonth(void) volatile {
     month++;
-    if (month > 12) month = 1;
+    if (month > 12) {
+        month = 1;
+    }
+    roundDate();
 }
 
 void TimekeeperClass::decrementMonth(void) volatile {
     month--;
-    if (month < 0) month = 12;
+    if (month < 0) {
+        month = 12;
+    }
+    roundDate();
+}
+
+void TimekeeperClass::roundDate(void) volatile {
+    if (date > 28 && month == 2 && !isLeapYear()) {
+        date = 28;
+    } else if (date > 29 && month == 2 && isLeapYear()) {
+        date = 29;
+    } else if (date > 30 && isShortMonth()) {
+        date = 30;
+    } else if (date > 31) {
+        date = 31;
+    }
 }
 
 void TimekeeperClass::incrementYear(void) volatile {

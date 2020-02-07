@@ -2,7 +2,6 @@
 * Timer class to implement countdown timer
 */
 
-#include "Arduino.h"
 #include "Countdown.h"
 
 #define ALARM_TIMEOUT 120000
@@ -34,14 +33,13 @@ void CountdownClass::incrementSec(void) volatile {
 
 void CountdownClass::decrementSec(void) volatile {
     sec--;
-    if (sec < 0) {
+    if (sec == 0 && min == 0 && runningDown) {
+        alarm = true;
+        alarmTs = millis();
+    } else if (sec < 0) {
         sec = 59;
         if (runningDown) {
             decrementMin();
-            if (min == 0) {
-                alarm = true;
-                alarmTs = millis();
-            }
         }
     }
 }
@@ -55,11 +53,15 @@ void CountdownClass::incrementMin(void) volatile {
 
 void CountdownClass::decrementMin(void) volatile {
     min--;
+    if (min < 0) {
+        min = 99;
+    }
 }
 
 void CountdownClass::autoTurnoff(void) volatile {
     if ((millis() - alarmTs >= ALARM_TIMEOUT) && alarm) {
         alarm = false;
+        enabled = false;
     }
 }
 
@@ -67,14 +69,16 @@ void CountdownClass::stopwatch(void) {
     if (!runningUp) {
         defaultSec = sec;
         defaultMin = min;
+        sec = 0;
+        min = 0;
         runningUp = true;
     }
 }
 
 void CountdownClass::loopHandler(void) {
-    if (runningUp && !alarm) {
+    if (runningUp && !alarm && enabled) {
         incrementSec();
-    } else if (runningDown && !alarm) {
+    } else if (runningDown && !alarm && enabled) {
         decrementSec();
     }
 }
@@ -105,6 +109,7 @@ void CountdownClass::reset(void) {
         runningUp = false;
         sec = defaultSec;
         min = defaultMin;
+        enabled = true;
     }
 }
 

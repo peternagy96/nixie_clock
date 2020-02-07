@@ -5,7 +5,7 @@
 #ifndef __TILTSWITCH_H
 #define __TILTSWITCH_H
 
-#include <time.h>
+#include <Arduino.h>
 #include "Chrono.h"
 
 class TiltSwitchClass {

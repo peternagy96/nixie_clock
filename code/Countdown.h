@@ -5,7 +5,7 @@
 #ifndef __COUNTDOWN_H
 #define __COUNTDOWN_H
 
-#include <stdint.h>
+#include <Arduino.h>
 #include "Nixie.h"
 
 class CountdownClass {
@@ -30,13 +30,14 @@ class CountdownClass {
     bool runningUp = false;
     bool alarm = false;
     uint32_t setTs = 0;
+    bool enabled = true;
 
    private:
     uint32_t alarmTs = 0;
-    int defaultSec;
-    int defaultMin;
-    int sec;
-    int min;
+    int8_t defaultSec;
+    int8_t defaultMin;
+    int8_t sec;
+    int8_t min;
 };
 
 #endif

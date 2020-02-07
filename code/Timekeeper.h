@@ -5,7 +5,7 @@
 #ifndef __TIMEKEEPER_H
 #define __TIMEKEEPER_H
 
-#include <stdint.h>
+#include <Arduino.h>
 #include "Chrono.h"
 #include "DS1302.h"
 #include "Nixie.h"
@@ -38,6 +38,7 @@ class TimekeeperClass : public ChronoClass {
     void decrementYear(void) volatile;
     bool isShortMonth(void) volatile;
     bool isLeapYear(void) volatile;
+    void roundDate(void) volatile;
 
     void setTimeSlow(const char *var, const char *dir) volatile;
 
@@ -46,14 +47,14 @@ class TimekeeperClass : public ChronoClass {
     void update(void);
 
     Time *time;
-    volatile int second = 0;
-    volatile int minute = 0;
-    volatile int hour = 0;
-    volatile int date = 0;
-    volatile int month = 0;
-    volatile int year = 0;
-    volatile int short_months[4] = {4, 6, 9, 11};
-    volatile int setTs = 0;
+    volatile int8_t second = 0;
+    volatile int8_t minute = 0;
+    volatile int8_t hour = 0;
+    volatile int8_t date = 0;
+    volatile int8_t month = 0;
+    volatile int16_t year = 0;
+    volatile int8_t short_months[4] = {4, 6, 9, 11};
+    volatile uint32_t setTs = 0;
     bool isBeingSet = false;
     bool wasSet = false;
 };

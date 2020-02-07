@@ -11,15 +11,17 @@ class AlarmClass {
    public:
     void initialize(void);
     void resetAlarm(void);
-    void alarmGoesOff(void);
+    void alarmGoesOff(Time time);
     void setTimeSlow(const char *var, const char *dir);
     void autoTurnoff(void) volatile;
     void displayTime(NixieDigits_s &timeDigits);
 
     bool alarm = false;
+    bool active = false;
+    bool isBeingSet = false;
 
-    uint8_t hour = 0;
-    uint8_t minute = 0;
+    int8_t hour = 0;
+    int8_t minute = 0;
     uint32_t setTs = 0;
 
    private:

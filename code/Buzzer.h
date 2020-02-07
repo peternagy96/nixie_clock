@@ -1,7 +1,7 @@
 #ifndef __BUZZER_H
 #define __BUZZER_H
 
-#include <stdint.h>
+#include <Arduino.h>
 
 /*
  * Buzzer control class

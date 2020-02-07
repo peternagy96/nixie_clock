@@ -20,8 +20,9 @@ void AlarmClass::displayTime(NixieDigits_s &timeDigits) {
     timeDigits.value[4] = (tm.hour / 10U) % 10;
 }
 
-void AlarmClass::alarmGoesOff(void) {
-    if (hour == tm.hour && minute == tm.minute && !alarm) {
+void AlarmClass::alarmGoesOff(Time time) {
+    if (time.hr == tm.hour && time.min == tm.minute && !alarm && active) {
+        active = false;
         alarm = true;
         alarmTs = millis();
     }
