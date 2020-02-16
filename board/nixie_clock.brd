@@ -86,8 +86,8 @@
 <text x="94.6" y="3" size="1.2" layer="26" rot="MR270">e</text>
 <text x="97.3" y="3.3" size="1.2" layer="26" rot="MR270">gnd</text>
 <text x="99.9" y="3.3" size="1.2" layer="26" rot="MR270">gnd</text>
-<text x="53.9" y="36.3" size="1.2" layer="26" rot="MR0">12V</text>
-<text x="54.2" y="44.8" size="1.2" layer="26" rot="MR0">GND</text>
+<text x="53.9" y="44.8" size="1.2" layer="26" rot="MR0">12V</text>
+<text x="54.2" y="36.4" size="1.2" layer="26" rot="MR0">GND</text>
 <text x="2.4" y="57.9" size="1.2" layer="26" rot="MR270">GND</text>
 <text x="10.8" y="58" size="1.2" layer="26" rot="MR270">200V</text>
 </plain>
