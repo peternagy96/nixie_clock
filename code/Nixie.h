@@ -14,10 +14,10 @@
  * Array of Nixie tube digit values
  */
 struct NixieDigits_s {
-    uint8_t value[NIXIE_NUM_TUBES] = {0};                             /* BCD value */
-    bool blank[NIXIE_NUM_TUBES] = {false, false, true, false, false}; /* blank digit */
-    uint8_t comma_blnk = 1;                                           /* comma blinking pattern, 0 - no blinking, 1 - single, 2 - double */
-    bool blnk[NIXIE_NUM_TUBES] = {false, false, true, false, false};  /* enable blinking */
+    uint8_t value[NIXIE_NUM_TUBES] = {0};                              /* BCD value */
+    bool blank[NIXIE_NUM_TUBES] = {false, false, false, false, false}; /* blank digit */
+    uint8_t comma_blnk = 1;                                            /* comma blinking pattern, 0 - no blinking, 1 - single, 2 - double */
+    bool blnk[NIXIE_NUM_TUBES] = {false, false, true, false, false};   /* enable blinking */
     uint8_t numDigits = NIXIE_NUM_TUBES - 1;
 };
 
