@@ -18953,7 +18953,6 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <part name="GND5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+8" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="GND7" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="P+9" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="GND2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="C7" library="capacitor-wima" library_urn="urn:adsk.eagle:library:116" deviceset="C" device="2,5-3" package3d_urn="urn:adsk.eagle:package:5436/1" value="220nF"/>
 <part name="GND6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
@@ -18988,6 +18987,8 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <part name="P+5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="22k"/>
 <part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="22k"/>
+<part name="P+10" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
+<part name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4148" device="DO35-7" package3d_urn="urn:adsk.eagle:package:43339/2"/>
 </parts>
 <sheets>
 <sheet>
@@ -19098,9 +19099,6 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <instance part="GND7" gate="1" x="314.96" y="109.22" smashed="yes">
 <attribute name="VALUE" x="312.42" y="106.68" size="1.778" layer="96"/>
 </instance>
-<instance part="P+9" gate="1" x="322.58" y="124.46" smashed="yes">
-<attribute name="VALUE" x="320.04" y="124.46" size="1.778" layer="96"/>
-</instance>
 <instance part="GND2" gate="1" x="335.788" y="63.5" smashed="yes" rot="R270">
 <attribute name="VALUE" x="333.248" y="66.04" size="1.778" layer="96" rot="R270"/>
 </instance>
@@ -19209,6 +19207,12 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <instance part="R5" gate="G$1" x="414.782" y="80.01" smashed="yes" rot="R90">
 <attribute name="NAME" x="415.5694" y="73.914" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="415.544" y="77.978" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="P+10" gate="1" x="320.04" y="129.54" smashed="yes">
+<attribute name="VALUE" x="317.5" y="129.54" size="1.778" layer="96"/>
+</instance>
+<instance part="D2" gate="G$1" x="388.62" y="116.84" smashed="yes" rot="R180">
+<attribute name="NAME" x="386.08" y="116.3574" size="1.778" layer="95" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -19387,14 +19391,15 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <junction x="269.24" y="86.36"/>
 </segment>
 <segment>
-<pinref part="P+9" gate="1" pin="+5V"/>
 <pinref part="ARDUINO_NANO" gate="G$1" pin="!RESET@1"/>
-<wire x1="322.58" y1="121.92" x2="327.66" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="327.66" y1="121.92" x2="327.66" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="327.66" y1="111.76" x2="330.2" y2="111.76" width="0.1524" layer="91"/>
 <pinref part="C9" gate="G$1" pin="1"/>
-<wire x1="314.96" y1="121.92" x2="322.58" y2="121.92" width="0.1524" layer="91"/>
-<junction x="322.58" y="121.92"/>
+<wire x1="314.96" y1="121.92" x2="320.04" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="P+10" gate="1" pin="+5V"/>
+<wire x1="320.04" y1="121.92" x2="327.66" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="320.04" y1="127" x2="320.04" y2="121.92" width="0.1524" layer="91"/>
+<junction x="320.04" y="121.92"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="VOUT"/>
@@ -19410,19 +19415,18 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <pinref part="P+1" gate="1" pin="+5V"/>
 </segment>
 <segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="VIN"/>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="!RESET@2"/>
-<wire x1="373.38" y1="116.84" x2="370.84" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="370.84" y1="111.76" x2="373.38" y2="111.76" width="0.1524" layer="91"/>
-<wire x1="373.38" y1="111.76" x2="373.38" y2="116.84" width="0.1524" layer="91"/>
-<junction x="373.38" y="116.84"/>
-<wire x1="373.38" y1="116.84" x2="398.78" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="398.78" y1="116.84" x2="393.7" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="398.78" y1="116.84" x2="396.24" y2="116.84" width="0.1524" layer="91"/>
 <pinref part="C7" gate="G$1" pin="1"/>
+<wire x1="396.24" y1="116.84" x2="391.16" y2="116.84" width="0.1524" layer="91"/>
 <wire x1="398.78" y1="114.3" x2="398.78" y2="116.84" width="0.1524" layer="91"/>
 <junction x="398.78" y="116.84"/>
 <pinref part="P+8" gate="1" pin="+5V"/>
 <wire x1="398.78" y1="116.84" x2="398.78" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="D2" gate="G$1" pin="A"/>
+<pinref part="ARDUINO_NANO" gate="G$1" pin="!RESET@2"/>
+<wire x1="370.84" y1="111.76" x2="396.24" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="396.24" y1="111.76" x2="396.24" y2="116.84" width="0.1524" layer="91"/>
+<junction x="396.24" y="116.84"/>
 </segment>
 <segment>
 <pinref part="RTC" gate="G$1" pin="5"/>
@@ -20074,6 +20078,13 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <pinref part="BUTTONS" gate="1" pin="9"/>
 <wire x1="424.18" y1="55.88" x2="419.1" y2="55.88" width="0.1524" layer="91"/>
 <label x="419.1" y="53.34" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$1" class="1">
+<segment>
+<pinref part="ARDUINO_NANO" gate="G$1" pin="VIN"/>
+<pinref part="D2" gate="G$1" pin="C"/>
+<wire x1="386.08" y1="116.84" x2="370.84" y2="116.84" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
