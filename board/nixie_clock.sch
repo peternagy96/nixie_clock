@@ -18328,54 +18328,46 @@ W = angled&lt;p&gt;
 <rectangle x1="7.366" y1="-0.254" x2="7.874" y2="0.254" layer="51"/>
 <rectangle x1="9.906" y1="-0.254" x2="10.414" y2="0.254" layer="51"/>
 </package>
-<package name="MA05-1" urn="urn:adsk.eagle:footprint:8283/1" library_version="2">
+<package name="MA04-1" urn="urn:adsk.eagle:footprint:8285/1" library_version="2">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
-<wire x1="-5.715" y1="1.27" x2="-4.445" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="-4.445" y1="1.27" x2="-3.81" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="-3.81" y1="-0.635" x2="-4.445" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-3.81" y1="0.635" x2="-3.175" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="-3.175" y1="1.27" x2="-1.905" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="-1.905" y1="1.27" x2="-1.27" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="-1.27" y1="-0.635" x2="-1.905" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-1.905" y1="-1.27" x2="-3.175" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-3.175" y1="-1.27" x2="-3.81" y2="-0.635" width="0.1524" layer="21"/>
-<wire x1="-6.35" y1="0.635" x2="-6.35" y2="-0.635" width="0.1524" layer="21"/>
-<wire x1="-5.715" y1="1.27" x2="-6.35" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="-6.35" y1="-0.635" x2="-5.715" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-4.445" y1="-1.27" x2="-5.715" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-1.27" y1="0.635" x2="-0.635" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="-0.635" y1="1.27" x2="0.635" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="0.635" y1="1.27" x2="1.27" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="1.27" y1="-0.635" x2="0.635" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="0.635" y1="-1.27" x2="-0.635" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="-0.635" y1="-1.27" x2="-1.27" y2="-0.635" width="0.1524" layer="21"/>
-<wire x1="1.905" y1="1.27" x2="3.175" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="3.175" y1="1.27" x2="3.81" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="3.81" y1="-0.635" x2="3.175" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="3.81" y1="0.635" x2="4.445" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="4.445" y1="1.27" x2="5.715" y2="1.27" width="0.1524" layer="21"/>
-<wire x1="5.715" y1="1.27" x2="6.35" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="6.35" y1="0.635" x2="6.35" y2="-0.635" width="0.1524" layer="21"/>
-<wire x1="6.35" y1="-0.635" x2="5.715" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="5.715" y1="-1.27" x2="4.445" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="4.445" y1="-1.27" x2="3.81" y2="-0.635" width="0.1524" layer="21"/>
-<wire x1="1.905" y1="1.27" x2="1.27" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="1.27" y1="-0.635" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
-<wire x1="3.175" y1="-1.27" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
-<pad name="1" x="-5.08" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="2" x="-2.54" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="3" x="0" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="4" x="2.54" y="0" drill="1.016" shape="long" rot="R90"/>
-<pad name="5" x="5.08" y="0" drill="1.016" shape="long" rot="R90"/>
-<text x="-6.35" y="1.651" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="-5.715" y="-2.921" size="1.27" layer="21" ratio="10">1</text>
-<text x="4.445" y="1.651" size="1.27" layer="21" ratio="10">5</text>
-<text x="-2.54" y="-2.921" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
-<rectangle x1="-2.794" y1="-0.254" x2="-2.286" y2="0.254" layer="51"/>
-<rectangle x1="-5.334" y1="-0.254" x2="-4.826" y2="0.254" layer="51"/>
-<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
-<rectangle x1="4.826" y1="-0.254" x2="5.334" y2="0.254" layer="51"/>
-<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
+<wire x1="-4.445" y1="1.27" x2="-3.175" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-3.175" y1="1.27" x2="-2.54" y2="0.635" width="0.1524" layer="21"/>
+<wire x1="-2.54" y1="-0.635" x2="-3.175" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="-2.54" y1="0.635" x2="-1.905" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-1.905" y1="1.27" x2="-0.635" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-0.635" y1="1.27" x2="0" y2="0.635" width="0.1524" layer="21"/>
+<wire x1="0" y1="-0.635" x2="-0.635" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="-0.635" y1="-1.27" x2="-1.905" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="-1.905" y1="-1.27" x2="-2.54" y2="-0.635" width="0.1524" layer="21"/>
+<wire x1="-5.08" y1="0.635" x2="-5.08" y2="-0.635" width="0.1524" layer="21"/>
+<wire x1="-4.445" y1="1.27" x2="-5.08" y2="0.635" width="0.1524" layer="21"/>
+<wire x1="-5.08" y1="-0.635" x2="-4.445" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="-3.175" y1="-1.27" x2="-4.445" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="0" y1="0.635" x2="0.635" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="0.635" y1="1.27" x2="1.905" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="1.905" y1="1.27" x2="2.54" y2="0.635" width="0.1524" layer="21"/>
+<wire x1="2.54" y1="-0.635" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="1.905" y1="-1.27" x2="0.635" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="0.635" y1="-1.27" x2="0" y2="-0.635" width="0.1524" layer="21"/>
+<wire x1="3.175" y1="1.27" x2="4.445" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="4.445" y1="1.27" x2="5.08" y2="0.635" width="0.1524" layer="21"/>
+<wire x1="5.08" y1="0.635" x2="5.08" y2="-0.635" width="0.1524" layer="21"/>
+<wire x1="5.08" y1="-0.635" x2="4.445" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="3.175" y1="1.27" x2="2.54" y2="0.635" width="0.1524" layer="21"/>
+<wire x1="2.54" y1="-0.635" x2="3.175" y2="-1.27" width="0.1524" layer="21"/>
+<wire x1="4.445" y1="-1.27" x2="3.175" y2="-1.27" width="0.1524" layer="21"/>
+<pad name="1" x="-3.81" y="0" drill="1.016" shape="long" rot="R90"/>
+<pad name="2" x="-1.27" y="0" drill="1.016" shape="long" rot="R90"/>
+<pad name="3" x="1.27" y="0" drill="1.016" shape="long" rot="R90"/>
+<pad name="4" x="3.81" y="0" drill="1.016" shape="long" rot="R90"/>
+<text x="-5.08" y="1.651" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-6.223" y="-0.635" size="1.27" layer="21" ratio="10">1</text>
+<text x="0.635" y="1.651" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+<text x="5.334" y="-0.635" size="1.27" layer="21" ratio="10">4</text>
+<rectangle x1="-1.524" y1="-0.254" x2="-1.016" y2="0.254" layer="51"/>
+<rectangle x1="-4.064" y1="-0.254" x2="-3.556" y2="0.254" layer="51"/>
+<rectangle x1="1.016" y1="-0.254" x2="1.524" y2="0.254" layer="51"/>
+<rectangle x1="3.556" y1="-0.254" x2="4.064" y2="0.254" layer="51"/>
 </package>
 </packages>
 <packages3d>
@@ -18385,10 +18377,10 @@ W = angled&lt;p&gt;
 <packageinstance name="MA09-1"/>
 </packageinstances>
 </package3d>
-<package3d name="MA05-1" urn="urn:adsk.eagle:package:8332/1" type="box" library_version="2">
+<package3d name="MA04-1" urn="urn:adsk.eagle:package:8337/1" type="box" library_version="2">
 <description>PIN HEADER</description>
 <packageinstances>
-<packageinstance name="MA05-1"/>
+<packageinstance name="MA04-1"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -18419,23 +18411,21 @@ W = angled&lt;p&gt;
 <pin name="8" x="7.62" y="7.62" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="9" x="7.62" y="10.16" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
-<symbol name="MA05-1" urn="urn:adsk.eagle:symbol:8282/1" library_version="2">
+<symbol name="MA04-1" urn="urn:adsk.eagle:symbol:8284/1" library_version="2">
 <wire x1="3.81" y1="-7.62" x2="-1.27" y2="-7.62" width="0.4064" layer="94"/>
 <wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.6096" layer="94"/>
 <wire x1="1.27" y1="-2.54" x2="2.54" y2="-2.54" width="0.6096" layer="94"/>
 <wire x1="1.27" y1="-5.08" x2="2.54" y2="-5.08" width="0.6096" layer="94"/>
-<wire x1="-1.27" y1="7.62" x2="-1.27" y2="-7.62" width="0.4064" layer="94"/>
-<wire x1="3.81" y1="-7.62" x2="3.81" y2="7.62" width="0.4064" layer="94"/>
-<wire x1="-1.27" y1="7.62" x2="3.81" y2="7.62" width="0.4064" layer="94"/>
-<wire x1="1.27" y1="5.08" x2="2.54" y2="5.08" width="0.6096" layer="94"/>
+<wire x1="-1.27" y1="5.08" x2="-1.27" y2="-7.62" width="0.4064" layer="94"/>
+<wire x1="3.81" y1="-7.62" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
+<wire x1="-1.27" y1="5.08" x2="3.81" y2="5.08" width="0.4064" layer="94"/>
 <wire x1="1.27" y1="2.54" x2="2.54" y2="2.54" width="0.6096" layer="94"/>
 <text x="-1.27" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-1.27" y="8.382" size="1.778" layer="95">&gt;NAME</text>
+<text x="-1.27" y="5.842" size="1.778" layer="95">&gt;NAME</text>
 <pin name="1" x="7.62" y="-5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="2" x="7.62" y="-2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="3" x="7.62" y="0" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="4" x="7.62" y="2.54" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
-<pin name="5" x="7.62" y="5.08" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -18472,22 +18462,21 @@ W = angled&lt;p&gt;
 </device>
 </devices>
 </deviceset>
-<deviceset name="MA05-1" urn="urn:adsk.eagle:component:8379/2" prefix="SV" uservalue="yes" library_version="2">
+<deviceset name="MA04-1" urn="urn:adsk.eagle:component:8375/2" prefix="SV" uservalue="yes" library_version="2">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
 <gates>
-<gate name="G$1" symbol="MA05-1" x="0" y="0"/>
+<gate name="1" symbol="MA04-1" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="MA05-1">
+<device name="" package="MA04-1">
 <connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-<connect gate="G$1" pin="3" pad="3"/>
-<connect gate="G$1" pin="4" pad="4"/>
-<connect gate="G$1" pin="5" pad="5"/>
+<connect gate="1" pin="1" pad="1"/>
+<connect gate="1" pin="2" pad="2"/>
+<connect gate="1" pin="3" pad="3"/>
+<connect gate="1" pin="4" pad="4"/>
 </connects>
 <package3dinstances>
-<package3dinstance package3d_urn="urn:adsk.eagle:package:8332/1"/>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:8337/1"/>
 </package3dinstances>
 <technologies>
 <technology name="">
@@ -18495,7 +18484,7 @@ W = angled&lt;p&gt;
 <attribute name="MPN" value="" constant="no"/>
 <attribute name="OC_FARNELL" value="unknown" constant="no"/>
 <attribute name="OC_NEWARK" value="unknown" constant="no"/>
-<attribute name="POPULARITY" value="29" constant="no"/>
+<attribute name="POPULARITY" value="41" constant="no"/>
 </technology>
 </technologies>
 </device>
@@ -18911,6 +18900,91 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="transistor-npn" urn="urn:adsk.eagle:library:398">
+<description>&lt;b&gt;NPN Transistors&lt;/b&gt;&lt;p&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="TO92-EBC" urn="urn:adsk.eagle:footprint:28938/1" library_version="4">
+<description>&lt;b&gt;TO-92&lt;/b&gt;&lt;p&gt;
+ grid 5.08 mm</description>
+<wire x1="-2.095" y1="-2.921" x2="2.095" y2="-2.921" width="0.127" layer="21"/>
+<wire x1="-2.413" y1="-0.1341" x2="2.413" y2="-0.1341" width="0.127" layer="21" curve="-129.583"/>
+<wire x1="1.136" y1="-1.397" x2="-1.136" y2="-1.397" width="0.127" layer="51"/>
+<wire x1="-2.413" y1="-0.1341" x2="-2.664" y2="-1.397" width="0.127" layer="51" curve="27.9376"/>
+<wire x1="-2.664" y1="-1.397" x2="-2.413" y2="-2.4059" width="0.127" layer="51" curve="22.4788"/>
+<wire x1="-1.404" y1="-1.397" x2="-2.664" y2="-1.397" width="0.127" layer="51"/>
+<wire x1="-2.4135" y1="-2.4059" x2="-2.095" y2="-2.921" width="0.127" layer="21" curve="13.0385"/>
+<wire x1="-1.136" y1="-1.397" x2="-1.404" y2="-1.397" width="0.127" layer="21"/>
+<wire x1="2.413" y1="-2.4059" x2="2.664" y2="-1.397" width="0.127" layer="51" curve="22.4788"/>
+<wire x1="2.664" y1="-1.397" x2="2.413" y2="-0.1341" width="0.127" layer="51" curve="27.9376"/>
+<wire x1="2.664" y1="-1.397" x2="1.404" y2="-1.397" width="0.127" layer="51"/>
+<wire x1="1.404" y1="-1.397" x2="1.136" y2="-1.397" width="0.127" layer="21"/>
+<wire x1="2.095" y1="-2.921" x2="2.4247" y2="-2.3818" width="0.127" layer="21" curve="13.6094"/>
+<pad name="C" x="-2.54" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
+<pad name="E" x="2.54" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
+<pad name="B" x="0" y="-1.27" drill="0.8128" shape="long" rot="R90"/>
+<text x="-2.54" y="1.778" size="1.27" layer="25" ratio="10">&gt;NAME</text>
+<text x="-2.54" y="-4.572" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
+</package>
+</packages>
+<packages3d>
+<package3d name="TO92-EBC" urn="urn:adsk.eagle:package:28989/2" type="model" library_version="4">
+<description>TO-92
+ grid 5.08 mm</description>
+<packageinstances>
+<packageinstance name="TO92-EBC"/>
+</packageinstances>
+</package3d>
+</packages3d>
+<symbols>
+<symbol name="NPN" urn="urn:adsk.eagle:symbol:28915/1" library_version="4">
+<wire x1="2.54" y1="2.54" x2="0.508" y2="1.524" width="0.1524" layer="94"/>
+<wire x1="1.778" y1="-1.524" x2="2.54" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="-2.54" x2="1.27" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="-2.54" x2="1.778" y2="-1.524" width="0.1524" layer="94"/>
+<wire x1="1.54" y1="-2.04" x2="0.308" y2="-1.424" width="0.1524" layer="94"/>
+<wire x1="1.524" y1="-2.413" x2="2.286" y2="-2.413" width="0.254" layer="94"/>
+<wire x1="2.286" y1="-2.413" x2="1.778" y2="-1.778" width="0.254" layer="94"/>
+<wire x1="1.778" y1="-1.778" x2="1.524" y2="-2.286" width="0.254" layer="94"/>
+<wire x1="1.524" y1="-2.286" x2="1.905" y2="-2.286" width="0.254" layer="94"/>
+<wire x1="1.905" y1="-2.286" x2="1.778" y2="-2.032" width="0.254" layer="94"/>
+<text x="-10.16" y="7.62" size="1.778" layer="95">&gt;NAME</text>
+<text x="-10.16" y="5.08" size="1.778" layer="96">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-2.54" x2="0.508" y2="2.54" layer="94"/>
+<pin name="B" x="-2.54" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
+<pin name="E" x="2.54" y="-5.08" visible="off" length="short" direction="pas" swaplevel="3" rot="R90"/>
+<pin name="C" x="2.54" y="5.08" visible="off" length="short" direction="pas" swaplevel="2" rot="R270"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="BC546*" urn="urn:adsk.eagle:component:29115/3" prefix="Q" library_version="4">
+<description>&lt;b&gt;NPN Transistor&lt;/b&gt;</description>
+<gates>
+<gate name="G$1" symbol="NPN" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TO92-EBC">
+<connects>
+<connect gate="G$1" pin="B" pad="B"/>
+<connect gate="G$1" pin="C" pad="C"/>
+<connect gate="G$1" pin="E" pad="E"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:28989/2"/>
+</package3dinstances>
+<technologies>
+<technology name="A">
+<attribute name="POPULARITY" value="0" constant="no"/>
+</technology>
+<technology name="B">
+<attribute name="POPULARITY" value="0" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -18980,7 +19054,6 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <part name="DOT" library="we-opto" deviceset="PC" device="-TLP127"/>
 <part name="10MIN" library="we-opto" deviceset="PC" device="-TLP127"/>
 <part name="1MIN" library="we-opto" deviceset="PC" device="-TLP127"/>
-<part name="RTC" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA05-1" device="" package3d_urn="urn:adsk.eagle:package:8332/1"/>
 <part name="GND10" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="GND11" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
@@ -18989,6 +19062,8 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="0204/7" package3d_urn="urn:adsk.eagle:package:23498/2" value="22k"/>
 <part name="P+10" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="1N4148" device="DO35-7" package3d_urn="urn:adsk.eagle:package:43339/2"/>
+<part name="SV1" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA04-1" device="" package3d_urn="urn:adsk.eagle:package:8337/1"/>
+<part name="Q1" library="transistor-npn" library_urn="urn:adsk.eagle:library:398" deviceset="BC546*" device="" package3d_urn="urn:adsk.eagle:package:28989/2" technology="B"/>
 </parts>
 <sheets>
 <sheet>
@@ -19099,8 +19174,8 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <instance part="GND7" gate="1" x="314.96" y="109.22" smashed="yes">
 <attribute name="VALUE" x="312.42" y="106.68" size="1.778" layer="96"/>
 </instance>
-<instance part="GND2" gate="1" x="335.788" y="63.5" smashed="yes" rot="R270">
-<attribute name="VALUE" x="333.248" y="66.04" size="1.778" layer="96" rot="R270"/>
+<instance part="GND2" gate="1" x="348.488" y="63.5" smashed="yes" rot="R270">
+<attribute name="VALUE" x="345.948" y="66.04" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="C7" gate="G$1" x="398.78" y="111.76" smashed="yes">
 <attribute name="NAME" x="400.304" y="112.141" size="1.778" layer="95"/>
@@ -19142,12 +19217,12 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <attribute name="VALUE" x="433.07" y="78.74" size="1.778" layer="96" rot="R180"/>
 <attribute name="NAME" x="434.594" y="71.12" size="1.778" layer="95" rot="R270"/>
 </instance>
-<instance part="BUZZER" gate="G$1" x="347.98" y="71.12" smashed="yes" rot="R270">
-<attribute name="NAME" x="354.838" y="74.676" size="1.778" layer="95" rot="R270"/>
+<instance part="BUZZER" gate="G$1" x="355.6" y="68.58" smashed="yes" rot="R270">
+<attribute name="NAME" x="362.458" y="72.136" size="1.778" layer="95" rot="R270"/>
 </instance>
-<instance part="R4" gate="G$1" x="332.74" y="73.66" smashed="yes">
-<attribute name="NAME" x="336.042" y="72.8726" size="1.778" layer="95"/>
-<attribute name="VALUE" x="330.962" y="72.898" size="1.778" layer="96"/>
+<instance part="R4" gate="G$1" x="271.78" y="60.96" smashed="yes">
+<attribute name="NAME" x="275.082" y="60.1726" size="1.778" layer="95"/>
+<attribute name="VALUE" x="270.002" y="60.198" size="1.778" layer="96"/>
 </instance>
 <instance part="R10" gate="G$1" x="271.78" y="172.72" smashed="yes" rot="R90">
 <attribute name="NAME" x="270.2814" y="168.91" size="1.778" layer="95" rot="R90"/>
@@ -19184,15 +19259,11 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <attribute name="NAME" x="442.722" y="141.732" size="1.778" layer="95" rot="R180" align="top-left"/>
 <attribute name="VALUE" x="447.04" y="162.56" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="RTC" gate="G$1" x="307.34" y="78.74" smashed="yes" rot="R90">
-<attribute name="VALUE" x="317.5" y="77.47" size="1.778" layer="96" rot="R90"/>
-<attribute name="NAME" x="309.88" y="76.2" size="1.778" layer="95" rot="R180"/>
+<instance part="GND10" gate="1" x="295.91" y="94.488" smashed="yes" rot="R180">
+<attribute name="VALUE" x="298.45" y="97.028" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="GND10" gate="1" x="303.53" y="94.488" smashed="yes" rot="R180">
-<attribute name="VALUE" x="306.07" y="97.028" size="1.778" layer="96" rot="R180"/>
-</instance>
-<instance part="P+3" gate="1" x="296.926" y="95.25" smashed="yes">
-<attribute name="VALUE" x="294.386" y="95.25" size="1.778" layer="96"/>
+<instance part="P+3" gate="1" x="302.006" y="95.25" smashed="yes">
+<attribute name="VALUE" x="299.466" y="95.25" size="1.778" layer="96"/>
 </instance>
 <instance part="GND11" gate="1" x="421.64" y="85.344" smashed="yes" rot="R180">
 <attribute name="VALUE" x="424.18" y="87.884" size="1.778" layer="96" rot="R180"/>
@@ -19213,6 +19284,14 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 </instance>
 <instance part="D2" gate="G$1" x="388.62" y="116.84" smashed="yes" rot="R180">
 <attribute name="NAME" x="386.08" y="116.3574" size="1.778" layer="95" rot="R180"/>
+</instance>
+<instance part="SV1" gate="1" x="299.72" y="71.12" smashed="yes" rot="R90">
+<attribute name="VALUE" x="309.88" y="69.85" size="1.778" layer="96" rot="R90"/>
+<attribute name="NAME" x="293.878" y="69.85" size="1.778" layer="95" rot="R90"/>
+</instance>
+<instance part="Q1" gate="G$1" x="289.56" y="58.42" smashed="yes" rot="R90">
+<attribute name="NAME" x="281.94" y="48.26" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="284.48" y="48.26" size="1.778" layer="96" rot="R90"/>
 </instance>
 </instances>
 <busses>
@@ -19327,20 +19406,12 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <segment>
 <pinref part="GND2" gate="1" pin="GND"/>
 <pinref part="BUZZER" gate="G$1" pin="2"/>
-<wire x1="338.328" y1="63.5" x2="345.44" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="345.44" y1="63.5" x2="345.44" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="351.028" y1="63.5" x2="353.06" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND9" gate="1" pin="GND"/>
 <pinref part="R10" gate="G$1" pin="1"/>
 <wire x1="271.78" y1="162.56" x2="271.78" y2="167.64" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="GND10" gate="1" pin="GND"/>
-<wire x1="303.53" y1="91.948" x2="303.53" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="303.53" y1="91.44" x2="304.8" y2="91.44" width="0.1524" layer="91"/>
-<pinref part="RTC" gate="G$1" pin="4"/>
-<wire x1="304.8" y1="91.44" x2="304.8" y2="86.36" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND11" gate="1" pin="GND"/>
@@ -19351,6 +19422,12 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <pinref part="BUTTONS" gate="1" pin="1"/>
 <wire x1="424.18" y1="76.2" x2="421.64" y2="76.2" width="0.1524" layer="91"/>
 <junction x="421.64" y="76.2"/>
+</segment>
+<segment>
+<pinref part="GND10" gate="1" pin="GND"/>
+<pinref part="SV1" gate="1" pin="4"/>
+<wire x1="295.91" y1="91.948" x2="297.18" y2="91.948" width="0.1524" layer="91"/>
+<wire x1="297.18" y1="91.948" x2="297.18" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+12V" class="1">
@@ -19429,18 +19506,19 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <junction x="396.24" y="116.84"/>
 </segment>
 <segment>
-<pinref part="RTC" gate="G$1" pin="5"/>
-<pinref part="P+3" gate="1" pin="+5V"/>
-<wire x1="296.926" y1="92.71" x2="302.26" y2="92.71" width="0.1524" layer="91"/>
-<wire x1="302.26" y1="92.71" x2="302.26" y2="86.36" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <pinref part="P+5" gate="1" pin="+5V"/>
 <wire x1="418.084" y1="85.09" x2="418.084" y2="88.9" width="0.1524" layer="91"/>
 <pinref part="R5" gate="G$1" pin="2"/>
 <wire x1="414.782" y1="85.09" x2="418.084" y2="85.09" width="0.1524" layer="91"/>
 <junction x="418.084" y="85.09"/>
+</segment>
+<segment>
+<pinref part="P+3" gate="1" pin="+5V"/>
+<wire x1="302.006" y1="92.71" x2="302.006" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="302.006" y1="91.44" x2="299.72" y2="91.44" width="0.1524" layer="91"/>
+<pinref part="SV1" gate="1" pin="3"/>
+<wire x1="299.72" y1="91.44" x2="299.72" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="200V" class="1">
@@ -19602,14 +19680,6 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <wire x1="370.84" y1="96.52" x2="419.1" y2="96.52" width="0.1524" layer="91"/>
 <pinref part="10MIN" gate="OC" pin="A"/>
 <wire x1="419.1" y1="147.32" x2="419.1" y2="96.52" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$29" class="0">
-<segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="A4"/>
-<wire x1="370.84" y1="99.06" x2="449.58" y2="99.06" width="0.1524" layer="91"/>
-<pinref part="1MIN" gate="OC" pin="A"/>
-<wire x1="449.58" y1="99.06" x2="449.58" y2="147.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="K1" class="1">
@@ -19961,46 +20031,6 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <junction x="269.24" y="86.36"/>
 </segment>
 </net>
-<net name="D12" class="0">
-<segment>
-<pinref part="R4" gate="G$1" pin="2"/>
-<pinref part="BUZZER" gate="G$1" pin="1"/>
-<wire x1="337.82" y1="73.66" x2="345.44" y2="73.66" width="0.1524" layer="91"/>
-<label x="332.74" y="68.58" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="N$8" class="0">
-<segment>
-<pinref part="R4" gate="G$1" pin="1"/>
-<wire x1="327.66" y1="73.66" x2="327.66" y2="81.28" width="0.1524" layer="91"/>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D12"/>
-<wire x1="327.66" y1="81.28" x2="330.2" y2="81.28" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="RTC" gate="G$1" pin="1"/>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D8"/>
-<wire x1="312.42" y1="86.36" x2="312.42" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="312.42" y1="91.44" x2="330.2" y2="91.44" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="RTC" gate="G$1" pin="2"/>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D7"/>
-<wire x1="309.88" y1="86.36" x2="309.88" y2="93.98" width="0.1524" layer="91"/>
-<wire x1="309.88" y1="93.98" x2="330.2" y2="93.98" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$7" class="0">
-<segment>
-<pinref part="RTC" gate="G$1" pin="3"/>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="D6"/>
-<wire x1="307.34" y1="86.36" x2="307.34" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="307.34" y1="96.52" x2="330.2" y2="96.52" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$9" class="0">
 <segment>
 <pinref part="R5" gate="G$1" pin="1"/>
@@ -20024,15 +20054,6 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <pinref part="BUTTONS" gate="1" pin="3"/>
 <wire x1="416.56" y1="71.12" x2="418.084" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="424.18" y1="71.12" x2="418.084" y2="71.12" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$17" class="0">
-<segment>
-<pinref part="ARDUINO_NANO" gate="G$1" pin="A5"/>
-<wire x1="370.84" y1="101.6" x2="386.08" y2="101.6" width="0.1524" layer="91"/>
-<wire x1="386.08" y1="101.6" x2="386.08" y2="66.04" width="0.1524" layer="91"/>
-<pinref part="BUTTONS" gate="1" pin="5"/>
-<wire x1="386.08" y1="66.04" x2="424.18" y2="66.04" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$18" class="0">
@@ -20085,6 +20106,84 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <pinref part="ARDUINO_NANO" gate="G$1" pin="VIN"/>
 <pinref part="D2" gate="G$1" pin="C"/>
 <wire x1="386.08" y1="116.84" x2="370.84" y2="116.84" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="1MIN" gate="OC" pin="A"/>
+<wire x1="449.58" y1="147.32" x2="454.66" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="454.66" y1="147.32" x2="454.66" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="454.66" y1="50.8" x2="312.42" y2="50.8" width="0.1524" layer="91"/>
+<wire x1="312.42" y1="50.8" x2="312.42" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="ARDUINO_NANO" gate="G$1" pin="D6"/>
+<wire x1="312.42" y1="96.52" x2="330.2" y2="96.52" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="BUTTONS" gate="1" pin="5"/>
+<wire x1="424.18" y1="66.04" x2="383.54" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="383.54" y1="66.04" x2="383.54" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="383.54" y1="48.26" x2="381" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="381" y1="48.26" x2="314.96" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="48.26" x2="314.96" y2="93.98" width="0.1524" layer="91"/>
+<pinref part="ARDUINO_NANO" gate="G$1" pin="D7"/>
+<wire x1="314.96" y1="93.98" x2="330.2" y2="93.98" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="SDA" class="0">
+<segment>
+<pinref part="SV1" gate="1" pin="2"/>
+<wire x1="302.26" y1="78.74" x2="302.26" y2="81.28" width="0.1524" layer="91"/>
+<label x="302.26" y="86.36" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="ARDUINO_NANO" gate="G$1" pin="A4"/>
+<wire x1="370.84" y1="99.06" x2="373.38" y2="99.06" width="0.1524" layer="91"/>
+<label x="375.92" y="99.06" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="SCL" class="0">
+<segment>
+<pinref part="ARDUINO_NANO" gate="G$1" pin="A5"/>
+<wire x1="370.84" y1="101.6" x2="373.38" y2="101.6" width="0.1524" layer="91"/>
+<label x="375.92" y="101.6" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="SV1" gate="1" pin="1"/>
+<wire x1="304.8" y1="78.74" x2="304.8" y2="81.28" width="0.1524" layer="91"/>
+<label x="304.8" y="81.28" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$7" class="0">
+<segment>
+<pinref part="R4" gate="G$1" pin="2"/>
+<pinref part="Q1" gate="G$1" pin="C"/>
+<wire x1="276.86" y1="60.96" x2="284.48" y2="60.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="BUZ_IN" class="0">
+<segment>
+<pinref part="Q1" gate="G$1" pin="E"/>
+<wire x1="294.64" y1="60.96" x2="297.18" y2="60.96" width="0.1524" layer="91"/>
+<label x="299.72" y="60.96" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="BUZZER" gate="G$1" pin="1"/>
+<wire x1="353.06" y1="71.12" x2="345.44" y2="71.12" width="0.1524" layer="91"/>
+<label x="340.36" y="71.12" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="BUZ_SGN" class="0">
+<segment>
+<pinref part="Q1" gate="G$1" pin="B"/>
+<wire x1="289.56" y1="55.88" x2="289.56" y2="53.34" width="0.1524" layer="91"/>
+<label x="289.56" y="50.8" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="ARDUINO_NANO" gate="G$1" pin="D12"/>
+<wire x1="330.2" y1="81.28" x2="330.2" y2="78.74" width="0.1524" layer="91"/>
+<label x="330.2" y="76.2" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
