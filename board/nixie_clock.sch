@@ -19221,8 +19221,8 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <attribute name="NAME" x="362.458" y="72.136" size="1.778" layer="95" rot="R270"/>
 </instance>
 <instance part="R4" gate="G$1" x="271.78" y="60.96" smashed="yes">
-<attribute name="NAME" x="275.082" y="60.1726" size="1.778" layer="95"/>
-<attribute name="VALUE" x="270.002" y="60.198" size="1.778" layer="96"/>
+<attribute name="NAME" x="267.462" y="62.7126" size="1.778" layer="95"/>
+<attribute name="VALUE" x="270.002" y="62.738" size="1.778" layer="96"/>
 </instance>
 <instance part="R10" gate="G$1" x="271.78" y="172.72" smashed="yes" rot="R90">
 <attribute name="NAME" x="270.2814" y="168.91" size="1.778" layer="95" rot="R90"/>
@@ -19455,6 +19455,10 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <wire x1="226.06" y1="152.4" x2="226.06" y2="160.02" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="147.32" x2="226.06" y2="152.4" width="0.1524" layer="91"/>
 <junction x="226.06" y="152.4"/>
+</segment>
+<segment>
+<pinref part="R4" gate="G$1" pin="1"/>
+<wire x1="266.7" y1="60.96" x2="261.62" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="1">
