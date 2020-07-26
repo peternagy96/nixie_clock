@@ -19620,32 +19620,36 @@ TLP127 compatible with TLP187 and LTV-352T</description>
 <wire x1="449.58" y1="157.48" x2="449.58" y2="172.72" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$11" class="0">
+<net name="D" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="D"/>
 <pinref part="ARDUINO_NANO" gate="G$1" pin="D2"/>
 <wire x1="297.18" y1="106.68" x2="330.2" y2="106.68" width="0.1524" layer="91"/>
+<label x="302.26" y="106.68" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$12" class="0">
+<net name="C" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="C"/>
 <pinref part="ARDUINO_NANO" gate="G$1" pin="D3"/>
 <wire x1="297.18" y1="104.14" x2="330.2" y2="104.14" width="0.1524" layer="91"/>
+<label x="302.26" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$13" class="0">
+<net name="B" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="B"/>
 <pinref part="ARDUINO_NANO" gate="G$1" pin="D4"/>
 <wire x1="297.18" y1="101.6" x2="330.2" y2="101.6" width="0.1524" layer="91"/>
+<label x="302.26" y="101.6" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$14" class="0">
+<net name="A" class="0">
 <segment>
 <pinref part="U2" gate="G$1" pin="A"/>
 <pinref part="ARDUINO_NANO" gate="G$1" pin="D5"/>
 <wire x1="297.18" y1="99.06" x2="330.2" y2="99.06" width="0.1524" layer="91"/>
+<label x="302.26" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$15" class="0">
