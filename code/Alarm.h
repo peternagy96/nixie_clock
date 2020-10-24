@@ -6,12 +6,13 @@
 #define __ALARM_H
 
 #include "Timekeeper.h"
+#include <TimeLib.h>
 
 class AlarmClass {
    public:
     void initialize(void);
     void resetAlarm(void);
-    void alarmGoesOff(Time time);
+    void alarmGoesOff();
     void setTimeSlow(const char *var, const char *dir);
     void autoTurnoff(void) volatile;
     void displayTime(NixieDigits_s &timeDigits);
@@ -20,8 +21,8 @@ class AlarmClass {
     bool active = false;
     bool isBeingSet = false;
 
-    int8_t hour = 0;
-    int8_t minute = 0;
+    int hour_t = 0;
+    int minute_t = 0;
     uint32_t setTs = 0;
 
    private:

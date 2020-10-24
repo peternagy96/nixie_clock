@@ -9,19 +9,19 @@
 
 void AlarmClass::initialize(void) {
     alarm = false;
-    tm.hour = 8;
-    tm.minute = 0;
+    tm.hour_t = 8;
+    tm.minute_t = 0;
 }
 
 void AlarmClass::displayTime(NixieDigits_s &timeDigits) {
-    timeDigits.value[0] = (tm.minute / 1U) % 10;
-    timeDigits.value[1] = (tm.minute / 10U) % 10;
-    timeDigits.value[3] = (tm.hour / 1U) % 10;
-    timeDigits.value[4] = (tm.hour / 10U) % 10;
+    timeDigits.value[0] = (tm.minute_t / 1U) % 10;
+    timeDigits.value[1] = (tm.minute_t / 10U) % 10;
+    timeDigits.value[3] = (tm.hour_t / 1U) % 10;
+    timeDigits.value[4] = (tm.hour_t / 10U) % 10;
 }
 
-void AlarmClass::alarmGoesOff(Time time) {
-    if (time.hr == tm.hour && time.min == tm.minute && !alarm && active) {
+void AlarmClass::alarmGoesOff() {
+    if (hour(now()) == tm.hour_t && minute(now()) == tm.minute_t && !alarm && active) {
         active = false;
         alarm = true;
         alarmTs = millis();

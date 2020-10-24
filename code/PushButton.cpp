@@ -4,12 +4,13 @@
 
 #include "PushButton.h"
 #include <Arduino.h>
-#include <Time.h>
+#include <TimeLib.h>
 
 #define BUTTON_LONG_PRESS_TIMEOUT 1000
+#define BUTTON_REALLY_LONG_PRESS_TIMEOUT 20000
 
 void PushButtonClass::setPin(uint8_t pin) {
-    pinMode(pin, INPUT);
+    pinMode(pin, INPUT_PULLUP);
     this->pin = pin;
 }
 
@@ -18,7 +19,9 @@ void PushButtonClass::readState(void) {
         press();
         longPressTs = millis();
         longPressed = true;
+        reallyLongPressed = true;
         wasLongPressed = false;
+        wasReallyLongPressed = false;
 
     } else if (digitalRead(pin) == HIGH && wasPressed) {
         release();
@@ -42,6 +45,7 @@ bool PushButtonClass::rising(void) {
         longPressTs = millis();
         longPressed = true;
         wasLongPressed = false;
+        wasReallyLongPressed = false;
         rv = true;
     }
     return rv;
@@ -61,6 +65,16 @@ bool PushButtonClass::longPress(void) {
     if (pressed && longPressed && millis() - longPressTs >= BUTTON_LONG_PRESS_TIMEOUT) {
         longPressed = false;
         wasLongPressed = true;
+        rv = true;
+    }
+    return rv;
+}
+
+bool PushButtonClass::reallyLongPress(void) {
+    bool rv = false;
+    if (pressed && reallyLongPressed && millis() - longPressTs >= BUTTON_REALLY_LONG_PRESS_TIMEOUT) {
+        reallyLongPressed = false;
+        wasReallyLongPressed = true;
         rv = true;
     }
     return rv;

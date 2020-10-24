@@ -4,6 +4,13 @@
  * January 2020
  */
 
+#include <Arduino.h>
+#include <Wire.h>
+//#include <time.h>
+#include "avr/wdt.h"
+//#include <TimeLib.h>
+#include <DS3232RTC.h> 
+
 #include "Alarm.h"
 #include "Buzzer.h"
 #include "Countdown.h"
@@ -12,12 +19,6 @@
 #include "TiltSwitch.h"
 #include "Timekeeper.h"
 
-#include <Arduino.h>
-#include <Wire.h>
-#include <time.h>
-#include "DS1302.h"
-#include "avr/wdt.h"
-
 // Variables
 #define ANTIPOISING_DELAY 500  // anti poising delay time
 #define SERIAL_BAUD 9600       // serial baud rate
@@ -25,11 +26,11 @@
 #define SECOND 1000            // 1000
 
 // Pin variables
-#define ANODE0_PIN 14  //A4 1MIN
-#define ANODE1_PIN 15  //A3 10MIN
-#define ANODE2_PIN 16  //   COMMA
-#define ANODE3_PIN 17  //A1 1HR
-#define ANODE4_PIN 18  //A0 10HR
+#define ANODE0_PIN A0  //A4 1MIN
+#define ANODE1_PIN A1  //A3 10MIN
+#define ANODE2_PIN A2  //   COMMA
+#define ANODE3_PIN A3  //A1 1HR
+#define ANODE4_PIN 6  //A0 10HR
 
 #define BCD0_PIN 5
 #define BCD1_PIN 4
@@ -37,20 +38,13 @@
 #define BCD3_PIN 2
 
 #define BUZZER_PIN 12
-#define RTC_VCC_PIN 7
 
 // button pins
-#define BUTTON0_APIN 6        // push button 0 - "mode"
-#define BUTTON1_DOWN_APIN 11  // tilt button 1 - "increase"
-#define BUTTON1_UP_APIN 10    // tilt button 1 - "decrease"
-#define BUTTON2_DOWN_APIN 9   // tilt button 2 - "increase"
-#define BUTTON2_UP_APIN 8     // tilt button 2 - "decrease"
-
-// RTC pins
-const byte RTC_EnablePin = A5;  //A5
-const byte RTC_IOPin = A6;      //A6 //! cannot be a digital input pin
-const byte RTC_SerialPin = A7;  //A7 //! cannot be a digital input pin
-//DS1302 rtc(RTC_EnablePin, RTC_IOPin, RTC_SerialPin);
+#define BUTTON0_APIN 13        // push button 0 - "mode"
+#define BUTTON1_DOWN_APIN 7  // tilt button 1 - "increase"
+#define BUTTON1_UP_APIN 11    // tilt button 1 - "decrease"
+#define BUTTON2_DOWN_APIN 10   // tilt button 2 - "increase"
+#define BUTTON2_UP_APIN 9     // tilt button 2 - "decrease"
 
 enum MenuState_e {
     SHOW_TIME,
@@ -76,19 +70,23 @@ enum MenuState_e {
  * Global variables
  */
 typedef struct {
-    bool manuallyAdjusted = true;       // prevent crystal drift compensation if clock was manually adjusted
     MenuState_e menuState = SHOW_TIME;  // stores the state in the menu state machine
     NixieDigits_s timeDigits;           // stores the Nixie display digit values of the current time
     uint32_t secTs = 0;
     bool secFlag = true;
     bool twoSecFlag = true;
+    bool quarterSecFlag = true;
     bool showAlarmFlag = false;
+    bool rtcSynced = false;
+    bool restMode = false;
+    bool alarmWasOff = true;
+    bool specialMode = false;
+    int tubeOff = 0;
     uint8_t secCnt = 0;
+    int timeOffset = 0;
 } G_t;
 
 G_t G;
-//Time systemTm = rtc.time();
-Time systemTm(2020, 1, 1, 0, 0, 0, Time::kMonday);
 
 // create objects
 PushButtonClass PushButton;
@@ -97,14 +95,38 @@ AlarmClass Alarm[2];
 CountdownClass Countdown;
 
 void setup() {
-    wdt_disable();  // and disable watchdog
+    wdt_disable();  // disable watchdog
 
-    //Serial.begin(SERIAL_BAUD);
+    setSyncProvider(RTC.get);
+
+    // tmElements_t tm;
+    // int year_init = CalendarYrToTm(2020);   
+    // tm.Year = year_init;
+    // tm.Month = 1;
+    // tm.Day = 1;
+    // tm.Hour = 12;
+    // tm.Minute = 0;
+    // tm.Second = 0;
+
+    // time_t systemTm;
+    // systemTm = makeTime(tm);
+    // RTC.set(systemTm);  // use the time_t value to ensure correct weekday is set
+    // setTime(systemTm);
+
+    //Serial.begin(SERIAL_BAUD); // ! Comment out if not debugging
+
+    if (RTC.get() != 0) {
+        G.rtcSynced = true;
+        Serial.println("Successfully connected to the RTC!");
+    } else {
+        Serial.println("Could not connect to the RTC!");
+    }
+
 
     Nixie.initialize(ANODE0_PIN, ANODE1_PIN, ANODE2_PIN, ANODE3_PIN, ANODE4_PIN,
                      BCD0_PIN, BCD1_PIN, BCD2_PIN, BCD3_PIN, &G.timeDigits);
 
-    Timekeeper.initialize(&systemTm);
+    Timekeeper.initialize();
     Alarm[0].initialize();
     Alarm[1].initialize();
     Countdown.initialize();
@@ -114,25 +136,14 @@ void setup() {
     TiltSwitch[0].setPin(BUTTON1_UP_APIN, BUTTON1_DOWN_APIN);
     TiltSwitch[1].setPin(BUTTON2_UP_APIN, BUTTON2_DOWN_APIN);
 
-    //if time on RTC is not the initial time, then do nothing,
-    // otherwise load default systemTm go into SET_TIME mode
-    //pinMode(RTC_VCC_PIN, OUTPUT);
-    //digitalWrite(RTC_VCC_PIN, HIGH);
-    //rtc.writeProtect(false);
-    //rtc.halt(false);
-
-    //rtc.time(defaultTm);
-
-    if (systemTm.hr == 0 && systemTm.mon == 1) {
-        G.menuState = SHOW_TIME;
-    }
-
-    // enable the watchdog
     wdt_enable(WDT_TIMEOUT);
 }
 
 void loop() {
-    //systemTm = defaultTm;  //rtc.time();  // ToDo: implement it into the chrono class
+
+    // if (G.quarterSecFlag) {
+    //     G.quarterSecFlag = false;
+    // }
 
     if (G.secFlag) {
         G.twoSecFlag = !G.twoSecFlag;
@@ -145,13 +156,30 @@ void loop() {
             G.showAlarmFlag = false;
         }
 
+        if (G.rtcSynced == false && timeStatus() == timeSet) {
+            setSyncProvider(RTC.get);
+            if (RTC.get() != 0) {
+                G.rtcSynced = true;
+                Serial.println("Successfully connected to the RTC!");
+            } else {
+                Serial.println("Could not connect to the RTC!");
+            }
+        }
+
+        if (timeStatus() != timeSet) {
+            G.rtcSynced = false;
+        }
+
         Timekeeper.incrementSec();
         Countdown.loopHandler();
     }
 
-    // ToDo: implement function to run once a day
-
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
+
+    if (minute() == 0 and second() == 0) {
+        // this code runs once an hour
+        Nixie.cppEnabled = true;
+    }
 
     getButtonStates();
 
@@ -173,22 +201,32 @@ void loop() {
         G.secFlag = true;
     }
 
+    // if (millis() - G.secTs >= SECOND/4) {
+    //     G.quarterSecFlag = true;
+    // }
+
     displayMenu();
+
+    Nixie.refresh();
+
+    //specialmodeLoophandler();
 
     Nixie.refresh();
 }
 
 void getButtonStates(void) {
-    PushButton.readState();
+    if (G.restMode == false) {
+        PushButton.readState();
+    }
     TiltSwitch[0].readState();
     TiltSwitch[1].readState();
 }
 
 void alarmLoophandler(void) {
     if (TiltSwitch[0].up && !Alarm[0].isBeingSet) {
-        Alarm[0].alarmGoesOff(systemTm);
+        Alarm[0].alarmGoesOff();
     } else if (TiltSwitch[0].down && !Alarm[1].isBeingSet) {
-        Alarm[1].alarmGoesOff(systemTm);
+        Alarm[1].alarmGoesOff();
     }
     Alarm[0].autoTurnoff();
     Alarm[1].autoTurnoff();
@@ -207,6 +245,43 @@ void alarmLoophandler(void) {
     }
 }
 
+void specialmodeLoophandler(void) {
+    if (PushButton.reallyLongPress()) {
+        G.menuState = SHOW_TIME;
+        G.specialMode = !G.specialMode;
+        if (G.specialMode == false) {
+            Nixie.enable(true);
+            Buzzer.stop();
+            adjustTime(-G.timeOffset);
+            G.timeOffset = 0;
+        }
+    }
+    if (G.specialMode) {
+        if (year() == 2020 && month() == 10 && day() > 9) {
+            if (hour() == 3 && minute() == 0 && second() == 0 && G.secFlag) {
+                adjustTime(-G.timeOffset);
+                G.timeOffset = random(-20, 20);
+                adjustTime(G.timeOffset);
+                Timekeeper.initialize();
+            }
+
+            if (day() > 16 && hour() == 23 && minute() == 12 && second() < 21) {
+                    Buzzer.playMelody1();
+            }
+            if (day() > 23) {
+                if (hour() == 3 && minute() == 0 && second() == 0 && G.secFlag) {
+                    Nixie.enablePin((uint8_t) G.tubeOff);
+                    G.tubeOff = random(0, 5);
+                    Nixie.disablePin((uint8_t) G.tubeOff);
+                }
+                if (hour() > 20 || hour() < 4) {
+                    Nixie.digits->blank[(uint8_t) G.tubeOff];
+                }
+            }
+        }
+    }
+}
+
 void displayMenu(void) {
     // show the proper digits and setup proper blinking
     // depending on the tilt switch states increment/decrement variables
@@ -217,6 +292,20 @@ void displayMenu(void) {
             Timekeeper.isBeingSet = false;
             if (Timekeeper.wasSet) {
                 Timekeeper.setSecToNull();
+            }
+            Nixie.refresh();
+            if (TiltSwitch[1].up && (hour() > 21 || hour() < 6)) {
+                Nixie.enable(false);
+                G.restMode = true;
+            } else if (TiltSwitch[1].down) {
+                Nixie.enable(false);
+                G.restMode = true;
+            } else {
+                if (G.restMode == true) {
+                    Nixie.slotMachine();
+                    Nixie.enable(true);
+                }
+                G.restMode = false;
             }
             break;
         case SET_HOUR:
@@ -437,6 +526,22 @@ void navigateMenu(void) {
                     G.menuState = SET_ALARM2_HOUR;
                 }
             }
+            //Nixie.refresh();
+            if (G.alarmWasOff) {
+                if (TiltSwitch[0].up) {
+                    G.menuState = SHOW_ALARM1;
+                    G.alarmWasOff = false;
+                    G.showAlarmFlag = true;
+                } else if (TiltSwitch[0].down) {
+                    G.menuState = SHOW_ALARM2;
+                    G.alarmWasOff = false;
+                    G.showAlarmFlag = true;
+                }
+            } 
+            //Nixie.refresh();
+            if (TiltSwitch[0].middle) {
+                    G.alarmWasOff = true;
+            }
             break;
         case SET_HOUR:
             if (PushButton.falling()) {
@@ -497,6 +602,7 @@ void navigateMenu(void) {
             }
             break;
         case SHOW_ALARM1:
+            G.alarmWasOff = false;
             break;
         case SET_ALARM1_HOUR:
             if (PushButton.falling()) {
@@ -509,6 +615,7 @@ void navigateMenu(void) {
             }
             break;
         case SHOW_ALARM2:
+            G.alarmWasOff = false;
             break;
         case SET_ALARM2_HOUR:
             if (PushButton.falling()) {

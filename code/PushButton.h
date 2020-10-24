@@ -16,6 +16,7 @@ class PushButtonClass {
     bool rising(void);
     bool falling(void);
     bool longPress(void);
+    bool reallyLongPress(void);
 
     bool pressed = false;
     bool wasPressed = false;
@@ -23,7 +24,9 @@ class PushButtonClass {
    private:
     uint8_t pin;
     bool longPressed = false;
+    bool reallyLongPressed = false;
     bool wasLongPressed = false;
+    bool wasReallyLongPressed = false;
     uint32_t longPressTs = 0;
 };
 

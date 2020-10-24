@@ -6,7 +6,7 @@
 #define __NIXIE_H
 
 #include <Arduino.h>
-#include "DS1302.h"
+#include <DS3232RTC.h> 
 
 #define NIXIE_NUM_TUBES 5
 
@@ -107,6 +107,16 @@ class NixieClass {
     void blank(void);
 
     /*
+     * Turn a bcdPin LOW, will be refreshed next time with refresh()
+     */
+    void disablePin(uint8_t pin);
+
+    /*
+     * Turn a bcdPin HIGH, will be refreshed next time with refresh()
+     */
+    void enablePin(uint8_t pin);
+
+    /*
      * Permanently Enable/disable display output
      * Parameters:
      *   enbale : enable/disable display
@@ -138,12 +148,12 @@ class NixieClass {
     uint8_t digit = 0;
     uint32_t blinkTs = 0;
     bool blinkFlag = false;
-    bool slotMachineEnabled[NIXIE_NUM_TUBES - 1] = {false};
-    uint32_t slotMachineTs[NIXIE_NUM_TUBES - 1] = {0};
-    uint8_t slotMachineCnt[NIXIE_NUM_TUBES - 1] = {0};
-    uint32_t slotMachineDelay[NIXIE_NUM_TUBES - 1] = {0};
-    uint8_t slotMachineCntStart[NIXIE_NUM_TUBES - 1] = {0, 11, 5, 13};
-    uint8_t slotMachineCntMax[NIXIE_NUM_TUBES - 1] = {20, 50, 30, 60};
+    bool slotMachineEnabled[NIXIE_NUM_TUBES] = {false};
+    uint32_t slotMachineTs[NIXIE_NUM_TUBES] = {0};
+    uint8_t slotMachineCnt[NIXIE_NUM_TUBES] = {0};
+    uint32_t slotMachineDelay[NIXIE_NUM_TUBES] = {0, 10, 0, 20, 30};
+    uint8_t slotMachineCntStart[NIXIE_NUM_TUBES] = {3, 4, 0, 5, 6};
+    uint8_t slotMachineCntMax[NIXIE_NUM_TUBES] = {42, 55, 0, 49, 60};
     uint32_t cppTs = 0;
     uint8_t cppCnt = 0;
 };

@@ -6,8 +6,8 @@
 #include <avr/wdt.h>
 #include "Arduino.h"
 
-#define DIGIT_PERIOD 3000
-#define MAX_ON_DURATION 2500  //2680
+#define DIGIT_PERIOD 3200
+#define MAX_ON_DURATION 2680 //2680
 #define BLINK_PERIOD 500000
 #define SLOT_MACHINE_PERIOD 40000
 #define CPP_PERIOD 200000
@@ -109,7 +109,7 @@ void NixieClass::refresh(void)  // ToDo: rewrite and test this function
     }
 
     // generate the digit "Slot Machine" effect
-    if (slotMachineEnabled[digit]) {
+    if (digit != 2 && slotMachineEnabled[digit]) {
         if (ts - slotMachineTs[digit] > slotMachineDelay[digit]) {
             slotMachineCnt[digit]++;
             if (slotMachineCnt[digit] >= slotMachineCntMax[digit]) {
@@ -168,9 +168,11 @@ void NixieClass::resetBlinking(void) {
 void NixieClass::slotMachine(void) {
     uint8_t i;
     for (i = 0; i < numTubes; i++) {
-        slotMachineEnabled[i] = true;
-        slotMachineCnt[i] = slotMachineCntStart[i];
-        slotMachineDelay[i] = 0;
+        if (i != 2) {
+            slotMachineEnabled[i] = true;
+            slotMachineCnt[i] = slotMachineCntStart[i];
+            slotMachineDelay[i] = 0;
+        }
     }
 }
 
@@ -186,6 +188,14 @@ void NixieClass::blank(void) {
         digitalWrite(anodePin[i], LOW);
     for (i = 0; i < 4; i++)
         digitalWrite(bcdPin[i], LOW);
+}
+
+void NixieClass::disablePin(uint8_t pin) {
+    digitalWrite(bcdPin[pin], LOW);
+}
+
+void NixieClass::enablePin(uint8_t pin) {
+    digitalWrite(bcdPin[pin], HIGH);
 }
 
 void NixieClass::enable(bool enable) {

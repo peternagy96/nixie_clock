@@ -6,13 +6,15 @@
 #define __TIMEKEEPER_H
 
 #include <Arduino.h>
+#include <TimeLib.h>
+#include <DS3232RTC.h> 
+
 #include "Chrono.h"
-#include "DS1302.h"
 #include "Nixie.h"
 
 class TimekeeperClass : public ChronoClass {
    public:
-    void initialize(Time *time);
+    void initialize(void);
     void displayTime(NixieDigits_s &timeDigits);
     void displayDate(NixieDigits_s &timeDigits);
     void displayYear(NixieDigits_s &timeDigits);
@@ -46,14 +48,13 @@ class TimekeeperClass : public ChronoClass {
     void copy(volatile ChronoClass *) volatile;
     void update(void);
 
-    Time *time;
-    volatile int8_t second = 0;
-    volatile int8_t minute = 0;
-    volatile int8_t hour = 0;
-    volatile int8_t date = 0;
-    volatile int8_t month = 0;
-    volatile int16_t year = 0;
-    volatile int8_t short_months[4] = {4, 6, 9, 11};
+    volatile int second_t = 0;
+    volatile int minute_t = 0;
+    volatile int hour_t = 0;
+    volatile int date_t = 0;
+    volatile int month_t = 0;
+    volatile int year_t = 0;
+    volatile int short_months[4] = {4, 6, 9, 11};
     volatile uint32_t setTs = 0;
     bool isBeingSet = false;
     bool wasSet = false;

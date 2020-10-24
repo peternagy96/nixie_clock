@@ -6,9 +6,9 @@
 #include <Arduino.h>
 
 void TiltSwitchClass::setPin(uint8_t upPin, uint8_t downPin) {
-    pinMode(upPin, INPUT);
+    pinMode(upPin, INPUT_PULLUP);
     this->upPin = upPin;
-    pinMode(downPin, INPUT);
+    pinMode(downPin, INPUT_PULLUP);
     this->downPin = downPin;
 }
 

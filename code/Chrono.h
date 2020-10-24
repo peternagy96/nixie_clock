@@ -16,12 +16,12 @@ class ChronoClass {
     virtual void incrementSec(void) volatile = 0;
     virtual void decrementSec(void) volatile = 0;
 
-    volatile int8_t hour;
-    volatile int8_t minute;
-    volatile int8_t second;
-    volatile int8_t date;
-    volatile int8_t month;
-    volatile int8_t year;
+    volatile int hour_t;
+    volatile int minute_t;
+    volatile int second_t;
+    volatile int date_t;
+    volatile int month_t;
+    volatile int year_t;
 };
 
 #endif
