@@ -1,6 +1,6 @@
 /*
  * Nixie Clock main code
- * 
+ *
  * January 2020
  */
 
@@ -9,7 +9,7 @@
 //#include <time.h>
 #include "avr/wdt.h"
 //#include <TimeLib.h>
-#include <DS3232RTC.h> 
+#include <DS3232RTC.h>
 
 #include "Alarm.h"
 #include "Buzzer.h"
@@ -63,7 +63,9 @@ enum MenuState_e {
     SET_ALARM1_MIN,
     SHOW_ALARM2,
     SET_ALARM2_HOUR,
-    SET_ALARM2_MIN
+    SET_ALARM2_MIN,
+    SHOW_CHESS,
+    SET_CHESS
 };
 
 /*
@@ -92,7 +94,7 @@ G_t G;
 PushButtonClass PushButton;
 TiltSwitchClass TiltSwitch[2];
 AlarmClass Alarm[2];
-CountdownClass Countdown;
+CountdownClass Countdown[3]; // 0: countdown, 1: white, 2: black
 
 void setup() {
     wdt_disable();  // disable watchdog
@@ -100,7 +102,7 @@ void setup() {
     setSyncProvider(RTC.get);
 
     // tmElements_t tm;
-    // int year_init = CalendarYrToTm(2020);   
+    // int year_init = CalendarYrToTm(2020);
     // tm.Year = year_init;
     // tm.Month = 1;
     // tm.Day = 1;
@@ -129,7 +131,9 @@ void setup() {
     Timekeeper.initialize();
     Alarm[0].initialize();
     Alarm[1].initialize();
-    Countdown.initialize();
+    Countdown[0].initialize(4, 0);
+    Countdown[1].initialize(15, 0);
+    Countdown[2].initialize(15, 0);
     Buzzer.initialize(BUZZER_PIN);
 
     PushButton.setPin(BUTTON0_APIN);
@@ -171,7 +175,9 @@ void loop() {
         }
 
         Timekeeper.incrementSec();
-        Countdown.loopHandler();
+        Countdown[0].loopHandler();
+        Countdown[1].loopHandler();
+        Countdown[2].loopHandler();
     }
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
@@ -230,8 +236,11 @@ void alarmLoophandler(void) {
     }
     Alarm[0].autoTurnoff();
     Alarm[1].autoTurnoff();
-    Countdown.autoTurnoff();
-    if (Alarm[0].alarm || Alarm[1].alarm || Countdown.alarm) {
+    Countdown[0].autoTurnoff();
+    Countdown[1].autoTurnoff();
+    Countdown[2].autoTurnoff();
+    if (Alarm[0].alarm || Alarm[1].alarm || Countdown[0].alarm
+        || Countdown[1].alarm || Countdown[2].alarm ) {
         Buzzer.playMelody1();
     } else {
         Buzzer.stop();
@@ -338,40 +347,40 @@ void displayMenu(void) {
             }
             break;
         case SHOW_TIMER:
-            Countdown.displayTime(G.timeDigits);
+            Countdown[0].displayTime(G.timeDigits);
             Nixie.blinkNone();
             if (TiltSwitch[1].up) {
-                Countdown.stopwatch();
+                Countdown[0].stopwatch();
             } else if (TiltSwitch[1].down) {
-                if (Countdown.enabled) {
-                    Countdown.start();
+                if (Countdown[0].enabled) {
+                    Countdown[0].start();
                 }
             } else {
-                Countdown.reset();
+                Countdown[0].reset();
                 Buzzer.stop();
             }
 
             break;
         case SET_TIMER_MIN:
-            Countdown.displayTime(G.timeDigits);
+            Countdown[0].displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
-                Countdown.setTimeSlow("min", "+");
+                Countdown[0].setTimeSlow("min", "+");
             } else if (TiltSwitch[1].down) {
                 Nixie.blinkNone();
-                Countdown.setTimeSlow("min", "-");
+                Countdown[0].setTimeSlow("min", "-");
             } else {
                 Nixie.blinkLeft();
             }
             break;
         case SET_TIMER_SEC:
-            Countdown.displayTime(G.timeDigits);
+            Countdown[0].displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
-                Countdown.setTimeSlow("sec", "+");
+                Countdown[0].setTimeSlow("sec", "+");
             } else if (TiltSwitch[1].down) {
                 Nixie.blinkNone();
-                Countdown.setTimeSlow("sec", "-");
+                Countdown[0].setTimeSlow("sec", "-");
             } else {
                 Nixie.blinkRight();
             }
@@ -507,6 +516,49 @@ void displayMenu(void) {
                 Nixie.blinkRight();
             }
             break;
+        case SHOW_CHESS:
+
+            Nixie.blinkNone();
+            if (TiltSwitch[1].up) {
+                Countdown[2].stop();
+                Countdown[1].displayTime(G.timeDigits);
+                if (Countdown[1].enabled) {
+                    Countdown[1].start();
+                }
+            } else if (TiltSwitch[1].down) {
+                Countdown[1].stop();
+                Countdown[2].displayTime(G.timeDigits);
+                if (Countdown[2].enabled) {
+                    Countdown[2].start();
+                }
+            } else {
+                if (G.twoSecFlag == true) {
+                    Countdown[1].displayTime(G.timeDigits);
+                }
+                else {
+                    Countdown[2].displayTime(G.timeDigits);
+                }
+                Countdown[1].stop();
+                Countdown[2].stop();
+                Buzzer.stop();
+            }
+            break;
+        case SET_CHESS:
+            Countdown[1].resetSeconds();
+            Countdown[2].resetSeconds();
+            Countdown[1].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Countdown[1].setTimeSlow("min", "+");
+                Countdown[2].setTimeSlow("min", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Countdown[1].setTimeSlow("min", "-");
+                Countdown[2].setTimeSlow("min", "-");
+            } else {
+                Nixie.blinkAll();
+            }
+            break;
     }
 }
 
@@ -537,7 +589,7 @@ void navigateMenu(void) {
                     G.alarmWasOff = false;
                     G.showAlarmFlag = true;
                 }
-            } 
+            }
             //Nixie.refresh();
             if (TiltSwitch[0].middle) {
                     G.alarmWasOff = true;
@@ -555,7 +607,7 @@ void navigateMenu(void) {
             break;
         case SHOW_TIMER:
             if (PushButton.falling()) {
-                G.menuState = SHOW_TIME;
+                G.menuState = SHOW_CHESS;
             } else if (PushButton.longPress()) {
                 G.menuState = SET_TIMER_MIN;
             }
@@ -625,6 +677,18 @@ void navigateMenu(void) {
         case SET_ALARM2_MIN:
             if (PushButton.falling()) {
                 G.menuState = SHOW_ALARM2;
+            }
+            break;
+        case SHOW_CHESS:
+            if (PushButton.falling()) {
+                G.menuState = SHOW_TIME;
+            } else if (PushButton.longPress()) {
+                G.menuState = SET_CHESS;
+            }
+            break;
+        case SET_CHESS:
+            if (PushButton.falling()) {
+                G.menuState = SHOW_CHESS;
             }
             break;
     }

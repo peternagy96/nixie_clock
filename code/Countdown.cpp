@@ -7,9 +7,7 @@
 #define ALARM_TIMEOUT 120000
 #define INCREMENT_TIME 500
 
-void CountdownClass::initialize() {
-    defaultSec = 0;
-    defaultMin = 4;
+void CountdownClass::initialize(int defaultMin, int defaultSec) {
     sec = defaultSec;
     min = defaultMin;
 }
@@ -111,6 +109,10 @@ void CountdownClass::reset(void) {
         min = defaultMin;
         enabled = true;
     }
+}
+
+void CountdownClass::resetSeconds(void) volatile {
+    sec = 0;
 }
 
 void CountdownClass::setTimeSlow(const char *var, const char *dir) {

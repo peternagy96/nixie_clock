@@ -10,11 +10,12 @@
 
 class CountdownClass {
    public:
-    void initialize();
+    void initialize(int defaultMin, int defaultSec);
     void incrementSec(void) volatile;
     void decrementSec(void) volatile;
     void incrementMin(void) volatile;
     void decrementMin(void) volatile;
+    void resetSeconds(void) volatile;
     void setTimeSlow(const char *var, const char *dir);
     void autoTurnoff(void) volatile;
     void displayTime(NixieDigits_s &timeDigits);
