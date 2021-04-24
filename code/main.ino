@@ -303,7 +303,7 @@ void displayMenu(void) {
                 Timekeeper.setSecToNull();
             }
             Nixie.refresh();
-            if (TiltSwitch[1].up && (hour() > 21 || hour() < 6)) {
+            if (TiltSwitch[1].up && (hour() < 6)) {
                 Nixie.enable(false);
                 G.restMode = true;
             } else if (TiltSwitch[1].down) {
