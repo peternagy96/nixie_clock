@@ -569,7 +569,7 @@ void navigateMenu(void) {
         case SHOW_TIME:
             if (PushButton.falling()) {
                 G.menuState = SHOW_DATE;
-            } else if (PushButton.longPress()) {
+            } else if (PushButton.longPress() && TiltSwitch[1].middle) {
                 if (TiltSwitch[0].middle) {
                     G.menuState = SET_HOUR;
                 } else if (TiltSwitch[0].up) {
