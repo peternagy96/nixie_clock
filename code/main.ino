@@ -40,7 +40,7 @@
 #define BUZZER_PIN 12
 
 // button pins
-#define BUTTON0_APIN 13        // push button 0 - "mode"
+#define BUTTON0_APIN A6        // push button 0 - "mode"
 #define BUTTON1_DOWN_APIN 7  // tilt button 1 - "increase"
 #define BUTTON1_UP_APIN 11    // tilt button 1 - "decrease"
 #define BUTTON2_DOWN_APIN 10   // tilt button 2 - "increase"
@@ -567,7 +567,7 @@ void navigateMenu(void) {
 
     switch (G.menuState) {
         case SHOW_TIME:
-            if (PushButton.falling()) {
+            if (PushButton.falling() && TiltSwitch[1].middle) {
                 G.menuState = SHOW_DATE;
             } else if (PushButton.longPress() && TiltSwitch[1].middle) {
                 if (TiltSwitch[0].middle) {

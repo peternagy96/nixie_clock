@@ -10,12 +10,12 @@
 #define BUTTON_REALLY_LONG_PRESS_TIMEOUT 20000
 
 void PushButtonClass::setPin(uint8_t pin) {
-    pinMode(pin, INPUT_PULLUP);
+    pinMode(pin, INPUT);
     this->pin = pin;
 }
 
 void PushButtonClass::readState(void) {
-    if (digitalRead(pin) == LOW && !wasPressed) {
+    if (analogRead(pin) < 400 && !wasPressed) {
         press();
         longPressTs = millis();
         longPressed = true;
@@ -23,7 +23,7 @@ void PushButtonClass::readState(void) {
         wasLongPressed = false;
         wasReallyLongPressed = false;
 
-    } else if (digitalRead(pin) == HIGH && wasPressed) {
+    } else if (analogRead(pin) >= 600 && wasPressed) {
         release();
     }
 }
