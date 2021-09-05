@@ -65,7 +65,13 @@ enum MenuState_e {
     SET_ALARM2_HOUR,
     SET_ALARM2_MIN,
     SHOW_CHESS,
-    SET_CHESS
+    SET_CHESS_1,
+    SET_CHESS_2,
+    SHOW_POMODORO,
+    SET_POMODORO_1_MIN,
+    SET_POMODORO_1_SEC,
+    SET_POMODORO_2_MIN,
+    SET_POMODORO_2_SEC
 };
 
 /*
@@ -83,6 +89,10 @@ typedef struct {
     bool restMode = false;
     bool alarmWasOff = true;
     bool specialMode = false;
+    bool chessWasNotSet = true;
+    bool pomodoroWasNotSet = true;
+    int activePomodoro = 1;
+    uint32_t pomodoroTs = 0;
     int tubeOff = 0;
     uint8_t secCnt = 0;
     int timeOffset = 0;
@@ -94,7 +104,7 @@ G_t G;
 PushButtonClass PushButton;
 TiltSwitchClass TiltSwitch[2];
 AlarmClass Alarm[2];
-CountdownClass Countdown[3]; // 0: countdown, 1: white, 2: black
+CountdownClass Countdown[5]; // 0: countdown, 1: chess white, 2: chess black, 3: pomodoro 1, 4: pomodoro 2
 
 void setup() {
     wdt_disable();  // disable watchdog
@@ -134,6 +144,8 @@ void setup() {
     Countdown[0].initialize(4, 0);
     Countdown[1].initialize(15, 0);
     Countdown[2].initialize(15, 0);
+    Countdown[3].initialize(0, 30);
+    Countdown[4].initialize(1, 0);
     Buzzer.initialize(BUZZER_PIN);
 
     PushButton.setPin(BUTTON0_APIN);
@@ -178,6 +190,8 @@ void loop() {
         Countdown[0].loopHandler();
         Countdown[1].loopHandler();
         Countdown[2].loopHandler();
+        Countdown[3].loopHandler();
+        Countdown[4].loopHandler();
     }
 
     Nixie.refresh();  // refresh method is called many times across the code to ensure smooth display operation
@@ -240,7 +254,8 @@ void alarmLoophandler(void) {
     Countdown[1].autoTurnoff();
     Countdown[2].autoTurnoff();
     if (Alarm[0].alarm || Alarm[1].alarm || Countdown[0].alarm
-        || Countdown[1].alarm || Countdown[2].alarm ) {
+        || Countdown[1].alarm || Countdown[2].alarm
+        || Countdown[3].alarm || Countdown[4].alarm ) {
         Buzzer.playMelody1();
     } else {
         Buzzer.stop();
@@ -519,6 +534,7 @@ void displayMenu(void) {
         case SHOW_CHESS:
 
             Nixie.blinkNone();
+            G.chessWasNotSet = true;
             if (TiltSwitch[1].up) {
                 Countdown[2].stop();
                 Countdown[1].displayTime(G.timeDigits);
@@ -543,21 +559,155 @@ void displayMenu(void) {
                 Buzzer.stop();
             }
             break;
-        case SET_CHESS:
-            Countdown[1].resetSeconds();
-            Countdown[2].resetSeconds();
+        case SET_CHESS_1:
+            if (G.chessWasNotSet) {
+                Countdown[1].resetTime();
+                Countdown[2].resetTime();
+                G.chessWasNotSet = false;
+            }
+
             Countdown[1].displayTime(G.timeDigits);
             if (TiltSwitch[1].up) {
                 Nixie.blinkNone();
                 Countdown[1].setTimeSlow("min", "+");
-                Countdown[2].setTimeSlow("min", "+");
             } else if (TiltSwitch[1].down) {
                 Nixie.blinkNone();
                 Countdown[1].setTimeSlow("min", "-");
+            } else {
+                Nixie.blinkAll();
+            }
+            Countdown[1].setDefault();
+            break;
+        case SET_CHESS_2:
+
+            Countdown[2].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Countdown[2].setTimeSlow("min", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
                 Countdown[2].setTimeSlow("min", "-");
             } else {
                 Nixie.blinkAll();
             }
+            Countdown[2].setDefault();
+            break;
+        case SHOW_POMODORO:
+            Nixie.blinkNone();
+            G.pomodoroWasNotSet = true;
+
+            // reset pomodoro timer to last set value
+            if (TiltSwitch[1].up) {
+                Countdown[3].resetTime();
+                Countdown[4].resetTime();
+                if (G.twoSecFlag == true) {
+                    Countdown[3].displayTime(G.timeDigits);
+                }
+                else {
+                    Countdown[4].displayTime(G.timeDigits);
+                }
+
+            // run pomodoro timer infinitely
+            } else if (TiltSwitch[1].down) {
+                if (G.activePomodoro == 1) {
+                    if (Countdown[4].alarm & ((millis() - G.pomodoroTs) > 1000)) {
+                        Countdown[4].reset();
+                    }
+                    Countdown[3].displayTime(G.timeDigits);
+                    if (Countdown[3].enabled) {
+                        Countdown[3].restart();
+                    }
+                    if (Countdown[3].alarm) {
+                        G.activePomodoro = 2;
+                        G.pomodoroTs = millis();
+                    }
+                } else if (G.activePomodoro == 2) {
+                    if (Countdown[3].alarm & ((millis() - G.pomodoroTs) > 1000)) {
+                        Countdown[3].reset();
+
+                    }
+                    Countdown[4].displayTime(G.timeDigits);
+                    if (Countdown[4].enabled) {
+                        Countdown[4].restart();
+                    }
+                    if (Countdown[4].alarm) {
+                        G.activePomodoro = 1;
+                        G.pomodoroTs = millis();
+                    }
+                }
+
+
+            } else {
+                if (G.twoSecFlag == true) {
+                    Countdown[3].displayTime(G.timeDigits);
+                }
+                else {
+                    Countdown[4].displayTime(G.timeDigits);
+                }
+                Countdown[3].stop();
+                Countdown[4].stop();
+                Buzzer.stop();
+            }
+            break;
+        case SET_POMODORO_1_MIN:
+            if (G.pomodoroWasNotSet) {
+                Countdown[3].resetAlarm();
+                Countdown[4].resetAlarm();
+                Countdown[3].resetTime();
+                Countdown[4].resetTime();
+                G.pomodoroWasNotSet = false;
+            }
+
+            Countdown[3].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Countdown[3].setTimeSlow("min", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Countdown[3].setTimeSlow("min", "-");
+            } else {
+                Nixie.blinkLeft();
+            }
+            Countdown[3].setDefault();
+            break;
+        case SET_POMODORO_1_SEC:
+            Countdown[3].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Countdown[3].setTimeSlow("sec", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Countdown[3].setTimeSlow("sec", "-");
+            } else {
+                Nixie.blinkRight();
+            }
+            Countdown[3].setDefault();
+            break;
+        case SET_POMODORO_2_MIN:
+            Countdown[4].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Countdown[4].setTimeSlow("min", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Countdown[4].setTimeSlow("min", "-");
+            } else {
+                Nixie.blinkLeft();
+            }
+            Countdown[4].setDefault();
+            break;
+        case SET_POMODORO_2_SEC:
+            Countdown[4].displayTime(G.timeDigits);
+            if (TiltSwitch[1].up) {
+                Nixie.blinkNone();
+                Countdown[4].setTimeSlow("sec", "+");
+            } else if (TiltSwitch[1].down) {
+                Nixie.blinkNone();
+                Countdown[4].setTimeSlow("sec", "-");
+            } else {
+                Nixie.blinkRight();
+            }
+            Countdown[4].setDefault();
             break;
     }
 }
@@ -681,15 +831,47 @@ void navigateMenu(void) {
             break;
         case SHOW_CHESS:
             if (PushButton.falling()) {
-                G.menuState = SHOW_TIME;
+                G.menuState = SHOW_POMODORO;
             } else if (PushButton.longPress()) {
-                G.menuState = SET_CHESS;
+                G.menuState = SET_CHESS_1;
             }
             break;
-        case SET_CHESS:
+        case SET_CHESS_1:
+            if (PushButton.falling()) {
+                G.menuState = SET_CHESS_2;
+            }
+            break;
+        case SET_CHESS_2:
             if (PushButton.falling()) {
                 G.menuState = SHOW_CHESS;
             }
+            break;
+        case SHOW_POMODORO:
+            if (PushButton.falling() && TiltSwitch[1].middle) {
+                G.menuState = SHOW_TIME;
+            } else if (PushButton.longPress()) {
+                G.menuState = SET_POMODORO_1_MIN;
+            }
+            break;
+        case SET_POMODORO_1_MIN:
+            if (PushButton.falling() && TiltSwitch[1].middle) {
+                    G.menuState = SET_POMODORO_1_SEC;
+                }
+            break;
+        case SET_POMODORO_1_SEC:
+            if (PushButton.falling() && TiltSwitch[1].middle) {
+                    G.menuState = SET_POMODORO_2_MIN;
+                }
+            break;
+        case SET_POMODORO_2_MIN:
+            if (PushButton.falling() && TiltSwitch[1].middle) {
+                    G.menuState = SET_POMODORO_2_SEC;
+                }
+            break;
+        case SET_POMODORO_2_SEC:
+            if (PushButton.falling() && TiltSwitch[1].middle) {
+                    G.menuState = SHOW_POMODORO;
+                }
             break;
     }
 }

@@ -15,7 +15,8 @@ class CountdownClass {
     void decrementSec(void) volatile;
     void incrementMin(void) volatile;
     void decrementMin(void) volatile;
-    void resetSeconds(void) volatile;
+    void resetTime(void) volatile;
+    void setDefault(void) volatile;
     void setTimeSlow(const char *var, const char *dir);
     void autoTurnoff(void) volatile;
     void displayTime(NixieDigits_s &timeDigits);
@@ -23,6 +24,7 @@ class CountdownClass {
     void stopwatch(void);
 
     void start(void);
+    void restart(void);
     void stop(void);
     void resetAlarm(void);
     void reset(void);
@@ -32,11 +34,11 @@ class CountdownClass {
     bool alarm = false;
     uint32_t setTs = 0;
     bool enabled = true;
+    int8_t defaultSec;
+    int8_t defaultMin;
 
    private:
     uint32_t alarmTs = 0;
-    int8_t defaultSec;
-    int8_t defaultMin;
     int8_t sec;
     int8_t min;
 };
